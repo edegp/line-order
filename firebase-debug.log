@@ -1,167 +1,70 @@
-[debug] [2022-08-11T02:19:58.951Z] ----------------------------------------------------------------------
-[debug] [2022-08-11T02:19:58.953Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ayuhi\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
-[debug] [2022-08-11T02:19:58.954Z] CLI Version:   11.6.0
-[debug] [2022-08-11T02:19:58.954Z] Platform:      win32
-[debug] [2022-08-11T02:19:58.954Z] Node Version:  v16.16.0
-[debug] [2022-08-11T02:19:58.955Z] Time:          Thu Aug 11 2022 11:19:58 GMT+0900 (日本標準時)
-[debug] [2022-08-11T02:19:58.956Z] ----------------------------------------------------------------------
+[debug] [2022-08-13T13:22:13.695Z] ----------------------------------------------------------------------
+[debug] [2022-08-13T13:22:13.697Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ayuhi\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2022-08-13T13:22:13.698Z] CLI Version:   11.6.0
+[debug] [2022-08-13T13:22:13.698Z] Platform:      win32
+[debug] [2022-08-13T13:22:13.698Z] Node Version:  v16.16.0
+[debug] [2022-08-13T13:22:13.699Z] Time:          Sat Aug 13 2022 22:22:13 GMT+0900 (日本標準時)
+[debug] [2022-08-13T13:22:13.700Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2022-08-11T02:19:58.963Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-08-11T02:19:58.964Z] > authorizing via signed-in user (a.yuhi1164@gmail.com)
+[debug] [2022-08-13T13:22:13.832Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-08-13T13:22:13.832Z] > authorizing via signed-in user (a.yuhi1164@gmail.com)
+[debug] [2022-08-13T13:22:13.832Z] [iam] checking project linemobileorder for permissions ["firebase.projects.get"]
+[debug] [2022-08-13T13:22:13.835Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions [none]
+[debug] [2022-08-13T13:22:13.835Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions x-goog-quota-user=projects/linemobileorder
+[debug] [2022-08-13T13:22:13.835Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-08-13T13:22:14.510Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions 200
+[debug] [2022-08-13T13:22:14.510Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-08-13T13:22:14.511Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/linemobileorder [none]
+[debug] [2022-08-13T13:22:14.846Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/linemobileorder 200
+[debug] [2022-08-13T13:22:14.846Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/linemobileorder {"projectId":"linemobileorder","projectNumber":"323634114531","displayName":"LineMobileOrder","name":"projects/linemobileorder","resources":{"hostingSite":"linemobileorder","storageBucket":"linemobileorder.appspot.com","locationId":"asia-northeast1"},"state":"ACTIVE","etag":"1_597ff540-490d-4a83-becf-3b6541498980"}
 [info] 
-     ######## #### ########  ######## ########     ###     ######  ########
-     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
-     ######    ##  ########  ######   ########  #########  ######  ######
-     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
-     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+[info] === Serving from 'C:\Users\ayuhi\line-moblie-order-app'...
+[info] 
+[info] +  functions: Using node@16 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@16 from host."}}
+[debug] [2022-08-13T13:22:14.880Z] defaultcredentials: writing to file C:\Users\ayuhi\AppData\Roaming\firebase\a_yuhi1164_gmail.com_application_default_credentials.json
+[debug] [2022-08-13T13:22:14.882Z] Setting GAC to C:\Users\ayuhi\AppData\Roaming\firebase\a_yuhi1164_gmail.com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\ayuhi\\AppData\\Roaming\\firebase\\a_yuhi1164_gmail.com_application_default_credentials.json"}}
+[debug] [2022-08-13T13:22:14.883Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/linemobileorder/adminSdkConfig [none]
+[debug] [2022-08-13T13:22:15.182Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/linemobileorder/adminSdkConfig 200
+[debug] [2022-08-13T13:22:15.182Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/linemobileorder/adminSdkConfig {"projectId":"linemobileorder","storageBucket":"linemobileorder.appspot.com","locationId":"asia-northeast1"}
+[info] i  functions: Watching "C:\Users\ayuhi\line-moblie-order-app\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\ayuhi\\line-moblie-order-app\\functions\" for Cloud Functions..."}}
+[debug] [2022-08-13T13:22:15.200Z] Validating nodejs source
+[debug] [2022-08-13T13:22:18.603Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@line/bot-sdk": "^7.5.0",
+    "axios": "^0.27.2",
+    "date-fns": "^2.29.1",
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0",
+    "line-pay-sdk": "^1.0.3",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.13"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^0.2.0",
+    "typescript": "^4.5.4"
+  },
+  "private": true
+}
+[error] !!  functions: Failed to load function definition from source: FirebaseError: There was an error reading functions\package.json:
 
-You're about to initialize a Firebase project in this directory:
-
-  C:\Users\ayuhi\line-moblie-order-app
-
-[info] 
-=== Project Setup
-[info] 
-[info] First, let's associate this project directory with a Firebase project.
-[info] You can create multiple project aliases by running firebase use --add, 
-[info] but for now we'll just set up a default project.
-[info] 
-[debug] [2022-08-11T02:22:29.533Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
-[debug] [2022-08-11T02:22:30.098Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
-[debug] [2022-08-11T02:22:30.099Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
-[info] i  Using project linemobileorder (LineMobileOrder) 
-[info] 
-=== Firestore Setup
-[debug] [2022-08-11T02:22:31.710Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/firestore.googleapis.com [none]
-[debug] [2022-08-11T02:22:32.823Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/firestore.googleapis.com 200
-[debug] [2022-08-11T02:22:32.824Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/firestore.googleapis.com [omitted]
-[debug] [2022-08-11T02:22:32.824Z] >>> [apiv2][query] GET https://appengine.googleapis.com/v1/apps/linemobileorder [none]
-[debug] [2022-08-11T02:22:33.057Z] <<< [apiv2][status] GET https://appengine.googleapis.com/v1/apps/linemobileorder 200
-[debug] [2022-08-11T02:22:33.057Z] <<< [apiv2][body] GET https://appengine.googleapis.com/v1/apps/linemobileorder {"name":"apps/linemobileorder","id":"linemobileorder","authDomain":"gmail.com","locationId":"asia-northeast1","codeBucket":"staging.linemobileorder.appspot.com","servingStatus":"SERVING","defaultHostname":"linemobileorder.an.r.appspot.com","defaultBucket":"linemobileorder.appspot.com","serviceAccount":"linemobileorder@appspot.gserviceaccount.com","gcrDomain":"asia.gcr.io","databaseType":"CLOUD_FIRESTORE","featureSettings":{"splitHealthChecks":true,"useContainerOptimizedOs":true}}
-[debug] [2022-08-11T02:22:33.057Z] database_type: CLOUD_FIRESTORE
-[debug] [2022-08-11T02:22:33.058Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-08-11T02:22:33.058Z] > authorizing via signed-in user (a.yuhi1164@gmail.com)
-[debug] [2022-08-11T02:22:33.058Z] [iam] checking project linemobileorder for permissions ["firebase.projects.get"]
-[debug] [2022-08-11T02:22:33.058Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions [none]
-[debug] [2022-08-11T02:22:33.058Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions x-goog-quota-user=projects/linemobileorder
-[debug] [2022-08-11T02:22:33.058Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2022-08-11T02:22:33.735Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions 200
-[debug] [2022-08-11T02:22:33.736Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions {"permissions":["firebase.projects.get"]}
-[info] 
-[info] Firestore Security Rules allow you to define how and when to allow
-[info] requests. You can keep these rules in your project directory
-[info] and publish them with firebase deploy.
-[info] 
-[debug] [2022-08-11T02:22:48.170Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/linemobileorder/releases pageSize=10&pageToken=
-[debug] [2022-08-11T02:22:49.404Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/linemobileorder/releases 200
-[debug] [2022-08-11T02:22:49.404Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/linemobileorder/releases {"releases":[{"name":"projects/linemobileorder/releases/cloud.firestore","rulesetName":"projects/linemobileorder/rulesets/d3bebbaa-e598-4032-bc23-16cc4a588092","createTime":"2022-08-10T12:55:08.738300Z","updateTime":"2022-08-10T12:55:08.738300Z"}]}
-[debug] [2022-08-11T02:22:49.405Z] Found ruleset: projects/linemobileorder/rulesets/d3bebbaa-e598-4032-bc23-16cc4a588092
-[debug] [2022-08-11T02:22:49.405Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/linemobileorder/rulesets/d3bebbaa-e598-4032-bc23-16cc4a588092 [none]
-[debug] [2022-08-11T02:22:50.568Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/linemobileorder/rulesets/d3bebbaa-e598-4032-bc23-16cc4a588092 200
-[debug] [2022-08-11T02:22:50.568Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/linemobileorder/rulesets/d3bebbaa-e598-4032-bc23-16cc4a588092 [omitted]
-[info] 
-[info] Firestore indexes allow you to perform complex queries while
-[info] maintaining performance that scales with the size of the result
-[info] set. You can keep index definitions in your project directory
-[info] and publish them with firebase deploy.
-[info] 
-[debug] [2022-08-11T02:22:55.730Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/linemobileorder/databases/(default)/collectionGroups/-/indexes [none]
-[debug] [2022-08-11T02:22:55.732Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/linemobileorder/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false [none]
-[debug] [2022-08-11T02:22:56.046Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/linemobileorder/databases/(default)/collectionGroups/-/indexes 200
-[debug] [2022-08-11T02:22:56.046Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/linemobileorder/databases/(default)/collectionGroups/-/indexes {}
-[debug] [2022-08-11T02:22:56.076Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/linemobileorder/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false 200
-[debug] [2022-08-11T02:22:56.076Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/linemobileorder/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false {"fields":[{"name":"projects/linemobileorder/databases/(default)/collectionGroups/__default__/fields/*","indexConfig":{"indexes":[{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","order":"ASCENDING"}],"state":"READY"},{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","order":"DESCENDING"}],"state":"READY"},{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","arrayConfig":"CONTAINS"}],"state":"READY"}]}}]}
-[info] 
-=== Functions Setup
-[info] 
-[info] A functions directory will be created in your project with sample code
-[info] pre-configured. Functions can be deployed with firebase deploy.
-[info] 
-[debug] [2022-08-11T02:22:56.080Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-08-11T02:22:56.081Z] > authorizing via signed-in user (a.yuhi1164@gmail.com)
-[debug] [2022-08-11T02:22:56.081Z] [iam] checking project linemobileorder for permissions ["firebase.projects.get"]
-[debug] [2022-08-11T02:22:56.081Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions [none]
-[debug] [2022-08-11T02:22:56.081Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions x-goog-quota-user=projects/linemobileorder
-[debug] [2022-08-11T02:22:56.081Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2022-08-11T02:22:56.780Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions 200
-[debug] [2022-08-11T02:22:56.780Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2022-08-11T02:22:56.780Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com [none]
-[debug] [2022-08-11T02:22:56.782Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/runtimeconfig.googleapis.com [none]
-[debug] [2022-08-11T02:22:57.916Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/runtimeconfig.googleapis.com 200
-[debug] [2022-08-11T02:22:57.916Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/runtimeconfig.googleapis.com [omitted]
-[debug] [2022-08-11T02:22:57.949Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com 200
-[debug] [2022-08-11T02:22:57.949Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com [omitted]
-[debug] [2022-08-11T02:22:57.949Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com:enable [none]
-[debug] [2022-08-11T02:22:59.288Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com:enable 200
-[debug] [2022-08-11T02:22:59.288Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com:enable [omitted]
-[debug] [2022-08-11T02:23:09.303Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com [none]
-[debug] [2022-08-11T02:23:10.381Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com 200
-[debug] [2022-08-11T02:23:10.381Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com [omitted]
-[info] +  Wrote functions/package.json 
-[info] +  Wrote functions/index.js 
-[info] +  Wrote functions/.gitignore 
-[debug] [2022-08-11T04:40:53.399Z] ----------------------------------------------------------------------
-[debug] [2022-08-11T04:40:53.401Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ayuhi\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
-[debug] [2022-08-11T04:40:53.402Z] CLI Version:   11.6.0
-[debug] [2022-08-11T04:40:53.402Z] Platform:      win32
-[debug] [2022-08-11T04:40:53.402Z] Node Version:  v16.16.0
-[debug] [2022-08-11T04:40:53.404Z] Time:          Thu Aug 11 2022 13:40:53 GMT+0900 (日本標準時)
-[debug] [2022-08-11T04:40:53.404Z] ----------------------------------------------------------------------
-[debug] 
-[debug] [2022-08-11T04:40:53.412Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-08-11T04:40:53.413Z] > authorizing via signed-in user (a.yuhi1164@gmail.com)
-[info] 
-     ######## #### ########  ######## ########     ###     ######  ########
-     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
-     ######    ##  ########  ######   ########  #########  ######  ######
-     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
-     ##       #### ##     ## ######## ########  ##     ##  ######  ########
-
-You're about to initialize a Firebase project in this directory:
-
-  C:\Users\ayuhi\line-moblie-order-app
-
-[info] 
-=== Project Setup
-[info] 
-[info] First, let's associate this project directory with a Firebase project.
-[info] You can create multiple project aliases by running firebase use --add, 
-[info] but for now we'll just set up a default project.
-[info] 
-[debug] [2022-08-11T04:41:16.661Z] > refreshing access token with scopes: []
-[debug] [2022-08-11T04:41:16.664Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2022-08-11T04:41:16.664Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2022-08-11T04:41:16.839Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2022-08-11T04:41:16.839Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2022-08-11T04:41:16.858Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
-[debug] [2022-08-11T04:41:17.530Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
-[debug] [2022-08-11T04:41:17.530Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
-[info] i  Using project linemobileorder (LineMobileOrder) 
-[info] 
-=== Functions Setup
-[info] 
-[info] A functions directory will be created in your project with sample code
-[info] pre-configured. Functions can be deployed with firebase deploy.
-[info] 
-[debug] [2022-08-11T04:41:19.258Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-08-11T04:41:19.259Z] > authorizing via signed-in user (a.yuhi1164@gmail.com)
-[debug] [2022-08-11T04:41:19.259Z] [iam] checking project linemobileorder for permissions ["firebase.projects.get"]
-[debug] [2022-08-11T04:41:19.259Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions [none]
-[debug] [2022-08-11T04:41:19.259Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions x-goog-quota-user=projects/linemobileorder
-[debug] [2022-08-11T04:41:19.259Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2022-08-11T04:41:19.953Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions 200
-[debug] [2022-08-11T04:41:19.953Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/linemobileorder:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2022-08-11T04:41:19.954Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com [none]
-[debug] [2022-08-11T04:41:19.955Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/runtimeconfig.googleapis.com [none]
-[debug] [2022-08-11T04:41:21.026Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/runtimeconfig.googleapis.com 200
-[debug] [2022-08-11T04:41:21.026Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/runtimeconfig.googleapis.com [omitted]
-[debug] [2022-08-11T04:41:21.041Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com 200
-[debug] [2022-08-11T04:41:21.041Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/linemobileorder/services/cloudfunctions.googleapis.com [omitted]
-[info] +  Wrote functions/package.json 
-[info] +  Wrote functions/.eslintrc.js 
-[info] +  Wrote functions/tsconfig.json 
-[info] +  Wrote functions/tsconfig.dev.json 
-[info] +  Wrote functions/src/index.ts 
-[info] +  Wrote functions/.gitignore 
-[info] 
-=== Emulators Setup
+ functions\lib\index.js does not exist, can't deploy Cloud Functions {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: There was an error reading functions\\package.json:\n\n functions\\lib\\index.js does not exist, can't deploy Cloud Functions"}}

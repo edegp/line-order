@@ -1,17 +1,18 @@
 /* eslint-disable indent */
 /* eslint-disable linebreak-style */
 import { addDays, addWeeks, format, intervalToDuration, sub } from "date-fns";
+import * as admin from "firebase-admin";
 
-export const createResponse = (statusCode: number, body: object) => ({
+export const createResponse = (statusCode: number, body: object | string) => ({
   statusCode: statusCode,
   headers: { "Access-Control-Allow-Origin": "*" },
   body: body,
 });
 
-export const createErrorResponse = (body: object, status = 500) =>
+export const createErrorResponse = (body: object | string, status = 500) =>
   createResponse(status, body);
 
-export const createSuccessResponse = (body: object) =>
+export const createSuccessResponse = (body: object | string) =>
   createResponse(200, body);
 
 export const separateComma = (num: number) =>
@@ -19,10 +20,12 @@ export const separateComma = (num: number) =>
 
 export const decimalToInt = (obj: number) => {
   if (Number.isInteger(obj)) return Math.round(obj);
+  return obj;
 };
 
 export const floatToInt = (obj: number) => {
   if (Number.isInteger(obj)) return Math.round(obj);
+  return obj;
 };
 
 export const formatDate = (
@@ -68,8 +71,33 @@ export const getTimestampAfterOneWeek = (date: string | number | Date) => {
 };
 
 export const getTtlTime = (paramDatetime: string | number | Date) => {
-  const deleteDay = parseInt(process.env.TTL_DAY, 10);
+  const deleteDay = parseInt(process.env.TTL_DAY as string | "10", 10);
   const deleteDateTime = addDays(new Date(paramDatetime), deleteDay);
   const deleteUnixtime = Math.floor(deleteDateTime.getTime() / 1000);
   return deleteUnixtime;
 };
+
+export const TableOrderPaymentOrderInfo = admin
+  .firestore()
+  .collection("TableOrderPaymentOrderInfo");
+export const ChannelAccessToken = admin
+  .firestore()
+  .collection(" ChannelAccessToken");
+export const PaymentOrederTable = admin
+  .firestore()
+  .collection("PaymentOrederTable");
+
+export const TableOrderItemList = admin
+  .firestore()
+  .collection("TableOrderItemList");
+
+export const getPaymentInfo = (paymentId: string | number | null) =>
+  TableOrderPaymentOrderInfo.where("paymentId", "==", paymentId)
+    .limit(1)
+    .get()
+    .then((q) => q.docs[0].data());
+
+export const getCategoryItem = (categoryId: string | number | null) =>
+  TableOrderItemList.where("categoryId", "==", categoryId)
+    .get()
+    .then((q) => q.docs.map((doc) => doc.data()));

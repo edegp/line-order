@@ -5,9 +5,11 @@ import {
   Action,
   TemplateCarousel,
   QuickReplyItem,
+  FlexMessage,
 } from "@line/bot-sdk";
 
 export const CAROUSEL: TemplateMessage = {
+  type: "template",
   altText: "Carousel template",
   template: {
     type: "carousel",
@@ -66,7 +68,7 @@ export const MENU_LIST = {
   flex: process.env.RICH_MENU_FLEX,
 };
 
-export const FLEX_COUPON = {
+export const FLEX_COUPON: FlexMessage = {
   type: "flex",
   altText:
     "ご来店ありがとうございました。またのご来店をお待ちしています。次回ご来店時に使用できるクーポンを発行します。",
@@ -101,7 +103,7 @@ export const FLEX_COUPON = {
       action: {
         type: "uri",
         label: "Action",
-        uri: process.env.LIFF_URL,
+        uri: `https://liff.line.me/${process.env.LIFF_CHANNEL_ID}`,
       },
     },
     body: {

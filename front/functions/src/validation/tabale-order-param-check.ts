@@ -1,13 +1,13 @@
 import { checkLength, checkRequired } from "./param-check";
 
-export const TableOrderParamCheck = (params: {
+export const tableOrderParamCheck = (params: {
   categoryId: any;
   tableId: any;
   paymentId: any;
   transactionId: any;
   item: any;
 }) => {
-  const { categoryId, tableId, paymentId, transactionId, item } = params;
+  const { tableId, paymentId, transactionId, item } = params;
   const errorMessage: string[] = [];
   const checkTableId = () => {
     let error = checkRequired(tableId, "tableId");
@@ -18,15 +18,15 @@ export const TableOrderParamCheck = (params: {
     error = checkLength(tableId, "tableId", 1, NaN);
     if (error) errorMessage.push(error);
   };
-  const heckCategoryId = () => {
-    let error = checkRequired(categoryId, "categoryId");
-    if (error) {
-      errorMessage.push(error);
-      return;
-    }
-    error = checkLength(categoryId, "categoryId", 1, NaN);
-    if (error) errorMessage.push(error);
-  };
+  // const checkCategoryId = () => {
+  //   let error = checkRequired(categoryId, "categoryId");
+  //   if (error) {
+  //     errorMessage.push(error);
+  //     return;
+  //   }
+  //   error = checkLength(categoryId, "categoryId", 1, NaN);
+  //   if (error) errorMessage.push(error);
+  // };
   const checkPaymentId = () => {
     let error = checkRequired(paymentId, "paymentId");
     if (error) {
@@ -47,7 +47,7 @@ export const TableOrderParamCheck = (params: {
   };
   const checkItem = () => {
     const checkCategoryId = (categoryId: number) => {
-      let error = checkRequired(categoryId, "categoryId");
+      const error = checkRequired(categoryId, "categoryId");
       if (error) {
         errorMessage.push(error);
         return;
@@ -63,13 +63,13 @@ export const TableOrderParamCheck = (params: {
       if (error) errorMessage.push(error);
     };
     const checkOrderNum = (orderNum: number) => {
-      let error = checkRequired(orderNum, "orderNum");
+      const error = checkRequired(orderNum, "orderNum");
       if (error) {
         errorMessage.push(error);
         return;
       }
     };
-    let error = checkRequired(item, "item");
+    const error = checkRequired(item, "item");
     if (error) {
       errorMessage.push(error);
       return;
