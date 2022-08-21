@@ -5,18 +5,37 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "test": "node ./server.mjs",
+    "test:https": "set HTTPS=true&&node ./server.mjs",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@line/liff": "^2.21.0",
+    "@line/liff-mock": "^1.0.2",
+    "@mantine/core": "^5.1.6",
+    "@mantine/hooks": "^5.1.6",
+    "@mantine/modals": "^5.1.6",
+    "@radix-ui/react-icons": "^1.1.1",
+    "@reduxjs/toolkit": "^1.8.4",
     "autoprefixer": "^10.4.8",
-    "firebase": "^9.9.2",
+    "eslint-plugin-tailwindcss": "^3.6.0",
+    "firebase": "9.9.1",
     "next": "12.2.4",
     "postcss": "^8.4.16",
+    "postcss-import": "^14.1.0",
     "react": "18.2.0",
+    "react-device-detect": "^2.2.2",
     "react-dom": "18.2.0",
+    "react-icons": "^4.4.0",
+    "react-redux": "^8.0.2",
+    "redux-persist": "^6.0.0",
     "sass": "^1.54.4",
-    "tailwind": "^4.0.0"
+    "tailwindcss": "^3.1.8",
+    "tailwindcss-fluid-spacing": "^0.4.0",
+    "tailwindcss-textshadow": "^2.1.3"
   },
   "devDependencies": {
     "@types/node": "18.6.5",
@@ -24,6 +43,9 @@
     "@types/react-dom": "18.0.6",
     "eslint": "8.21.0",
     "eslint-config-next": "12.2.4",
+    "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
     "typescript": "4.7.4"
   }
 }

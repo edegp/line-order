@@ -9,10 +9,10 @@ export const tableOerderItems = [
         discountRate: 20,
         discountWay: 1,
         imageUrl:
-          "https://media.istockphoto.com/photos/french-fries-on-white-background-picture-id604378894?s=2048x2048",
-        itemDespription: "国産じゃがいも使用。ケチャップでどうぞ。",
+          "https://4.bp.blogspot.com/-4fn119XKnHw/UWgWcQYC4tI/AAAAAAAAQDM/gjKeUZDR_nY/s180-c/food_tamagoyaki.png",
+        itemDespription: "当店人気メニューです",
         itemId: 1,
-        itemName: "ポテトフライ",
+        itemName: "だし巻き卵",
         orderNo: 1,
         price: 190,
         stockoutFlg: false,
@@ -23,10 +23,10 @@ export const tableOerderItems = [
         discountRate: 10,
         discountWay: 2,
         imageUrl:
-          "https://media.istockphoto.com/photos/japanese-fried-chicken-picture-id1150109573?s=2048x2048",
+          "https://1.bp.blogspot.com/-s0F8ah-KmmA/XobTIIgFn3I/AAAAAAABYFA/RLUBWSpeAusE4R2SmGPqaa0ZLeb05MybQCNcBGAsYHQ/s180-c/food_gyouza_age.png",
         itemDespription: "サクサク、ジューシーな味をお楽しみください。",
         itemId: 2,
-        itemName: "特製唐揚げ",
+        itemName: "揚げ餃子",
         orderNo: 1,
         price: 500,
         stockoutFlg: false,
@@ -37,7 +37,7 @@ export const tableOerderItems = [
         discountRate: 0,
         discountWay: 0,
         imageUrl:
-          "https://media.istockphoto.com/photos/green-salad-with-fresh-vegetables-picture-id953810510?s=2048x2048",
+          "https://1.bp.blogspot.com/-p3_TcvLf3PI/UWyk5Og5GEI/AAAAAAAAQoA/T0o5O9VKi4A/s400/salad.png",
         itemDespription: "人気のサラダです。",
         itemId: 3,
         itemName: "グリーンサラダ",
@@ -58,7 +58,7 @@ export const tableOerderItems = [
         discountRate: 0,
         discountWay: 0,
         imageUrl:
-          "https://media.istockphoto.com/photos/glass-of-beer-isolated-on-white-background-picture-id862774556?s=2048x2048",
+          "https://2.bp.blogspot.com/-g0tX6LwKRvU/UgSL9bM2b9I/AAAAAAAAW4g/j8GETOhjCCA/s180-c/drink_beer.png",
         itemDespription: "まずはビールから！",
         itemId: 1001,
         itemName: "生ビール",
@@ -72,7 +72,7 @@ export const tableOerderItems = [
         discountRate: 0,
         discountWay: 0,
         imageUrl:
-          "https://media.istockphoto.com/photos/glass-of-gin-tonic-picture-id803905662?s=2048x2048",
+          "https://3.bp.blogspot.com/-QkvRM3QAZ18/WIHk7Y_vEOI/AAAAAAABBMA/sjA15SVoV7s5QawZb-YG6TJcCm-F1CGEgCLcB/s180-c/food_shrimp_cocktail.png",
         itemDespription: "フルーティーで優しい口当たり。",
         itemId: 1002,
         itemName: "特製カクテル",
@@ -86,7 +86,7 @@ export const tableOerderItems = [
         discountRate: 0,
         discountWay: 0,
         imageUrl:
-          "https://media.istockphoto.com/photos/cola-with-crushed-ice-and-straw-in-tall-glass-picture-id681018122?s=2048x2048",
+          "https://3.bp.blogspot.com/-b9M6snJdMcg/UgSL9n-zZiI/AAAAAAAAW4o/Heglhiqsclk/s180-c/drink_coke.png",
         itemDespription: "",
         itemId: 1003,
         itemName: "コーラ",
@@ -107,7 +107,7 @@ export const tableOerderItems = [
         discountRate: 0,
         discountWay: 0,
         imageUrl:
-          "https://media.istockphoto.com/photos/edamame-japanese-foodboiled-green-soybeans-picture-id1066735192?s=2048x2048",
+          "https://3.bp.blogspot.com/-M-pEgWZvVnM/UchB_tsKZ-I/AAAAAAAAVHk/tyNTMPFocJw/s180-c/food_edamame.png",
         itemDespription: "甘み引き立つうす塩味に仕上げました。",
         itemId: 2005,
         itemName: "枝豆",
@@ -121,7 +121,7 @@ export const tableOerderItems = [
         discountRate: 20,
         discountWay: 1,
         imageUrl:
-          "https://media.istockphoto.com/photos/japanese-food-japanese-soft-cold-tofu-picture-id1170639696?s=2048x2048",
+          "https://4.bp.blogspot.com/-JiLrxXeBVyM/UdEePVfP4JI/AAAAAAAAVq4/l0uj8XcJbH4/s180-c/food_hiyayakko.png",
         itemDespription: "",
         itemId: 2006,
         itemName: "冷ややっこ",
@@ -142,7 +142,7 @@ export const tableOerderItems = [
         discountRate: 10,
         discountWay: 2,
         imageUrl:
-          "https://media.istockphoto.com/photos/japanese-fried-chicken-picture-id1150109573?s=2048x2048",
+          "https://2.bp.blogspot.com/-yZPCibOUAtA/VtofdZorNMI/AAAAAAAA4Xk/TAMyAqU4tyQ/s180-c/food_karaage_lemon.png",
         itemDespription: "サクサク、ジューシーな味をお楽しみください。",
         itemId: 3001,
         itemName: "特製唐揚げ",
@@ -156,7 +156,7 @@ export const tableOerderItems = [
         discountRate: 20,
         discountWay: 1,
         imageUrl:
-          "https://media.istockphoto.com/photos/french-fries-on-white-background-picture-id604378894?s=2048x2048",
+          "https://1.bp.blogspot.com/-U5tiBAaVncQ/XQjuEWqlAmI/AAAAAAABTPI/c-nmr6K9WmwW7vOYBYIU5q_1PtdhuVFQgCLcBGAs/s180-c/food_fried_potato_dish.png",
         itemDespription: "国産じゃがいも使用。ケチャップでどうぞ。",
         itemId: 3002,
         itemName: "ポテトフライ",
@@ -177,7 +177,7 @@ export const tableOerderItems = [
         discountRate: 0,
         discountWay: 0,
         imageUrl:
-          "https://media.istockphoto.com/photos/isolated-top-view-of-sukiyaki-hot-pot-with-boiling-vegetables-picture-id1090355486?s=2048x2048",
+          "https://2.bp.blogspot.com/-jIIkMlnvflk/WtRzRs5ah5I/AAAAAAABLlM/W5m49SwF3bcTDwnuUNRmwnBMt78Y_A1ngCLcBGAs/s180-c/nabe_chanko.png",
         itemDespription: "",
         itemId: 5001,
         itemName: "寄せ鍋",

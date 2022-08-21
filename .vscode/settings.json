@@ -1,6 +1,6 @@
 {
-  "eslint.workingDirectories": ["./front", "./front/functions"],
+  "eslint.workingDirectories": ["./front", "./functions"],
   "eslint.options": {
-    "configFile": "/front/functons/.eslintrc.json"
+    "configFile": "/functions/.eslintrc.js"
   }
 }

@@ -34,3 +34,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/vue/
+
+/backend/*
+
+.vscode/
+
+*.log
+
+# Compiled JavaScript files
+/functions/lib/
+
+# TypeScript v1 declaration files
+/functions/typings/
+
+# Node.js dependency directory
+/functions/node_modules/
+
+/functions/.env
