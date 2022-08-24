@@ -115,7 +115,11 @@ firebase init
 
 choose **firestore** and **emulator**
 
-## 5. Install package
+## 5. LIFF アプリの設定
+
+### [LINE github のドキュメント (LINE チャネルの作成)](https://github.com/line/line-api-use-case-table-order/blob/master/docs/jp/liff-channel-create.md)
+
+## 6. Install package
 
 ### frontend
 
@@ -137,7 +141,7 @@ npm i
 yarn i
 ```
 
-## 6. Enjoy your development
+## 7. Enjoy your development
 
 in front directory
 
