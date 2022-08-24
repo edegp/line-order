@@ -18,11 +18,18 @@ import {
   setIsLoading,
 } from "store";
 import { PersistGate } from "redux-persist/integration/react";
-import { Box, Loader } from "@mantine/core";
+import {
+  Box,
+  ColorScheme,
+  ColorSchemeProvider,
+  Loader,
+  MantineProvider,
+} from "@mantine/core";
 import "styles/tailwind.scss";
 import "styles/globals.scss";
 import "styles/tailwind-utils.scss";
 import Layout from "components/Layout";
+import { useColorScheme } from "@mantine/hooks";
 
 const liffId: string =
   process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_LIFF_ID
@@ -86,7 +93,12 @@ function MyApp({ Component, pageProps }: any) {
     Initialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  if (isLoading) return <Loader variant="bars" />;
+  if (isLoading)
+    return (
+      <Box className="fixed inset-1/2">
+        <Loader variant="bars" />
+      </Box>
+    );
   return (
     <>
       <Provider store={store}>
