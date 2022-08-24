@@ -13,7 +13,11 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
-  important: true,
+  corePlugins: {
+    preflight: false, // リセットCSSの無効化
+  },
+
+  important: "#__next",
   theme: {
     fontSize: {
       xs: "calc(0.2vw + 12px)",
