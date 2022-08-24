@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const path = require("path");
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["images.unsplash.com"],
+    domains: ["images.unsplash.com", "source.unsplash.com"],
   },
   experimental: {
     images: {

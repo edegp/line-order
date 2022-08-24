@@ -1,3 +1,6 @@
+import InitTableOerderItems from "fb/database/table-order-items-list";
+import { ocopy } from "utils/helper";
+import { LineUser, Message, T } from "./../types/index";
 import {
   createSlice,
   configureStore,
@@ -38,40 +41,18 @@ const persistConfig = {
   // whitelist: ['auth'] // What you want to persist
 };
 
+const initMessage = {
+  no: "",
+  name: "",
+  day: "",
+  people: NaN,
+  start: "",
+  end: "",
+  LIFF_INITED: false,
+};
+
 const initialState: State = {
-  message: {
-    no: "",
-    restaurant: {
-      id: NaN,
-      name: "",
-      img: "",
-      address: "",
-      start: "",
-      end: "",
-      holiday: "",
-      tel: "",
-      line: "",
-      budget: NaN,
-      seats: NaN,
-      smoking: NaN,
-      map: [],
-    },
-    name: "",
-    course: {
-      id: NaN,
-      name: "",
-      time: NaN,
-      price: NaN,
-      comment: "",
-      text: "",
-      value: NaN,
-    },
-    day: "",
-    people: NaN,
-    start: "",
-    end: "",
-    LIFF_INITED: false,
-  },
+  message: initMessage,
   started: "",
   locales: ["ja"],
   locale: "ja",
@@ -84,110 +65,7 @@ const initialState: State = {
     token: "",
     idToken: "",
   },
-  t: {
-    type: "",
-    language: "",
-    title: "",
-    top: {
-      title: "",
-      msg001: "",
-      msg002: "",
-      msg003: "",
-      msg004: "",
-      msg005: "",
-      msg006: "",
-    },
-    menu: {
-      msg001: "",
-      msg002: "",
-      msg003: "",
-      msg004: "",
-      msg005: "",
-      msg006: "",
-      msg007: "",
-      msg008: "",
-      msg009: "",
-      msg010: "",
-      msg011: "",
-      msg012: "",
-      msg013: "",
-    },
-    basket: {
-      product: "",
-      qty: "",
-      price: "",
-      yen: "",
-      total_pretax: "",
-      total_discount: "",
-      total_amount: "",
-      cancel: "",
-      msg001: "",
-      msg002: "",
-      msg003: "",
-      msg004: "",
-      msg005: "",
-    },
-    completed: {
-      msg001: "",
-      msg002: "",
-      msg003: "",
-    },
-    payment: {
-      msg001: "",
-      msg002: "",
-      msg003: "",
-      msg004: "",
-      msg005: "",
-      msg006: "",
-      msg007: "",
-      msg008: "",
-      msg009: "",
-      msg010: "",
-      msg011: "",
-    },
-    paymentCompleted: {
-      title: "",
-      msg001: "",
-      msg002: "",
-      msg003: "",
-    },
-    header: {
-      msg001: "",
-      msg002: "",
-    },
-    menucard: {
-      yen: "",
-    },
-    ordered: {
-      yen: "",
-      msg001: "",
-      msg002: "",
-      msg003: "",
-      msg004: "",
-      msg005: "",
-    },
-    utils: {
-      sun: "",
-      mon: "",
-      tue: "",
-      wed: "",
-      thu: "",
-      fri: "",
-      sat: "",
-      hol: "",
-    },
-    tableorder: {},
-    error: {
-      msg001: "",
-      msg002: "",
-      msg003: "",
-      msg004: "",
-      msg005: "",
-      msg006: "",
-      msg007: "",
-      msg008: "",
-    },
-  },
+  t: {} as T,
   isLoading: false,
   paymentId: "",
   customer: {
@@ -197,40 +75,6 @@ const initialState: State = {
     image: "",
     token: "",
   },
-};
-
-const initMessage = {
-  no: "",
-  restaurant: {
-    id: NaN,
-    name: "",
-    img: "",
-    address: "",
-    start: "",
-    end: "",
-    holiday: "",
-    tel: "",
-    line: "",
-    budget: NaN,
-    seats: NaN,
-    smoking: NaN,
-    map: [],
-  },
-  name: "",
-  course: {
-    id: NaN,
-    name: "",
-    time: NaN,
-    price: NaN,
-    comment: "",
-    text: "",
-    value: NaN,
-  },
-  day: "",
-  people: NaN,
-  start: "",
-  end: "",
-  LIFF_INITED: false,
 };
 
 const restaurantSlice = createSlice({
@@ -305,6 +149,9 @@ const restaurantSlice = createSlice({
     setOrdered(state, action) {
       state.ordered = action.payload;
     },
+    cleaAll(state) {
+      return initialState;
+    },
   },
 });
 
@@ -326,6 +173,7 @@ export const {
   setOrders,
   setOrdered,
   setPaymentId,
+  cleaAll,
 } = restaurantSlice.actions;
 export default persistedReducer;
 
@@ -336,19 +184,19 @@ export type AppDispatch = typeof store.dispatch;
 const listenerMiddleware = createListenerMiddleware();
 
 listenerMiddleware.startListening({
-  matcher: isAnyOf(setFlash, setIsLoading),
+  actionCreator: setFlash,
   effect: (action, listenerApi) => {
     const { lineUser, message }: any = listenerApi.getState();
     if (message?.LIFF_INITED) {
-      import("@line/liff").then((result) => {
+      import("@line/liff").then(async (result) => {
         const liff = result.default;
         //  　LIFFプロファイル取得・設定
         const _settingLiffProfile = async (liff: Liff) => {
           const _lineUser = await getLiffProfile(liff);
-          listenerApi.dispatch(setLineUser(_lineUser));
+          if (_lineUser) listenerApi.dispatch(setLineUser(_lineUser));
         };
         // LIFF Login & Profile
-        if (!lineUser || !("expire" in lineUser)) {
+        if (!lineUser?.name || !lineUser.expire) {
           // Get LIFF Profile & Token
           _settingLiffProfile(liff);
         } else {
@@ -364,11 +212,23 @@ listenerMiddleware.startListening({
   },
 });
 
+listenerMiddleware.startListening({
+  actionCreator: setLineUser,
+  effect: (action, listenerApi) => {
+    InitTableOerderItems();
+    let customer = ocopy(action.payload);
+    delete customer["expire"];
+    if (customer) listenerApi.dispatch(setCustomer(customer));
+  },
+});
+
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: { ignoredActions: ["persist/PERSIST"] },
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST"],
+      },
     }).prepend(listenerMiddleware.middleware),
 });
 

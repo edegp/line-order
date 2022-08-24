@@ -39,6 +39,17 @@ export type T = {
   error: StringObject;
 };
 
+export type Order = {
+  price: number;
+  count: number;
+  total: number;
+  order: MenuType;
+};
+
+export type Orders = {
+  [key: number]: { [key: number]: Order };
+};
+
 export type State = {
   message?: Message;
   started: string;
@@ -52,16 +63,7 @@ export type State = {
   paymentError?: Object;
   paymentId: string;
   customer: Customer;
-  orders?: {
-    [key: number]: {
-      [key: number]: {
-        price: number;
-        count: number;
-        total: number;
-        order: MenuType;
-      };
-    };
-  };
+  orders?: Orders;
   ordered?: Object;
 };
 

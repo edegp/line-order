@@ -2,7 +2,7 @@ import { LineUser } from "types";
 import { store, setLineUser, setAxiosError } from "store";
 import { isIOS, isAndroid } from "react-device-detect";
 
-export const ocopy = (obj: LineUser) => {
+export const ocopy = (obj: any) => {
   let ret = null;
   if (obj != null) {
     ret = JSON.parse(JSON.stringify(obj));

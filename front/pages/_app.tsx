@@ -1,4 +1,9 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { Provider } from "react-redux";
 // import RestaurantLayout from "components/RestaurantLayout";
 import { useRouter } from "next/router";
@@ -13,7 +18,7 @@ import {
   setIsLoading,
 } from "store";
 import { PersistGate } from "redux-persist/integration/react";
-import { Loader } from "@mantine/core";
+import { Box, Loader } from "@mantine/core";
 import "styles/tailwind.scss";
 import "styles/globals.scss";
 import "styles/tailwind-utils.scss";
@@ -24,10 +29,18 @@ const liffId: string =
     ? process.env.NEXT_PUBLIC_LIFF_ID
     : "";
 
+if (process.env.NODE_ENV === "development") {
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  const whyDidYouRender = require("@welldone-software/why-did-you-render");
+  whyDidYouRender(React, {
+    trackAllPureComponents: true,
+  });
+}
+
 function MyApp({ Component, pageProps }: any) {
   const router = useRouter();
   const { message, isLoading } = store.getState();
-  const Initialize = async () => {
+  const Initialize = useCallback(async () => {
     store.dispatch(setIsLoading(true));
     if (!message?.LIFF_INITED) {
       store.dispatch(
@@ -41,59 +54,53 @@ function MyApp({ Component, pageProps }: any) {
       if ("lang" in router.query) {
         store.dispatch(setLocale(router.query.lang));
       }
-      await store.dispatch(setT(router.locale));
-      Promise.all([import("@line/liff"), import("@line/liff-mock")]).then(
-        (result) => {
-          const liff = result[0].default;
-          const LiffMockPlugin = result[1].default;
-          // LIFF Initialize
-          const mock = Boolean(process.env.NODE_ENV === "development");
-          if (mock) {
-            liff.use(new LiffMockPlugin());
-          }
-          liff
-            .init({
-              liffId,
-              // @ts-ignore
-              mock,
-            })
-            .then(() => {
-              const loggedIn = liff.isLoggedIn();
-              if (!loggedIn) {
-                liff.login({
-                  redirectUri:
-                    router.pathname == "/restaurant/delete"
-                      ? `${window.location.origin}/restaurant/delete`
-                      : `${window.location.origin}/restaurant`,
-                });
-              }
-              store.dispatch(setFlash({ LIFF_INITED: true }));
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      );
+      store.dispatch(setT(router.locale));
+      const liff = (await import("@line/liff")).default;
+      if (process.env.NODE_ENV === "development") {
+        const LiffMockPlugin = (await import("@line/liff-mock")).default;
+        liff.use(new LiffMockPlugin());
+      }
+      if (liff) {
+        liff
+          .init({
+            liffId,
+            // @ts-ignore
+            mock: process.env.NODE_ENV === "development" ? true : false,
+          })
+          .then(() => {
+            const loggedIn = liff.isLoggedIn();
+            if (!loggedIn) {
+              liff.login();
+            }
+            store.dispatch(setFlash({ LIFF_INITED: true }));
+            store.dispatch(setIsLoading(false));
+          })
+          .catch(() => {
+            console.log(message);
+            store.dispatch(setIsLoading(false));
+          });
+      }
     }
-    store.dispatch(setIsLoading(false));
-  };
+  }, [message]);
   useEffect(() => {
     Initialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [message]);
+  }, []);
   if (isLoading) return <Loader variant="bars" />;
   return (
     <>
       <Provider store={store}>
         <PersistGate
-          loading={<Loader variant="bars" className="fix top-1/2 " />}
+          loading={
+            <Box className="fixed inset-1/2">
+              <Loader variant="bars" />
+            </Box>
+          }
           persistor={persistor}
         >
-          {/* <RestaurantLayout> */}
           <Layout>
             <Component {...pageProps} />
           </Layout>
-          {/* </RestaurantLayout> */}
         </PersistGate>
       </Provider>
       {/* </React.StrictMode> */}
