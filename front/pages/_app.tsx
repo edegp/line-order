@@ -86,6 +86,8 @@ function MyApp({ Component, pageProps }: any) {
             console.log(message);
             store.dispatch(setIsLoading(false));
           });
+      } else {
+        store.dispatch(setIsLoading(false));
       }
     }
   }, [message]);
@@ -96,7 +98,7 @@ function MyApp({ Component, pageProps }: any) {
   if (isLoading)
     return (
       <Box className="fixed inset-1/2">
-        <Loader variant="bars" />
+        <Loader variant="bars" color="green.4" />
       </Box>
     );
   return (
@@ -105,14 +107,16 @@ function MyApp({ Component, pageProps }: any) {
         <PersistGate
           loading={
             <Box className="fixed inset-1/2">
-              <Loader variant="bars" />
+              <Loader variant="bars" color="green.4" />
             </Box>
           }
           persistor={persistor}
         >
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <MantineProvider withGlobalStyles withNormalizeCSS>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </MantineProvider>
         </PersistGate>
       </Provider>
       {/* </React.StrictMode> */}

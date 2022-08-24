@@ -18,6 +18,7 @@ import Head from "next/head";
 import Meta from "components/Meta";
 import { State, T } from "types";
 import Link from "next/link";
+import { NextLink } from "@mantine/next";
 
 const Home: NextPage = () => {
   // @ts-ignore
@@ -75,17 +76,17 @@ const Home: NextPage = () => {
           </Text>
         </Box>
         <Footer fixed className="p-0" height={"60px"}>
-          <Link href={{ pathname: "/tableorder/menu", query: { seatNo: 21 } }}>
-            <Button
-              fullWidth
-              color="#fff"
-              className="h-full bg-[#00B900]"
-              component="a"
-            >
-              <Title className="font-bold">{t?.top.msg006}</Title>
-              <ChevronRightIcon className="w-12 h-12" />
-            </Button>
-          </Link>
+          <Button
+            fullWidth
+            color="#fff"
+            className="h-full bg-[#00B900]"
+            component={NextLink}
+            href={{ pathname: "/tableorder/menu", query: { seatNo: 21 } }}
+            passHref
+          >
+            <Title className="font-bold">{t?.top.msg006}</Title>
+            <ChevronRightIcon className="w-12 h-12" />
+          </Button>
         </Footer>
       </AppShell>
     </>
