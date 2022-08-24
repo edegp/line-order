@@ -1,34 +1,154 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# LINE Mobile Order Application
 
-## Getting Started
+# What
 
-First, run the development server:
+`LIFF`を使用した、**LINE アカウント**だけでモバイルオーダー可能なアプリ
 
-```bash
+## feature
+
+**frontend**
+
+- _Next.js_ &emsp;SPA 作成の React フレームワーク
+- _React_ UI &emsp;特化の javascript ライブラリ
+- _Typescript_&emsp; 静的型付けに特化した javascript
+- _Tailwind_ &emsp;クラスからスタイリングできる CSS
+- _Mantine UI_ &emsp;Chakra UI の進化系 UI ライブラリ
+- _LIFF_ LINE &emsp;フロントエンドフレームワーク
+- _LINE Pay_ &emsp;LINE の決済サービス
+- _Redux-Toolkit_ &emsp;Redux の簡易型　状態管理
+- _Sass_
+- _Eslint_
+
+**backend**
+
+- _Node.js_
+- _Typescript_
+- _Firebase Firestore_
+- _Firebase CloudFunction_
+
+# How
+
+## 1. Clone this repository
+
+```sh
+git clone https://github.com/edegp/line-order.git
+```
+
+## 2. Create firebase project
+
+![](/docs/2022-08-24-11-09-31.png)
+
+## 3. Add Application in firebase project
+
+![](/docs/2022-08-24-11-10-51.png)
+
+## 4. Create firebasestore db
+
+### choose your region (if your location is tokyo, choose asia-northeast1)
+
+![](/docs/2022-08-24-11-15-07.png)
+
+## 5. Init Firebase
+
+### frontend
+
+```typescript : front/fb/firebase-client..ts
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+
+// TODO: Replace the following with your app's Firebase project configuration
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API,
+  authDomain: `${process.env.PROJECT_ID}.firebaseapp.com`,
+  databaseURL: `DATABASE_NAME{process.env.REGION}.firebaseio.com`,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: `${process.env.PROJECT_ID}.appspot.com`,
+  messagingSenderId: process.env.MESSAGEING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.G_MEASUREMENT_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+```
+
+add envirement variables in .env file
+
+```dotenv : front/.env.local
+FIREBASE_API=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+MESSAGEING_SENDER_ID=
+APP_ID=
+G_MEASUREMENT_ID=
+REGION=
+NEXT_PUBLIC_LIFF_ID=
+```
+
+### backend
+
+```sh
+# install firebase CLI
+npm install -g firebase-tools
+# ログイン
+firebase login
+```
+
+![](/docs/2022-08-24-11-24-21.png)
+
+プロジェクト確認
+
+```sh
+firebase projects:list
+┌──────────────────────┬─────────────────┬────────────────┬──────────────────────┐
+│ Project Display Name │ Project ID      │ Project Number │ Resource Location ID │
+├──────────────────────┼─────────────────┼────────────────┼──────────────────────┤
+│ LineMobileOrder      │ linemobileorder │  ------------  │ asia-northeast1      │
+└──────────────────────┴─────────────────┴────────────────┴──────────────────────┘
+```
+
+```sh
+# 初期化
+cd ../functions
+firebase init
+```
+
+choose **firestore** and **emulator**
+
+## 5. Install package
+
+### frontend
+
+```sh
+cd front
+
+npm i
+# or
+yarn i
+```
+
+### backend
+
+```sh
+cd functions
+
+npm i
+# or
+yarn i
+```
+
+## 6. Enjoy your development
+
+in front directory
+
+```sh
+# dev server
 npm run dev
 # or
 yarn dev
+# and function
+cd ../functions
+npm run server
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+open with browser http://localhost:3000
