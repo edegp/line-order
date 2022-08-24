@@ -29,35 +29,21 @@ import {
   setPaymentId,
   store,
 } from "store";
-import {
-  Items,
-  LineUser,
-  MenuType,
-  State,
-  Category,
-  Customer,
-  Orders,
-} from "types";
+import { MenuType, State, Category } from "../../../types";
 import { ocopy } from "utils/helper";
-import { getLiffProfile } from "utils/liff";
 import { TableOrder } from "utils/table-order";
 import {
   MdAddShoppingCart,
-  MdArrowRight,
   MdClose,
   MdKeyboardArrowRight,
   MdLocalBar,
   MdMenu,
-  MdRedo,
   MdShoppingBasket,
 } from "react-icons/md";
 import { FaRunning, FaUtensils } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
-import { clearScreenDown } from "readline";
 import { useRouter } from "next/router";
-import { async } from "@firebase/util";
-import payment from "./Payment";
 
 export default function SeatNo(props: any) {
   let {
@@ -157,6 +143,7 @@ export default function SeatNo(props: any) {
       };
     } else {
       ordersObject[categoryId] = {
+        ...ordersObject[categoryId],
         [itemId]: {
           price: price,
           count: number,
@@ -197,7 +184,7 @@ export default function SeatNo(props: any) {
       setSeatNoModal(true);
     }
     // paymentIdが存在しない場合には取得を試みる
-    if (paymentId == null) {
+    if (!paymentId) {
       TableOrder()
         .getPaymentId()
         .then((paymentIdResponse) =>
