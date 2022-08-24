@@ -1,13 +1,8 @@
 // import { getApp } from "firebase/app";
 import { functions } from "fb/firebase-client";
-import { Items, LineUser, State } from "types";
+import { Items, State } from "../../types";
 import { store } from "store";
-import {
-  connectFunctionsEmulator,
-  getFunctions,
-  httpsCallable,
-  HttpsCallableResult,
-} from "firebase/functions";
+import { httpsCallable, HttpsCallableResult } from "firebase/functions";
 import { showHttpError } from "./helper";
 
 export const TableOrder = () => {
@@ -186,7 +181,7 @@ export const TableOrder = () => {
     },
 
     async putOrder(
-      paymentId = null,
+      paymentId = "",
       tableId: any,
       orders: {
         [x: string]: {

@@ -61,27 +61,29 @@ const getOrderInfoItemId = (itemId: any, orderNum: any, itemInfoList: any) => {
   return;
 };
 
-const getOrderItemInfo = async (item: {
-  sort: (arg0: (a: any, b: any) => number) => any;
-  categoryId: null;
-  itemId: any;
-  orderNum: any;
-}) => {
-  const orderItems = item.sort(
-    (a: { categoryId: number }, b: { categoryId: number }) =>
-      a.categoryId - b.categoryId
-  );
-  const categoryId = null;
-  const putOrderItems = [];
+const getOrderItemInfo = async (
+  items: {
+    categoryId: number;
+    itemId: number;
+    orderNum: number;
+  }[]
+) => {
+  const orderItems = items.sort((a, b) => a["categoryId"] - b["categoryId"]);
+  let categoryId = null;
+  let putOrderItems = [];
   let itemInfoList: any[] = [];
-  for (item of orderItems) {
-    if (!categoryId || categoryId !== item.categoryId) {
-      itemInfoList = await getCategoryItem(item.categoryId);
+  for (let item of orderItems) {
+    if (!categoryId) {
+      categoryId = item["categoryId"];
+      itemInfoList = await getCategoryItem(categoryId);
+    } else if (categoryId != item["categoryId"]) {
+      itemInfoList = await getCategoryItem(item["categoryId"]);
     }
     putOrderItems.push(
-      getOrderInfoItemId(item.itemId, item.orderNum, itemInfoList)
+      getOrderInfoItemId(item["categoryId"], item["orderNum"], itemInfoList)
     );
   }
+  return putOrderItems;
 };
 
 const updatePaymentInfo = async (params: any, now: any) => {
@@ -165,7 +167,7 @@ const createPaymentInfo = (
   paymentInfo["paymentId"];
 };
 
-const putOrder = (params: { paymentId: any }) => {
+const putOrder = (params: any) => {
   const now = format(new Date(), "yyyyMMdd HH:mm:ss");
   if (params?.paymentId) {
     updatePaymentInfo(params, now);
@@ -178,7 +180,7 @@ export const orderPut = f.https.onCall(async (data, context) => {
   if (!data) {
     return ErrorHandler.noParams;
   }
-  const body = JSON.parse(data);
+  const body = JSON.parse(JSON.stringify(data));
   try {
     const userProofile = await client.getProfile(body.idToken);
     if (!userProofile) {

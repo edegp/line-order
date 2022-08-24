@@ -1,6 +1,6 @@
 import InitTableOerderItems from "fb/database/table-order-items-list";
 import { ocopy } from "utils/helper";
-import { LineUser, Message, T } from "./../types/index";
+import { LineUser, Message, T, State } from "../../types";
 import {
   createSlice,
   configureStore,
@@ -11,7 +11,6 @@ import { persistStore, persistReducer } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import { getLiffProfile } from "utils/liff";
 import ja from "public/locales/ja";
-import { State } from "types";
 import { Liff } from "@line/liff";
 
 const createNoopStorage = () => {
@@ -186,7 +185,8 @@ const listenerMiddleware = createListenerMiddleware();
 listenerMiddleware.startListening({
   actionCreator: setFlash,
   effect: (action, listenerApi) => {
-    const { lineUser, message }: any = listenerApi.getState();
+    const state: unknown = listenerApi.getState();
+    const { message, lineUser } = state as State;
     if (message?.LIFF_INITED) {
       import("@line/liff").then(async (result) => {
         const liff = result.default;
@@ -201,7 +201,7 @@ listenerMiddleware.startListening({
           _settingLiffProfile(liff);
         } else {
           const now = new Date();
-          const expire = parseInt(lineUser.expire, 10);
+          const expire = lineUser.expire;
           if (expire < now.getTime()) {
             // Get LIFF Profile & Token
             _settingLiffProfile(liff);
