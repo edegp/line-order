@@ -211,7 +211,11 @@ export default function SeatNo(props: any) {
         <Header className="flex items-center" height={70}>
           <Menu closeOnClickOutside={true} position="bottom-start">
             <Menu.Target>
-              <Button className="hover:bg-slate-400 hover:rounded-3xl self-center justify-self-center text-md ml-6 p-2 w-[36px]">
+              <Button
+                color="dark"
+                variant="subtle"
+                className="hover:bg-slate-400 hover:rounded-3xl self-center justify-self-center text-md ml-6 p-2 w-[36px]"
+              >
                 <MdMenu className="text-slate-500" />
               </Button>
             </Menu.Target>
@@ -232,14 +236,15 @@ export default function SeatNo(props: any) {
           </Menu>
           <Group className="mx-auto" position="center" align="center">
             <Avatar
+              className="hidden sp:block"
               size="lg"
               src={lineUser.image}
               alt={`${lineUser.name} 様`}
             />
-            <Text className="text-black">
+            <Text className="hidden sp:block">
               {t?.menu.msg001.replace("{name}", customer.name)}
             </Text>
-            <Text className="text-black">
+            <Text>
               {t?.menu.msg002}: {customer.seatNo}
             </Text>
           </Group>
@@ -312,10 +317,10 @@ export default function SeatNo(props: any) {
               {addToBasket.order?.itemDespription}
             </Text>
             <Space h="md" />
-            <Group align="center" position="center">
+            <Group align="center" position="center" noWrap>
               {addToBasket.isDiscounted ? (
                 <Text size="sm" className="relative">
-                  <span className="absolute top-[-10px] left-[-50px] text-white opacity-90 z-30 rounded-2xl text-xs px-2 bg-red-500 ">
+                  <span className="absolute top-[-10px] left-[-35px] text-white opacity-90 z-30 rounded-2xl text-xs px-2 bg-red-500 ">
                     SALE
                   </span>
                   <span className="text-red-500 text-md font-bold">
@@ -336,6 +341,7 @@ export default function SeatNo(props: any) {
               <MdClose />
               <NumberInput
                 defaultValue={1}
+                className="max-w-[160px]"
                 onChange={(number) =>
                   setAddToBasket({ ...addToBasket, number: number || 0 })
                 }
@@ -357,7 +363,7 @@ export default function SeatNo(props: any) {
   );
 }
 
-export async function getStaticProps({ params }: any) {
+export async function getStaticProps() {
   // 商品一覧情報取得APIからメニューデータ取得
   const { data } = await TableOrder().getItemData();
   const menuList = data[0]?.items;
