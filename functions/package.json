@@ -16,13 +16,14 @@
   "main": "lib/index.js",
   "dependencies": {
     "@line/bot-sdk": "^7.5.0",
+    "@types/uuid": "^8.3.4",
     "axios": "^0.27.2",
     "date-fns": "^2.29.1",
     "dotenv": "^16.0.1",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.22.0",
     "line-pay-v3": "^1.0.6",
-    "uuidv4": "^6.2.13"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.12.0",
