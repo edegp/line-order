@@ -18,22 +18,17 @@ import {
   setIsLoading,
 } from "store";
 import { PersistGate } from "redux-persist/integration/react";
-import {
-  Box,
-  ColorScheme,
-  ColorSchemeProvider,
-  Loader,
-  MantineProvider,
-} from "@mantine/core";
+import { Box, Loader, MantineProvider } from "@mantine/core";
 import "styles/tailwind.scss";
 import "styles/globals.scss";
 import "styles/tailwind-utils.scss";
 import Layout from "components/Layout";
-import { useColorScheme } from "@mantine/hooks";
 
 const liffId: string =
   process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_LIFF_ID
     ? process.env.NEXT_PUBLIC_LIFF_ID
+    : process.env.NEXT_PUBLIC_LIFF_ID_DEV
+    ? process.env.NEXT_PUBLIC_LIFF_ID_DEV
     : "";
 
 if (process.env.NODE_ENV === "development") {
@@ -46,7 +41,7 @@ if (process.env.NODE_ENV === "development") {
 
 function MyApp({ Component, pageProps }: any) {
   const router = useRouter();
-  const { message, isLoading } = store.getState();
+  const { message } = store.getState();
   const Initialize = useCallback(async () => {
     store.dispatch(setIsLoading(true));
     if (!message?.LIFF_INITED) {
@@ -71,14 +66,11 @@ function MyApp({ Component, pageProps }: any) {
         liff
           .init({
             liffId,
+            withLoginOnExternalBrowser: true,
             // @ts-ignore
-            mock: process.env.NODE_ENV === "development" ? true : false,
+            mock: false,
           })
           .then(() => {
-            const loggedIn = liff.isLoggedIn();
-            if (!loggedIn) {
-              liff.login();
-            }
             store.dispatch(setFlash({ LIFF_INITED: true }));
             store.dispatch(setIsLoading(false));
           })
@@ -95,15 +87,31 @@ function MyApp({ Component, pageProps }: any) {
     Initialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  if (isLoading)
-    return (
-      <Box className="fixed inset-1/2">
-        <Loader variant="bars" color="green.4" />
-      </Box>
+  useEffect(() => {
+    router.events.on("routeChangeStart", () =>
+      store.dispatch(setIsLoading(true))
     );
+    router.events.on("routeChangeComplete", () =>
+      store.dispatch(setIsLoading(false))
+    );
+    router.events.on("routeChangeError", () =>
+      store.dispatch(setIsLoading(false))
+    );
+    return () => {
+      router.events.off("routeChangeStart", () =>
+        store.dispatch(setIsLoading(true))
+      );
+      router.events.off("routeChangeComplete", () =>
+        store.dispatch(setIsLoading(false))
+      );
+      router.events.off("routeChangeError", () =>
+        store.dispatch(setIsLoading(false))
+      );
+    };
+  }, [router]);
   return (
-    <>
-      <Provider store={store}>
+    <Provider store={store}>
+      <MantineProvider withGlobalStyles withNormalizeCSS>
         <PersistGate
           loading={
             <Box className="fixed inset-1/2">
@@ -112,15 +120,12 @@ function MyApp({ Component, pageProps }: any) {
           }
           persistor={persistor}
         >
-          <MantineProvider withGlobalStyles withNormalizeCSS>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </MantineProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </PersistGate>
-      </Provider>
-      {/* </React.StrictMode> */}
-    </>
+      </MantineProvider>
+    </Provider>
   );
 }
 
