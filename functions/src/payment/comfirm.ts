@@ -55,7 +55,7 @@ export const confirm = f.https.onCall(async (data, context) => {
   let transactionId = parseInt(body["transactionId"], 10);
   try {
     const paymentInfo = await getPaymentInfo(paymentId);
-    const amount = parseFloat(paymentInfo["amount"]);
+    const amount = paymentInfo["amount"];
     const currency = "JPY";
     await TableOrderPaymentOrderInfo.where("paymentId", "==", paymentId)
       .limit(1)

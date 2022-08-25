@@ -38,7 +38,7 @@ export const reserve = f.https.onCall(async (data, context) => {
   }
   const paymentId = body["paymentId"];
   const paymentInfo = await getPaymentInfo(paymentId);
-  const amount = parseInt(paymentInfo.amount, 10);
+  const amount = paymentInfo.amount;
   body = {
     amount: amount,
     currency: "JPY",
