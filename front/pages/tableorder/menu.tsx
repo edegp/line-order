@@ -6,6 +6,7 @@ import {
   Card,
   Container,
   Dialog,
+  Drawer,
   Footer,
   Grid,
   Group,
@@ -17,6 +18,7 @@ import {
   Space,
   Text,
   Title,
+  Transition,
 } from "@mantine/core";
 import { CountdownTimerIcon, StarFilledIcon } from "@radix-ui/react-icons";
 import MenuCard from "components/tableorder/MenuCard";
@@ -29,7 +31,7 @@ import {
   setPaymentId,
   store,
 } from "store";
-import { MenuType, State, Category } from "../../../types";
+import { MenuType, State, Category } from "types";
 import { ocopy } from "utils/helper";
 import { TableOrder } from "utils/table-order";
 import {
@@ -44,6 +46,7 @@ import { FaRunning, FaUtensils } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Basket from "components/tableorder/basket";
 
 export default function SeatNo(props: any) {
   let {
@@ -54,6 +57,7 @@ export default function SeatNo(props: any) {
   const { t, orders, lineUser, paymentId, customer }: State = useSelector(
     (state: State) => state
   );
+
   const router = useRouter();
   const dispatch = useDispatch();
   const [menuDialog, setMenuDialog] = useState(false);
@@ -72,6 +76,7 @@ export default function SeatNo(props: any) {
     target: null as any,
     order: {} as MenuType,
   });
+  const [basketDrower, setBasketDrower] = useState(false);
   const openDialog = (order: any) => {
     const { itemId, categoryName, price, discountWay } = order;
     setAddToBasket({
@@ -101,9 +106,8 @@ export default function SeatNo(props: any) {
     );
   const search = async (categoryId: number, categoryName: string) => {
     setCategoryName(categoryName);
-    const itemList = (await TableOrder().getItemData(categoryId.toString()))
-      ?.data;
-    setMenuList(itemList[0]?.items);
+    const itemList = (await TableOrder().getItemData(categoryId))?.data;
+    setMenuList(itemList?.items);
     setCategoryDialog(false);
   };
   const countHandler = () => {
@@ -129,7 +133,11 @@ export default function SeatNo(props: any) {
     const order = addToBasket.order;
     // すでにバスケット内にあるアイテムであれば個数を加算する
     let ordersObject = ocopy(orders) || {};
-    if (ordersObject?.categoryId?.itemId) {
+    if (
+      ordersObject &&
+      ordersObject[categoryId] &&
+      ordersObject[categoryId][itemId]
+    ) {
       let count = ordersObject[categoryId][itemId].count;
       let total = ordersObject[categoryId][itemId].total;
       count += number;
@@ -249,8 +257,7 @@ export default function SeatNo(props: any) {
           <Button
             fullWidth
             className="bg-[#00B900] text-white w-full h-full"
-            component="a"
-            href="/tableorder/basket"
+            onClick={() => setBasketDrower(true)}
             disabled={count === 0}
           >
             <MdShoppingBasket />
@@ -346,6 +353,22 @@ export default function SeatNo(props: any) {
           {t?.menu.msg008}
         </Button>
       </Modal>
+      <Drawer
+        opened={basketDrower}
+        onClose={() => setBasketDrower(false)}
+        title="バスケット"
+        padding="xl"
+        size="90%"
+        target="#__next"
+        position="bottom"
+        transitionDuration={500}
+        transitionTimingFunction="ease-in"
+        transition={"slide-up"}
+      >
+        <Box className="absolute w-full">
+          <Basket />
+        </Box>
+      </Drawer>
     </AppShell>
   );
 }
@@ -353,8 +376,8 @@ export default function SeatNo(props: any) {
 export async function getStaticProps() {
   // 商品一覧情報取得APIからメニューデータ取得
   const { data } = await TableOrder().getItemData();
-  const menuList = data[0]?.items;
-  const categoryName = data[0]?.categoryName;
+  const menuList = data?.items;
+  const categoryName = data?.categoryName;
   // カテゴリー一覧取得APIからカテゴリー一覧取得
   const categoryList = (await TableOrder().getCategoryData())?.data;
 

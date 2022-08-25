@@ -17,7 +17,6 @@ import Beer from "public/image/beer.jpg";
 import Head from "next/head";
 import Meta from "components/Meta";
 import { State, T } from "types";
-import Link from "next/link";
 import { NextLink } from "@mantine/next";
 
 const Home: NextPage = () => {
@@ -56,7 +55,7 @@ const Home: NextPage = () => {
           <List className="mt-5">
             <List.Item className="mb-5">{t?.top.msg001}</List.Item>
             <List.Item>
-              {t?.top.msg002.split(/<br>/).map((msg) => (
+              {t?.top.msg002.split(/<br>/).map((msg: string) => (
                 <span key={msg}>
                   {msg}
                   <br />
