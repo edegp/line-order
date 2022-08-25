@@ -3,6 +3,7 @@ dotenv.config();
 import "dotenv/config.js";
 import { addDays, addWeeks, format, intervalToDuration, sub } from "date-fns";
 import * as admin from "firebase-admin";
+import { Items, PaymentInfo } from "../types";
 
 export const createResponse = (statusCode: number, body: object | string) => ({
   statusCode: statusCode,
@@ -92,13 +93,13 @@ export const TableOrderItemList = admin
   .firestore()
   .collection("TableOrderItemList");
 
-export const getPaymentInfo = (paymentId: string | number | null) =>
+export const getPaymentInfo = (paymentId: string | number) =>
   TableOrderPaymentOrderInfo.where("paymentId", "==", paymentId)
     .limit(1)
     .get()
-    .then((q) => q.docs[0].data());
+    .then((q) => q.docs[0].data()) as Promise<PaymentInfo>;
 
-export const getCategoryItem = (categoryId: string | number | null) =>
+export const getCategoryItem = (categoryId: string | number) =>
   TableOrderItemList.where("categoryId", "==", categoryId)
     .get()
-    .then((q) => q.docs.map((doc) => doc.data()));
+    .then((q) => q.docs.map((doc) => doc.data())[0]) as Promise<Items>;

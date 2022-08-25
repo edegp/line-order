@@ -16,35 +16,35 @@ export const client = new linebot({
   channelSecret: process.env.CHANNEL_SECRET as string,
 });
 
-export const sendPushMessage = (
-  channelAccessToken: any,
-  flexObj: any,
-  userId: string
-) => {
-  let response;
-  try {
-    response = client.pushMessage(userId, flexObj);
-  } catch (e) {
-    // functions.logger.error(
-    //   "Got exception from LINE Messaging API: %s\n" % e.message
-    // );
-    functions.logger.error("Occur Exception: %s", e);
-  }
-  return response;
+const line = {
+  sendPushMessage: (channelAccessToken: any, flexObj: any, userId: string) => {
+    let response;
+    try {
+      response = client.pushMessage(userId, flexObj);
+    } catch (e) {
+      // functions.logger.error(
+      //   "Got exception from LINE Messaging API: %s\n" % e.message
+      // );
+      functions.logger.error("Occur Exception: %s", e);
+    }
+    return response;
+  },
+
+  getProfile: async (idToken: any, channelId: any) => {
+    const data = new URLSearchParams({
+      id_token: idToken,
+      client_id: channelId,
+    });
+    try {
+      const response = await axios.post(
+        process.env.API_USER_ID_URL as string,
+        data
+      );
+      return response.data;
+    } catch (e) {
+      functions.logger.error("Occur Exception: %s", e);
+    }
+  },
 };
 
-export const getProfile = (idToken: any, channelId: any) => {
-  const headers = { "Content-Type": "application/x-www-form-urlencoded" };
-  const body = {
-    idToken: idToken,
-    clientId: channelId,
-  };
-
-  const response: any = axios.post(process.env.API_USER_ID_URL as string, {
-    headers,
-    data: body,
-  });
-
-  const resBody = JSON.parse(response.text);
-  return resBody;
-};
+export default line;

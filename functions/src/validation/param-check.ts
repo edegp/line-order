@@ -1,8 +1,22 @@
 import { format } from "date-fns";
 
-export const checkRequired = (columns: number, columnName: string) => {
-  const columnsReplaced = columns.toString().replace(" ", "");
-  if (!columnsReplaced || !columns) return "必須入力エラー" + columnName;
+export const checkRequired = (
+  columns: number | string | Object[],
+  columnName: string
+) => {
+  let columnsReplaced;
+  let columnsArray;
+  if (typeof columns === "number") {
+    columnsReplaced = columns.toString().replace(" ", "");
+    if (!columnsReplaced) {
+      return "必須入力エラー" + columnName;
+    }
+  } else if (typeof columns === "object") {
+    columnsArray = columns.length !== 0;
+    if (!columnsArray) {
+      return "必須入力エラー" + columnName;
+    }
+  } else if (!columns) return "必須入力エラー" + columnName;
 };
 export const checkLength = (
   columns: number | string,
@@ -18,7 +32,7 @@ export const checkLength = (
     return `文字数エラー（最小文字数[${max}]超過）:${columnName}`;
   }
 };
-export const checkInt = (columns: string, columnName: string) => {
+export const checkInt = (columns: number, columnName: string) => {
   let columnsReplaced;
   if (typeof columns === "number") columnsReplaced = true;
   else columnsReplaced = parseInt(columns, 10);

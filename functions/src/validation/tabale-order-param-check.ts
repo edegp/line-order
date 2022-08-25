@@ -1,11 +1,15 @@
 import { checkLength, checkRequired } from "./param-check";
 
 export const tableOrderParamCheck = (params: {
-  categoryId: any;
-  tableId: any;
+  categoryId: number;
+  tableId: number;
   paymentId: any;
-  transactionId: any;
-  item: any;
+  transactionId?: any;
+  item: {
+    categoryId: number;
+    itemId: number;
+    orderNum: number;
+  }[];
 }) => {
   const { tableId, paymentId, transactionId, item } = params;
   const errorMessage: string[] = [];

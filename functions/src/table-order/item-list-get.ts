@@ -2,11 +2,12 @@ import { getCategoryItem } from "../common/utils";
 import * as functions from "firebase-functions";
 import { f } from "..";
 
-const getItemList = async (params: { locale: string; categoryId: string }) => {
+const getItemList = async (params: { locale: string; categoryId: number }) => {
   let categoryId = 1;
-  if (params?.categoryId) categoryId = parseInt(params.categoryId);
+  if (params?.categoryId || params?.categoryId == 0)
+    categoryId = params.categoryId;
   const items = await getCategoryItem(categoryId);
-  functions.logger.debug("items %s", items);
+  functions.logger.debug(items);
   return items;
 };
 

@@ -1,14 +1,14 @@
+import { useCallback } from "react";
 // import { getApp } from "firebase/app";
 import { functions } from "fb/firebase-client";
-import { Items, State } from "../../types";
+import { Items, Orders, State } from "../../functions/src/types";
 import { store } from "store";
 import { httpsCallable, HttpsCallableResult } from "firebase/functions";
 import { showHttpError } from "./helper";
 
 export const TableOrder = () => {
-  // console.log(connectFunctionsEmulator(functions, "localhost", 5001));
   const firestore = {
-    itemData: async (categoryId: string) => {
+    itemData: async (categoryId: number) => {
       // 送信パラメーター
       const myInit = {
         locale: store.getState().locale,
@@ -61,7 +61,7 @@ export const TableOrder = () => {
       return response;
     },
 
-    orderData: async (paymentId: any) => {
+    orderData: async (paymentId: string) => {
       let response = null;
       // 送信パラメーター
       const myInit = {
@@ -170,9 +170,9 @@ export const TableOrder = () => {
         return Math.floor(p);
       },
     },
-    async getItemData(categoryId = "0") {
+    async getItemData(categoryId = 0) {
       const itemData = await firestore.itemData(categoryId);
-      return itemData as HttpsCallableResult<Items[]>;
+      return itemData as HttpsCallableResult<Items>;
     },
 
     async getCategoryData() {
@@ -180,18 +180,7 @@ export const TableOrder = () => {
       return categories;
     },
 
-    async putOrder(
-      paymentId = "",
-      tableId: any,
-      orders: {
-        [x: string]: {
-          [x: string]: {
-            order: any;
-            count: any;
-          };
-        };
-      }
-    ) {
+    async putOrder(tableId: number, orders: Orders, paymentId?: string) {
       let items = [];
       for (const order in orders) {
         for (const item in orders[order]) {
@@ -209,14 +198,16 @@ export const TableOrder = () => {
       // LIFF ID Token取得
       const { lineUser }: State = store.getState();
       const idToken = lineUser?.idToken;
+      const userId = lineUser?.userId;
       let params = null;
       if (paymentId == null) {
-        params = { idToken: idToken, tableId: tableId, item: items };
+        params = { userId, idToken, tableId, item: items };
       } else {
         params = {
-          paymentId: paymentId,
-          idToken: idToken,
-          tableId: tableId,
+          userId,
+          paymentId,
+          idToken,
+          tableId,
           item: items,
         };
       }
@@ -234,7 +225,7 @@ export const TableOrder = () => {
       // LIFF ID Token取得
       const { lineUser }: State = store.getState();
       const idToken = lineUser?.idToken;
-      const params = { idToken: idToken, paymentId: paymentId };
+      const params = { idToken, paymentId };
       const response = await firestore.paymentReserve(params);
       return response;
     },

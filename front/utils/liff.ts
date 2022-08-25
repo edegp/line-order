@@ -1,5 +1,5 @@
 import { Liff } from "@line/liff/dist/lib";
-import { LineUser } from "types";
+import { LineUser } from "../../functions/src/types";
 
 export const getLiffProfile = async (liff: Liff) => {
   // LIFF Profile
