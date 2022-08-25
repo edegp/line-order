@@ -50,19 +50,11 @@ module.exports = {
         secondary: "#ead808",
         line: "#00ba00",
         whiteTer: "hsl(0, 0%, 96%)",
-        // color: withOpacity("--color-primary"),
       },
       extend: {},
       spacing: {
-        // "h-w": "calc(4.16666667vw - 30px)",
-        // "h-logo": "calc(4.16666667vw - 40px)",
         28: "7rem",
       },
-      // fontFamily: {
-      // My: ["My"],
-      // Gilroy: ["Gilroy"],
-      // "Noto-Sans": ["Noto Sans JP"],
-      // },
       gridTemplateRows: {
         8: "repeat(8, minmax(0, 1fr))",
       },
