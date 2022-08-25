@@ -1,11 +1,12 @@
 import InitTableOerderItems from "fb/database/table-order-items-list";
 import { ocopy } from "utils/helper";
-import { LineUser, Message, T, State } from "../../types";
+import { LineUser, Message, T, State } from "../../functions/src/types";
 import {
   createSlice,
   configureStore,
   createListenerMiddleware,
   isAnyOf,
+  AnyAction,
 } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
@@ -183,7 +184,10 @@ export type AppDispatch = typeof store.dispatch;
 const listenerMiddleware = createListenerMiddleware();
 
 listenerMiddleware.startListening({
-  actionCreator: setFlash,
+  // @ts-ignore
+  predicate: (action: AnyAction, currentState: State, previousState: State) => {
+    return currentState.isLoading === true || currentState.message?.LIFF_INITED;
+  },
   effect: (action, listenerApi) => {
     const state: unknown = listenerApi.getState();
     const { message, lineUser } = state as State;
@@ -215,7 +219,6 @@ listenerMiddleware.startListening({
 listenerMiddleware.startListening({
   actionCreator: setLineUser,
   effect: (action, listenerApi) => {
-    InitTableOerderItems();
     let customer = ocopy(action.payload);
     delete customer["expire"];
     if (customer) listenerApi.dispatch(setCustomer(customer));
