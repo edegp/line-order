@@ -1,26 +1,28 @@
+import { LinepayApiResponse } from "./../../../front/types/index";
 import { ErrorHandler } from "./../common/error";
 import * as dotenv from "dotenv";
 dotenv.config();
 import { getPaymentInfo } from "../common/utils";
 import { tableOrderParamCheck } from "../validation/tabale-order-param-check";
-import { client, pay } from "../common/line";
+import line, { pay } from "../common/line";
 import * as functions from "firebase-functions";
 import { f } from "..";
 
 const CONFIRM_URL = process.env.CONFIRM_URL;
 const CANCEL_URL = process.env.CANCEL_URL;
-// const LOGGER_LEVEL = process.env.LOGGER_LEVEL;
-// const LIFF_CHANNEL_ID = process.env.LIFF_CHANNEL_ID;
 
 export const reserve = f.https.onCall(async (data, context) => {
   functions.logger.info(data);
   if (!data) {
     return ErrorHandler.noParams;
   }
-  let body = JSON.parse(data);
+  let body = JSON.parse(JSON.stringify(data));
 
   try {
-    const userProfile = await client.getProfile(body["idToken"]);
+    const userProfile = await line.getProfile(
+      body["idToken"],
+      process.env.LIFF_CHANNEL_ID
+    );
     if (!userProfile) {
       return ErrorHandler.invalidParams("不適切なidトークンです");
     } else {
@@ -32,7 +34,7 @@ export const reserve = f.https.onCall(async (data, context) => {
   }
   const paramChecker = tableOrderParamCheck(body);
   const errorMsg = paramChecker.checkApiPaymentReserve();
-  if (errorMsg) {
+  if (errorMsg.length !== 0) {
     functions.logger.log(errorMsg.join("\n"));
     return ErrorHandler.invalidParams(errorMsg.join("\n"));
   }
@@ -71,12 +73,12 @@ export const reserve = f.https.onCall(async (data, context) => {
   };
 
   try {
-    const linepayApiResponse = await pay.reservePayment(body);
-    body = JSON.stringify(linepayApiResponse);
+    const linepayApiResponse: LinepayApiResponse = await pay.request(body);
+    functions.logger.debug("success %s", linepayApiResponse);
+    body = linepayApiResponse;
   } catch (e) {
     functions.logger.error("Occur Exception: %s", e);
     return ErrorHandler.internal;
-  } finally {
-    return body;
   }
+  return JSON.parse(JSON.stringify(body));
 });

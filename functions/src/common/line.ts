@@ -9,6 +9,7 @@ const linePay = require("line-pay-v3");
 export const pay = new linePay({
   channelId: process.env.LINE_PAY_CHANNEL_ID as string,
   channelSecret: process.env.LINE_PAY_CHANNEL_SECRET as string,
+  uri: process.env.DEV_URL,
 });
 
 export const client = new linebot({

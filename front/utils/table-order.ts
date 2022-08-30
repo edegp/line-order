@@ -1,10 +1,11 @@
 import { useCallback } from "react";
-// import { getApp } from "firebase/app";
+
 import { functions } from "fb/firebase-client";
 import { Items, Orders, State } from "../../functions/src/types";
 import { store } from "store";
 import { httpsCallable, HttpsCallableResult } from "firebase/functions";
 import { showHttpError } from "./helper";
+import { PaymentInfo } from "types";
 
 export const TableOrder = () => {
   const firestore = {
@@ -79,18 +80,16 @@ export const TableOrder = () => {
       return response;
     },
 
-    paymentReserve: async (params: {
-      [x: string]: string | null | undefined;
-    }) => {
+    reserve: async (params: { [x: string]: string | null | undefined }) => {
       let response = null;
       // 送信パラメーターロケール付加
       params["locale"] = store.getState().locale;
       // 送信パラメーター
       const myInit = params;
-      const paymentReserve = httpsCallable(functions, "paymentReserve");
+      const reserve = httpsCallable(functions, "reserve");
       // POST送信
       try {
-        response = await paymentReserve(myInit);
+        response = await reserve(myInit);
       } catch (error) {
         showHttpError(error);
       }
@@ -99,14 +98,16 @@ export const TableOrder = () => {
     },
 
     paymentConfirm: async (params: {
-      [x: string]: string | null | undefined;
+      transactionId: string;
+      paymentId: string;
+      locale?: string;
     }) => {
       let response = null;
-      // 送信パラメーターロケール付加
-      params["locale"] = store.getState().locale;
       // 送信パラメーター
       const myInit = params;
-      const paymentConfirm = httpsCallable(functions, "paymentConfirm");
+      // 送信パラメーターロケール付加
+      myInit["locale"] = store.getState().locale;
+      const paymentConfirm = httpsCallable(functions, "confirm");
       // POST送信
       let isError = false;
       try {
@@ -217,7 +218,8 @@ export const TableOrder = () => {
     },
 
     async getOrderData(paymentId: any) {
-      const orderData = await firestore.orderData(paymentId);
+      const orderData = (await firestore.orderData(paymentId))
+        ?.data as PaymentInfo;
       return orderData;
     },
 
@@ -226,11 +228,11 @@ export const TableOrder = () => {
       const { lineUser }: State = store.getState();
       const idToken = lineUser?.idToken;
       const params = { idToken, paymentId };
-      const response = await firestore.paymentReserve(params);
+      const response = await firestore.reserve(params);
       return response;
     },
 
-    async confirmPayment(transactionId: any, paymentId: any) {
+    async confirmPayment(transactionId: string, paymentId: string) {
       const params = { transactionId: transactionId, paymentId: paymentId };
       const response = await firestore.paymentConfirm(params);
       return response;
