@@ -11,26 +11,17 @@ import {
   Grid,
   Group,
   Header,
-  List,
   Menu,
   Modal,
   NumberInput,
   Space,
   Text,
   Title,
-  Transition,
 } from "@mantine/core";
 import { CountdownTimerIcon, StarFilledIcon } from "@radix-ui/react-icons";
 import MenuCard from "components/tableorder/MenuCard";
-import React, { ProviderProps, ReactElement, useEffect, useState } from "react";
-import {
-  cleaAll,
-  setCustomer,
-  setLineUser,
-  setOrders,
-  setPaymentId,
-  store,
-} from "store";
+import React, { useEffect, useState } from "react";
+import { setCustomer, setOrders, setPaymentId } from "store";
 import { MenuType, State, Category } from "types";
 import { ocopy } from "utils/helper";
 import { TableOrder } from "utils/table-order";
@@ -203,60 +194,68 @@ export default function SeatNo(props: any) {
   return (
     <AppShell
       header={
-        <Header className="flex items-center" height={70}>
-          <Menu closeOnClickOutside={true} position="bottom-start">
-            <Menu.Target>
+        <Header height={70}>
+          <Grid className="mt-[-2px]" justify="space-around" align="center">
+            <Grid.Col span={1}>
+              <Menu closeOnClickOutside={true} position="bottom-start">
+                <Menu.Target>
+                  <Button
+                    color="dark"
+                    variant="subtle"
+                    className="hover:bg-slate-400 hover:rounded-3xl self-center justify-self-center text-md ml-6 p-2 w-[36px]"
+                  >
+                    <MdMenu className="text-slate-500" />
+                  </Button>
+                </Menu.Target>
+                <Menu.Dropdown className="top-[70px]">
+                  <Menu.Label>Menu Category</Menu.Label>
+                  {categoryList.map((category: Category, index: number) => (
+                    <Menu.Item
+                      icon={avatar(category)}
+                      key={index}
+                      onClick={() =>
+                        search(category.categoryId, category.categoryName)
+                      }
+                    >
+                      {category.categoryName}
+                    </Menu.Item>
+                  ))}
+                </Menu.Dropdown>
+              </Menu>
+            </Grid.Col>
+            <Grid.Col span={7}>
+              <Group className="self-center" position="center" align="center">
+                <Avatar
+                  className="hidden sp:block"
+                  size="lg"
+                  src={lineUser.image}
+                  alt={`${lineUser.name} 様`}
+                />
+                <Text className="hidden sp:block">
+                  {t?.menu.msg001.replace("{name}", customer.name)}
+                </Text>
+                <Text>
+                  {t?.menu.msg002}: {customer.seatNo}
+                </Text>
+              </Group>
+            </Grid.Col>
+            <Grid.Col span={2}>
               <Button
-                color="dark"
-                variant="subtle"
-                className="hover:bg-slate-400 hover:rounded-3xl self-center justify-self-center text-md ml-6 p-2 w-[36px]"
+                disabled={!paymentId}
+                className="text-gray bg-transparent"
+                rightIcon={<MdKeyboardArrowRight className="text-md" />}
               >
-                <MdMenu className="text-slate-500" />
+                {t?.menu.msg003}
               </Button>
-            </Menu.Target>
-            <Menu.Dropdown className="top-[70px]">
-              <Menu.Label>Menu Category</Menu.Label>
-              {categoryList.map((category: Category, index: number) => (
-                <Menu.Item
-                  icon={avatar(category)}
-                  key={index}
-                  onClick={() =>
-                    search(category.categoryId, category.categoryName)
-                  }
-                >
-                  {category.categoryName}
-                </Menu.Item>
-              ))}
-            </Menu.Dropdown>
-          </Menu>
-          <Group className="mx-auto" position="center" align="center">
-            <Avatar
-              className="hidden sp:block"
-              size="lg"
-              src={lineUser.image}
-              alt={`${lineUser.name} 様`}
-            />
-            <Text className="hidden sp:block">
-              {t?.menu.msg001.replace("{name}", customer.name)}
-            </Text>
-            <Text>
-              {t?.menu.msg002}: {customer.seatNo}
-            </Text>
-          </Group>
-          <Button
-            disabled={!paymentId}
-            className="text-gray bg-transparent"
-            rightIcon={<MdKeyboardArrowRight className="text-md" />}
-          >
-            {t?.menu.msg003}
-          </Button>
+            </Grid.Col>
+          </Grid>
         </Header>
       }
       footer={
         <Footer fixed className="p-0" height={60}>
           <Button
             fullWidth
-            className="bg-[#00B900] text-white w-full h-full"
+            className="bg-[#00B900] text-white w-full h-full hover:bg-[#00B900]/70"
             onClick={() => setBasketDrower(true)}
             disabled={count === 0}
           >
@@ -346,7 +345,7 @@ export default function SeatNo(props: any) {
         )}
         <Button
           fullWidth
-          className="absolute left-0 bottom-0 border-[#00B900] bg-[#00B900] rounded-none rounded-br-sm rounded-bl-sm"
+          className="absolute left-0 bottom-0 border-[#00B900] bg-[#00B900] rounded-none rounded-br-sm rounded-bl-sm hover:bg-[#00B900]/70"
           onClick={handleOrder}
           rightIcon={<MdAddShoppingCart className="inline text-sm" />}
         >
@@ -359,15 +358,12 @@ export default function SeatNo(props: any) {
         title="バスケット"
         padding="xl"
         size="90%"
-        target="#__next"
         position="bottom"
-        transitionDuration={500}
+        transitionDuration={150}
         transitionTimingFunction="ease-in"
-        transition={"slide-up"}
+        transition="slide-up"
       >
-        <Box className="absolute w-full">
-          <Basket />
-        </Box>
+        <Basket />
       </Drawer>
     </AppShell>
   );
