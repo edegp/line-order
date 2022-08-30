@@ -64,7 +64,7 @@ export type State = {
   paymentId: string;
   customer: Customer;
   orders?: Orders;
-  ordered?: Object;
+  ordered?: PaymentInfo;
 };
 
 export type Customer = {
@@ -102,6 +102,16 @@ export type Category = {
   orderNo: number;
 };
 
+export type OrderItem = {
+  itemId: number;
+  itemName: string;
+  orderNum: number;
+  price: number;
+  discountRate: number;
+  discountWay: number;
+  imageUrl: string;
+};
+
 export type PaymentInfo = {
   paymentId: string;
   userId: string;
@@ -109,18 +119,23 @@ export type PaymentInfo = {
   amount?: number;
   order: {
     orderId: number;
-    item: {
-      itemId: any;
-      itemName: any;
-      orderNum: any;
-      price: any;
-      discountRate: any;
-      discountWay: any;
-      imageUrl: any;
-    }[];
+    item: OrderItem[];
     tableId: number;
     cancel: boolean;
     deleteReason: string;
-    orderDateTime: any;
+    orderDateTime: string;
   }[];
+};
+
+export type LinepayApiResponse = {
+  returnCode: string;
+  returnMessage: string;
+  info: {
+    paymentUrl: {
+      web: Location;
+      app: string;
+    };
+    transactionId: string;
+    paymentAccessToken: string;
+  };
 };

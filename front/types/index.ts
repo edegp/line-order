@@ -60,11 +60,11 @@ export type State = {
   axiosError?: Object;
   t?: T;
   isLoading: boolean;
-  paymentError?: Object;
+  paymentError?: boolean;
   paymentId: string;
   customer: Customer;
   orders?: Orders;
-  ordered?: Object;
+  ordered?: OrderItemList[];
 };
 
 export type Customer = {
@@ -102,25 +102,42 @@ export type Category = {
   orderNo: number;
 };
 
+export type OrderItem = {
+  itemId: number;
+  itemName: string;
+  orderNum: number;
+  price: number;
+  discountRate: number;
+  discountWay: number;
+  imageUrl: string;
+};
+
+export type OrderItemList = {
+  orderId: number;
+  item: OrderItem[];
+  tableId: number;
+  cancel: boolean;
+  deleteReason: string;
+  orderDateTime: string;
+};
+
 export type PaymentInfo = {
   paymentId: string;
   userId: string;
   transactionId: number;
   amount?: number;
-  order: {
-    orderId: number;
-    item: {
-      itemId: any;
-      itemName: any;
-      orderNum: any;
-      price: any;
-      discountRate: any;
-      discountWay: any;
-      imageUrl: any;
-    }[];
-    tableId: number;
-    cancel: boolean;
-    deleteReason: string;
-    orderDateTime: any;
-  }[];
+  order: OrderItemList[];
+};
+
+export type LinepayApiResponse = {
+  returnCode: string;
+  returnMessage: string;
+  info: {
+    paymentUrl: {
+      web: Location;
+      app: string;
+    };
+    transactionId: string;
+    paymentAccessToken: string;
+  };
 };
