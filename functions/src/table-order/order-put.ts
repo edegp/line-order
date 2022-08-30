@@ -25,18 +25,23 @@ const calcAmount = (paymentInfo: PaymentInfo) => {
       functions.logger.debug("amout order.item", order.item);
       for (const item of order.item) {
         let price = item.price;
-        if (item.discountWay === "DISCOUNT_BY_PRICE") {
+        if (item.discountWay === 1) {
           price = price -= item.discountRate;
-        } else if (item.discountWay === "DISCOUNT_BY_PERCENTAGE") {
+        } else if (item.discountWay === 2) {
           price =
-            parseFloat(price) * (1 - parseFloat(item["discountRate"]) * 0.01);
-        } else {
-          amount = amount + parseFloat(price) * parseFloat(item["orderNum"]);
+            parseFloat(price.toString()) *
+            (1 - parseFloat(item["discountRate"].toString()) * 0.01);
+          functions.logger.debug("price", price);
         }
+        amount =
+          amount +
+          parseFloat(price.toString()) *
+            parseFloat(item["orderNum"].toString());
+        functions.logger.debug("amount", amount);
       }
     }
   }
-  paymentInfo["amount"] = amount;
+  paymentInfo["amount"] = parseFloat(amount.toString());
 };
 
 const getOrderInfoItemId = (
@@ -182,7 +187,8 @@ const createPaymentInfo = async (
   };
   calcAmount(paymentInfo);
   try {
-    TableOrderPaymentOrderInfo.add(paymentInfo);
+    const docRef = TableOrderPaymentOrderInfo.doc(paymentId);
+    await docRef.set(paymentInfo);
   } catch (e) {
     if (e) {
       functions.logger.error("ID[%s]は重複しています。", paymentId);
@@ -208,7 +214,7 @@ const putOrder = (params: {
     orderNum: number;
   }[];
 }) => {
-  const now = format(new Date(), "yyyyMMdd HH:mm:ss");
+  const now = format(new Date(), "yyyy/MM/dd HH:mm:ss");
   if (params?.paymentId) {
     return updatePaymentInfo(params, now);
   }
