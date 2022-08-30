@@ -32,6 +32,7 @@ export default class _Document extends Document {
           <meta name="theme-color" content="#fff" />
           <meta property="og:type" content="business.business" />
           <meta property="og:url" content="/" />
+
           <meta property="og:image" content="/og-image.jpg" />
         </Head>
         <body>

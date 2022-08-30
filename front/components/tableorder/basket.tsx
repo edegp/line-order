@@ -126,8 +126,8 @@ function Basket() {
       if (response && typeof response?.data === "string")
         dispatch(setPaymentId(response.data));
     }
-    // dispatch(setOrders({} as Orders));
-    // router.push("/tableorder/completed");
+    dispatch(setOrders({} as Orders));
+    router.push("/tableorder/completed");
     dispatch(setIsLoading(false));
   }, [dispatch, router, orders, paymentId]);
   const removeAll = useCallback(() => {
@@ -324,7 +324,7 @@ function Basket() {
         </Button>
       </Box>
       <Button
-        className="w-[110%] bg-[#00B900] text-white absolute bottom-[-120px] mx-[-5%] h-16"
+        className="w-[110%] bg-[#00B900] text-white absolute bottom-0 mx-[-5%] h-16 hover:bg-[#00B900]/70"
         onClick={() => setOrderDialog(true)}
         disabled={!orderEnabled}
         leftIcon={<FaCashRegister />}
@@ -345,11 +345,10 @@ function Basket() {
       <Modal
         opened={orderDialog}
         title={
-          <>
-            <MdOutlineDone />
-            &nbsp;
+          <Text>
+            <MdOutlineDone className="inline mr-4" />
             {t?.basket.msg003}
-          </>
+          </Text>
         }
         onClose={() => setOrderDialog(false)}
         closeButtonLabel={t?.basket.cancel}
