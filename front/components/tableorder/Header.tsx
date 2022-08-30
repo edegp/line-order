@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  Grid,
   Group,
   Header,
   Space,
@@ -13,46 +14,55 @@ import {
 import { useRouter } from "next/router";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { useSelector } from "react-redux";
+import { State } from "types";
+import { NextLink } from "@mantine/next";
 
-function Header({ customer }: { customer: any }) {
-  const { t } = useSelector((state) => state);
+function MenuHeader() {
+  const { t, customer, lineUser } = useSelector((state: State) => state);
   return (
-    <Header>
-      <Group>
-        <Button
-          className="bg-gray px-1"
-          component="a"
-          href={"/tableorder/menu/" + customer.seatNo}
-        >
-          <ChevronLeftIcon />
-          Menu
-        </Button>
-        <Space />
-        <Box>
-          <Tooltip
-            position="bottom"
-            label={t.header.msg001.replace("name", customer.name)}
+    <Header height={70}>
+      <Grid className="mt-[-2px]" justify="space-around" align="center">
+        <Grid.Col span={1}>
+          <Button
+            className="px-1"
+            variant="subtle"
+            color="dark.4"
+            component={NextLink}
+            href={{
+              pathname: "/tableorder/menu/",
+              query: { seatNo: customer.seatNo },
+            }}
           >
-            {" "}
-            <Avatar src={customer.image} />
-          </Tooltip>
-          <Text className="sp:hidden text-sm m-auto ml-[12px]" weight="bold">
-            {t.header.msg001.replace("name", customer.name)}
-          </Text>
-          <Text className="sp:hidden text-sm m-auto ml-[12px]" weight="bold">
-            {t.header.msg002}: {customer.seatNo}
-          </Text>
-        </Box>
-        <Box className="sp:hidden pr-3">
-          {" "}
-          <Text className="text-sm m-auto">
-            {t.header.msg002}: {customer.seatNo}
-          </Text>
-        </Box>
-        <Space />
-      </Group>
+            <ChevronLeftIcon />
+            Menu
+          </Button>
+        </Grid.Col>
+        <Grid.Col span={7}>
+          <Group className="self-center" position="center" align="center">
+            <Avatar
+              className="hidden sp:block"
+              size="lg"
+              src={lineUser.image}
+              alt={`${lineUser.name} 様`}
+            />
+            <Text className="hidden sp:block">
+              {t?.menu.msg001.replace("{name}", customer.name)}
+            </Text>
+            <Text>
+              {t?.menu.msg002}: {customer.seatNo}
+            </Text>
+          </Group>
+        </Grid.Col>
+        <Grid.Col span={2}>
+          <Box className="sp:hidden pr-3">
+            <Text className="text-sm m-auto">
+              {t?.header.msg002}: {customer.seatNo}
+            </Text>
+          </Box>
+        </Grid.Col>
+      </Grid>
     </Header>
   );
 }
 
-export default Header;
+export default MenuHeader;
