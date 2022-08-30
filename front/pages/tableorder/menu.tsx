@@ -255,7 +255,7 @@ export default function SeatNo(props: any) {
         <Footer fixed className="p-0" height={60}>
           <Button
             fullWidth
-            className="bg-[#00B900] text-white w-full h-full hover:bg-[#00B900]/70"
+            className="bg-line text-white w-full h-full hover:bg-line/70"
             onClick={() => setBasketDrower(true)}
             disabled={count === 0}
           >
@@ -345,7 +345,7 @@ export default function SeatNo(props: any) {
         )}
         <Button
           fullWidth
-          className="absolute left-0 bottom-0 border-[#00B900] bg-[#00B900] rounded-none rounded-br-sm rounded-bl-sm hover:bg-[#00B900]/70"
+          className="absolute left-0 bottom-0 border-line bg-line rounded-none rounded-br-sm rounded-bl-sm hover:bg-line/70"
           onClick={handleOrder}
           rightIcon={<MdAddShoppingCart className="inline text-sm" />}
         >

@@ -324,7 +324,7 @@ function Basket() {
         </Button>
       </Box>
       <Button
-        className="w-[110%] bg-[#00B900] text-white absolute bottom-0 mx-[-5%] h-16 hover:bg-[#00B900]/70"
+        className="w-[110%] bg-line text-white absolute bottom-0 mx-[-5%] h-16 hover:bg-line/70"
         onClick={() => setOrderDialog(true)}
         disabled={!orderEnabled}
         leftIcon={<FaCashRegister />}

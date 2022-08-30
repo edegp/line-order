@@ -78,7 +78,7 @@ const Home: NextPage = () => {
           <Button
             fullWidth
             color="#fff"
-            className="h-full bg-[#00B900] border-[#00B900] hover:bg-[#00B900]/70"
+            className="h-full bg-line border-line hover:bg-line/70"
             component={NextLink}
             href={{ pathname: "/tableorder/menu", query: { seatNo: 21 } }}
             passHref
