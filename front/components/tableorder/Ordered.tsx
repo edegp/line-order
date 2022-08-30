@@ -1,99 +1,121 @@
-import { Container, Divider, Grid, Text } from "@mantine/core";
-import { orderBy } from "firebase/firestore";
+import { Box, Container, Divider, Grid, Text } from "@mantine/core";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { PaymentInfo } from "types";
+import { TableOrder } from "utils/table-order";
+import { OrderItem, State } from "../../../functions/src/types";
 
-function Ordered({ orders }: { orders: any }) {
-  const { t } = useSelector((state) => state);
-  const orderTotal = (order) => {
+function Ordered({ orders }: { orders: OrderItem[] }) {
+  const { t } = useSelector((state: State) => state);
+
+  const orderTotal = (order: OrderItem[]) => {
     let totalPrice = 0;
     for (const orderId in order) {
       const item = order[orderId];
-      const price = item.price - getDiscountPrice(item);
+      const price = item.price - discount(item);
       totalPrice = totalPrice + price * item.orderNum;
     }
-    return t.ordered.yen.replace("{price}", totalPrice.toLocaleString());
+    return totalPrice;
   };
+  const discount = (item: OrderItem) =>
+    TableOrder().utils.getDiscountPrice(item);
   return (
     <Container>
       <Grid align="center">
         <Grid.Col span={4} md={4}>
-          {t.ordered.msg001}
+          {t?.ordered.msg001}
         </Grid.Col>
         <Grid.Col span={2} md={2}>
-          {t.ordered.msg002}
+          {t?.ordered.msg002}
         </Grid.Col>
         <Grid.Col span={2} md={2}>
-          {t.ordered.msg003}
+          {t?.ordered.msg003}
         </Grid.Col>
         <Grid.Col span={3} md={3}>
-          {t.ordered.msg004}
+          {t?.ordered.msg004}
         </Grid.Col>
       </Grid>
       <Divider my="sm" />
       {orders.map((order) => (
-        <Grid align="center" key={order.itemId} justify="center">
-          <Grid.Col sm={2}>
+        <Grid align="center" key={order.itemId}>
+          <Grid.Col className="hidden sp:!block" span={2}>
             <Image
               src={order.imageUrl}
               width={200}
               height={150}
               className="m-auto"
+              alt={order.itemName}
             />
           </Grid.Col>
-          <Grid.Col span={4} sm={2} className="text-center m-auto">
-            <Image
-              src={order.imageUrl}
-              width={90}
-              max-height={80}
-              className="m-auto"
-            />
+          <Grid.Col span={2} className="text-center">
+            <Box className="m-auto max-h-20 block sp:!hidden">
+              <Image
+                src={order.imageUrl}
+                width={90}
+                height={80}
+                alt={order.itemName}
+              />
+            </Box>
             <Text weight={700}>
               {order.itemName}
-              <span className="text-red ml-1 px-1 rounded-md whitespace-norap">
-                {orderBy.discounsWay !== 1 && (
-                  <span>
-                    {t.ordered.yen.replace("{name}", order.discountRate)}
-                  </span>
+              <Text
+                span
+                className="text-red ml-1 px-1 rounded-md whitespace-nowrap"
+              >
+                {order.discountWay == 2 && (
+                  <Text span className="bg-red-500 text-white rounded-xl px-2">
+                    -
+                    {t?.ordered.yen.replace(
+                      "{price}",
+                      order.discountRate.toString()
+                    )}
+                  </Text>
                 )}
-                {orderBy.discounsWay !== 2 && (
-                  <span>-{order.discountRate}%</span>
+                {order.discountWay == 1 && (
+                  <Text span className="bg-red-500 text-white rounded-xl px-2">
+                    -{order.discountRate}%
+                  </Text>
                 )}
-              </span>
+              </Text>
             </Text>
           </Grid.Col>
           <Grid.Col span={3}>
-            <span className="text-sm">
-              {t.ordered.yen.replace(
+            <Text size="sm" weight={700}>
+              {t?.ordered.yen.replace(
                 "{price}",
-                order.price - getDiscountPrice(order)
+                (order.price - discount(order)).toString()
               )}
-            </span>
+            </Text>
           </Grid.Col>
           <Grid.Col span={2}>
-            <span className="text-sm">{order.orderNum}</span>
+            <Text size="sm" weight={700}>
+              {order.orderNum}
+            </Text>
           </Grid.Col>
           <Grid.Col span={3}>
-            <span className="text-sm">
-              {t.ordered.yen.replace(
+            <Text size="sm" weight={700}>
+              {t?.ordered.yen.replace(
                 "{price}",
-                order.price - getDiscountPrice(order) * order.orderNum
+                (order.price - discount(order) * order.orderNum).toString()
               )}
-            </span>
+            </Text>
           </Grid.Col>
         </Grid>
       ))}
 
       <Grid align="center">
-        <Grid.Col span={7} md={8}>
+        <Grid.Col span={7}>
           <Text weight={700} align="right" size="sm">
-            {t.ordered.msg005}
+            {t?.ordered.msg005}
           </Text>
         </Grid.Col>
-        <Grid.Col span={4} md={2}>
-          <Text weight={700} align="right" size="sm">
-            {orderTotal(value)}
+        <Grid.Col span={3} offset={2} md={2}>
+          <Text weight={700} size="sm">
+            {t?.ordered.yen.replace(
+              "{price}",
+              orderTotal(orders).toLocaleString()
+            )}
           </Text>
         </Grid.Col>
       </Grid>
