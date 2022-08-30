@@ -17,7 +17,7 @@ module.exports = {
     preflight: false, // リセットCSSの無効化
   },
 
-  important: "#__next",
+  important: "body",
   theme: {
     fontSize: {
       xs: "calc(0.2vw + 12px)",
