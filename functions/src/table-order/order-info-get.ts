@@ -15,7 +15,7 @@ const getOrderInfo = async (params: any) => {
     );
     throw new Error();
   }
-  paymentInfo;
+  return paymentInfo;
 };
 
 export const orderInfoGet = f.https.onCall(async (data, context) => {
@@ -32,7 +32,7 @@ export const orderInfoGet = f.https.onCall(async (data, context) => {
   }
   let paymentInfo;
   try {
-    paymentInfo = getOrderInfo(params);
+    paymentInfo = await getOrderInfo(params);
   } catch (e) {
     functions.logger.error("Occur Exception: %s", e);
     return ErrorHandler.internal(e as string);
