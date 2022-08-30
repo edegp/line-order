@@ -14,7 +14,7 @@ export const getLiffProfile = async (liff: Liff) => {
 
   if (token && idToken) {
     const lineUser: LineUser = {
-      expire: new Date().getTime() + 1000 * 60 * 30,
+      expire: new Date().getTime() + 1000 * 60 * 10,
       userId: profile.userId,
       name: profile.displayName,
       image: profile.pictureUrl,
