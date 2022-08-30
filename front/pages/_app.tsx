@@ -23,6 +23,7 @@ import "styles/tailwind.scss";
 import "styles/globals.scss";
 import "styles/tailwind-utils.scss";
 import Layout from "components/Layout";
+import Head from "next/head";
 
 const liffId: string =
   process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_LIFF_ID
@@ -110,22 +111,34 @@ function MyApp({ Component, pageProps }: any) {
     };
   }, [router]);
   return (
-    <Provider store={store}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
-        <PersistGate
-          loading={
-            <Box className="fixed inset-1/2">
-              <Loader variant="bars" color="green.4" />
-            </Box>
-          }
-          persistor={persistor}
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+      <Provider store={store}>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{ respectReducedMotion: false }}
         >
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </PersistGate>
-      </MantineProvider>
-    </Provider>
+          <PersistGate
+            loading={
+              <Box className="fixed inset-1/2">
+                <Loader variant="bars" color="green.4" />
+              </Box>
+            }
+            persistor={persistor}
+          >
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </PersistGate>
+        </MantineProvider>
+      </Provider>
+    </>
   );
 }
 
