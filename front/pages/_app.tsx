@@ -64,21 +64,46 @@ function MyApp({ Component, pageProps }: any) {
         liff.use(new LiffMockPlugin());
       }
       if (liff) {
-        liff
-          .init({
-            liffId,
-            withLoginOnExternalBrowser: true,
-            // @ts-ignore
-            mock: false,
-          })
-          .then(() => {
-            store.dispatch(setFlash({ LIFF_INITED: true }));
-            store.dispatch(setIsLoading(false));
-          })
-          .catch(() => {
-            console.log(message);
-            store.dispatch(setIsLoading(false));
-          });
+        if (router.pathname == "/tableorder/paymentCompleted") {
+          liff
+            .init({
+              liffId,
+              // @ts-ignore
+              mock: false,
+            })
+            .then(() => {
+              if (!liff.isLoggedIn()) {
+                // ドメイン名とパス（https://example.com/path）がエンドポイントURLと一致しているか検証します。
+                liff.login({
+                  redirectUri:
+                    "https://9805-240d-1a-abc-1b00-25f8-a12f-8ecf-2330.jp.ngrok.io/tableorder/paymentCompleted",
+                });
+              }
+
+              store.dispatch(setFlash({ LIFF_INITED: true }));
+              store.dispatch(setIsLoading(false));
+            })
+            .catch(() => {
+              console.log(message);
+              store.dispatch(setIsLoading(false));
+            });
+        } else {
+          liff
+            .init({
+              liffId,
+              withLoginOnExternalBrowser: true,
+              // @ts-ignore
+              mock: false,
+            })
+            .then(() => {
+              store.dispatch(setFlash({ LIFF_INITED: true }));
+              store.dispatch(setIsLoading(false));
+            })
+            .catch(() => {
+              console.log(message);
+              store.dispatch(setIsLoading(false));
+            });
+        }
       } else {
         store.dispatch(setIsLoading(false));
       }
