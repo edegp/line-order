@@ -1,5 +1,5 @@
 import { tableOerderItems } from "order-item/table-order-items";
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { db } from "../firebase-client";
 
 export default function InitTableOerderItems() {

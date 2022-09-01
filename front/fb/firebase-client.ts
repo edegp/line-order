@@ -1,9 +1,5 @@
-import { getApp, initializeApp } from "firebase/app";
-import {
-  connectFirestoreEmulator,
-  Firestore,
-  getFirestore,
-} from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 
 // TODO: Replace the following with your app's Firebase project configuration
