@@ -14,7 +14,7 @@ export const firebaseConfig = {
   storageBucket: `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.appspot.com`,
   messagingSenderId: process.env.MESSAGEING_SENDER_ID,
   appId: process.env.APP_ID,
-  measurementId: process.env.G_MEASUREMENT_ID,
+  measurementId: process.env.NEXT_PUBLIC_G_MEASUREMENT_ID,
 };
 
 export const app = initializeApp(firebaseConfig);
