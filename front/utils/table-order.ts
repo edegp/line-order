@@ -121,7 +121,9 @@ export const TableOrder = () => {
     },
 
     noLinePayConfirm: async (params: {
-      [x: string]: string | null | undefined;
+      idToken: string;
+      paymentId: string;
+      locale?: string;
     }) => {
       let response = null;
       // 送信パラメーターロケール付加
@@ -171,16 +173,14 @@ export const TableOrder = () => {
         return Math.floor(p);
       },
     },
-    async getItemData(categoryId = 0) {
-      const itemData = await firestore.itemData(categoryId);
-      return itemData as HttpsCallableResult<Items>;
-    },
-
-    async getCategoryData() {
-      const categories = await firestore.categoryData();
-      return categories;
-    },
-
+    // async getItemData(categoryId = 0) {
+    //   const itemData = await firestore.itemData(categoryId);
+    //   return itemData as HttpsCallableResult<Items>;
+    // },
+    // async getCategoryData() {
+    //   const categories = await firestore.categoryData();
+    //   return categories;
+    // },
     async putOrder(tableId: number, orders: Orders, paymentId?: string) {
       let items = [];
       for (const order in orders) {
@@ -217,13 +217,13 @@ export const TableOrder = () => {
       return itemData;
     },
 
-    async getOrderData(paymentId: any) {
+    async getOrderData(paymentId: string) {
       const orderData = (await firestore.orderData(paymentId))
         ?.data as PaymentInfo;
       return orderData;
     },
 
-    async reservePayment(paymentId: any) {
+    async reservePayment(paymentId: string) {
       // LIFF ID Token取得
       const { lineUser }: State = store.getState();
       const idToken = lineUser?.idToken;
@@ -233,20 +233,18 @@ export const TableOrder = () => {
     },
 
     async confirmPayment(transactionId: string, paymentId: string) {
-      const params = { transactionId: transactionId, paymentId: paymentId };
+      const params = { transactionId, paymentId };
       const response = await firestore.paymentConfirm(params);
       return response;
     },
-
-    async comfirmNoLinePay(paymentId: any) {
-      // LIFF ID Token取得
-      const { lineUser }: State = store.getState();
-      const idToken = lineUser?.idToken;
-      const params = { idToken: idToken, paymentId: paymentId };
-      const response = await firestore.noLinePayConfirm(params);
-      return response;
-    },
-
+    // async comfirmNoLinePay(paymentId: string) {
+    //   // LIFF ID Token取得
+    //   const { lineUser }: State = store.getState();
+    //   const idToken = lineUser?.idToken;
+    //   const params = { idToken, paymentId };
+    //   const response = await firestore.noLinePayConfirm(params);
+    //   return response;
+    // },
     async getPaymentId() {
       // LIFF ID Token取得
       const { lineUser }: State = store.getState();

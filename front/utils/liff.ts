@@ -1,10 +1,7 @@
-import { Liff } from "@line/liff/dist/lib";
 import { LineUser } from "../../functions/src/types";
 
-export const getLiffProfile = async (liff: Liff) => {
-  // LIFF Profile
-  // import("@line/liff").then(async (result) => {
-  // const liff = result.default;
+export const getLiffProfile = async () => {
+  const liff = (await import("@line/liff")).default;
   const profilePromise = liff.getProfile();
   const tokenPromise = liff.getAccessToken();
   const idTokenPromise = liff.getIDToken();
@@ -14,7 +11,7 @@ export const getLiffProfile = async (liff: Liff) => {
 
   if (token && idToken) {
     const lineUser: LineUser = {
-      expire: new Date().getTime() + 1000 * 60 * 10,
+      expire: new Date().getTime() + 1000 * 60 * 5,
       userId: profile.userId,
       name: profile.displayName,
       image: profile.pictureUrl,

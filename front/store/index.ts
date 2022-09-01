@@ -189,26 +189,25 @@ listenerMiddleware.startListening({
     return currentState.isLoading === true || currentState.message?.LIFF_INITED;
   },
   effect: (action, listenerApi) => {
-    const state: unknown = listenerApi.getState();
-    const { message, lineUser } = state as State;
+    const { message, lineUser } = listenerApi.getState() as State;
     if (message?.LIFF_INITED) {
       import("@line/liff").then(async (result) => {
         const liff = result.default;
-        //  　LIFFプロファイル取得・設定
-        const _settingLiffProfile = async (liff: Liff) => {
-          const _lineUser = await getLiffProfile(liff);
-          if (_lineUser) listenerApi.dispatch(setLineUser(_lineUser));
-        };
         // LIFF Login & Profile
         if (!lineUser?.name || !lineUser.expire) {
           // Get LIFF Profile & Token
-          _settingLiffProfile(liff);
+          const _lineUser = await getLiffProfile();
+          listenerApi.dispatch(setLineUser(_lineUser));
         } else {
           const now = new Date();
           const expire = lineUser.expire;
+          console.log(expire);
+          console.log(now.getTime());
+          console.log(expire < now.getTime());
           if (expire < now.getTime()) {
             // Get LIFF Profile & Token
-            _settingLiffProfile(liff);
+            const _lineUser = await getLiffProfile();
+            listenerApi.dispatch(setLineUser(_lineUser));
           }
         }
       });

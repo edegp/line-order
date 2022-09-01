@@ -84,7 +84,7 @@ export const TableOrderPaymentOrderInfo = admin
   .collection("TableOrderPaymentOrderInfo");
 export const ChannelAccessToken = admin
   .firestore()
-  .collection(" ChannelAccessToken");
+  .collection("ChannelAccessToken");
 export const PaymentOrederTable = admin
   .firestore()
   .collection("PaymentOrederTable");

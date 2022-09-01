@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import "dotenv/config.js";
 import * as admin from "firebase-admin";
-import * as functions from "firebase-functions";
+const functions = require("firebase-functions");
 
 admin.initializeApp();
 
@@ -12,13 +12,13 @@ export const f = !process.env.FUNCTIONS_EMULATOR
 
 const funcs = {
   idGet: "./payment/id-get",
-  confirmNolinepay: "./payment/comfirm-nolinepay",
+  // confirmNolinepay: "./payment/comfirm-nolinepay",
   confirm: "./payment/comfirm",
   reserve: "./payment/reserve",
-  categoryGet: "./table-order/category-get",
+  // categoryGet: "./table-order/category-get",
   orderInfoGet: "./table-order/order-info-get",
   orderPut: "./table-order/order-put",
-  itemListGet: "./table-order/item-list-get",
+  // itemListGet: "./table-order/item-list-get",
   updateLineAccessToken: "./update-line-access-token",
 };
 

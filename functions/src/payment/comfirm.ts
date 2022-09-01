@@ -6,9 +6,10 @@ import {
   ChannelAccessToken,
   getPaymentInfo,
 } from "../common/utils";
-import * as functions from "firebase-functions";
+const functions = require("firebase-functions");
 import { tableOrderParamCheck } from "../validation/tabale-order-param-check";
 import { f } from "..";
+import * as admin from "firebase-admin";
 
 const CHANNEL_ID = process.env.LINE_CHANNEL_ID;
 if (!CHANNEL_ID) {
@@ -39,15 +40,15 @@ const sendMessages = async (body: { [x: string]: any }) => {
   }
 };
 
-export const confirm = f.https.onCall(async (data, context) => {
+export const confirm = f.https.onCall(async (data: any, context: any) => {
   functions.logger.info(data);
   if (!data) {
     return ErrorHandler.noParams;
   }
-  let body = JSON.parse(data);
+  let body = JSON.parse(JSON.stringify(data));
   const paramChecker = tableOrderParamCheck(body);
   const errorMsg = paramChecker.checkApiPaymentConfirm();
-  if (errorMsg) {
+  if (errorMsg.length !== 0) {
     functions.logger.log(errorMsg.join("\n"));
     return ErrorHandler.invalidParams(errorMsg.join("\n"));
   }
@@ -57,14 +58,9 @@ export const confirm = f.https.onCall(async (data, context) => {
     const paymentInfo = await getPaymentInfo(paymentId);
     const amount = paymentInfo["amount"];
     const currency = "JPY";
-    await TableOrderPaymentOrderInfo.where("paymentId", "==", paymentId)
-      .limit(1)
-      .get()
-      .then((q) =>
-        TableOrderPaymentOrderInfo.doc(q.docs[0].ref.path).update({
-          transactionId,
-        })
-      );
+    await admin.firestore().doc(paymentId).update({
+      transactionId,
+    });
 
     try {
       if (!process.env.LINE_PAY_CHANNEL_ID) {
