@@ -1,73 +1,65 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, setAxiosError } from "store";
-import { Modal, Button, Group, Text } from "@mantine/core";
-import {
-  CrossCircledIcon,
-  ExclamationTriangleIcon,
-} from "@radix-ui/react-icons";
+import { setAxiosError, setPaymentError, store } from "store";
+import { Modal, Text } from "@mantine/core";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { State } from "types";
 
 const ErrorModal = () => {
-  // eslint-disable-next-line react-redux/useSelector-prefer-selectors
-  const { axiosError, t, paymentError } = useSelector(
-    (state: RootState) => state
-  );
-  const dispatch = useDispatch();
-  const reload = () => {
+  const { axiosError, t, paymentError } = store.getState();
+  const reload = async () => {
+    store.dispatch(setAxiosError(null));
+    await new Promise(() => setTimeout(() => {}, 200));
     location.reload();
     return;
   };
   return (
     <>
       <Modal
+        centered
         opened={Boolean(axiosError)}
-        onClose={() => {
-          dispatch(setAxiosError(null));
-          reload();
-        }}
+        onClose={reload}
         title={
-          <>
-            <ExclamationTriangleIcon />
-            {t.error.msg001}
-            <Button onClick={() => dispatch(setAxiosError(null))}>
-              <CrossCircledIcon />
-            </Button>
-          </>
+          <Text>
+            <ExclamationTriangleIcon className='inline' />
+            {t?.error.msg001}
+          </Text>
         }
-        className="
+        className='
           [&_.close]:bg-transparent
             [&_.close]:text-[#047857]
-        "
-        closeButtonLabel={t.error.msg004}
+        '
+        closeButtonLabel={t?.error.msg004}
       >
-        <Text>{t.error.msg003}</Text>
-        <Text>{`（${t.error.msg003}：${axiosError}）`}</Text>
+        <Text>{t?.error.msg003}</Text>
+        <Text>{`（${t?.error.msg003}：${axiosError}）`}</Text>
       </Modal>
       <Modal
+        centered
         opened={Boolean(paymentError)}
         onClose={() => {
-          dispatch(setPaymentError(null));
+          store.dispatch(setPaymentError(null));
           reload();
         }}
         title={
-          <>
-            <ExclamationTriangleIcon />
-            {t.error.msg005}
-            <Button onClick={() => dispatch(setAxiosError(null))}>
-              <CrossCircledIcon />
-            </Button>
-          </>
+          <Text>
+            <ExclamationTriangleIcon className='inline mr-2' />
+            {t?.error.msg005}
+          </Text>
         }
         classNames={{
-          close: {
-            background: "transparent",
-            color: "#047857",
-          },
+          close: "bg-transparent text-[#047857]",
         }}
-        closeButtonLabel={t.error.msg007}
+        closeButtonLabel={t?.error.msg007}
       >
-        <Text>{t.error.msg003}</Text>
-        <Text>{`（${t.error.msg006}：${axiosError}）`}</Text>
+        <Text>{t?.error.msg003}</Text>
+        <Text>
+          {t?.error.msg006.split(/<br>/).map((p) => (
+            <>
+              {p}
+              <br />
+            </>
+          ))}
+        </Text>
       </Modal>
     </>
   );
