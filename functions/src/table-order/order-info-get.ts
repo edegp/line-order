@@ -1,6 +1,6 @@
 import { ErrorHandler } from "./../common/error";
 import { getPaymentInfo } from "../common/utils";
-import * as functions from "firebase-functions";
+const functions = require("firebase-functions");
 import { tableOrderParamCheck } from "../validation/tabale-order-param-check";
 import { f } from "..";
 
@@ -18,7 +18,7 @@ const getOrderInfo = async (params: any) => {
   return paymentInfo;
 };
 
-export const orderInfoGet = f.https.onCall(async (data, context) => {
+export const orderInfoGet = f.https.onCall(async (data: any, context: any) => {
   functions.logger.log(data);
   if (!data) {
     return ErrorHandler.noParams;

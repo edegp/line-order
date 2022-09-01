@@ -1,7 +1,7 @@
 import { ErrorHandler } from "./../common/error";
 import { TableOrderPaymentOrderInfo } from "../common/utils";
 import { client } from "../common/line";
-import * as functions from "firebase-functions";
+const functions = require("firebase-functions");
 import { f } from "..";
 
 const getPaymentId = async (userId: string) => {
@@ -19,7 +19,7 @@ const getPaymentId = async (userId: string) => {
   return "";
 };
 
-export const idGet = f.https.onCall(async (data, context) => {
+export const idGet = f.https.onCall(async (data: any, context: any) => {
   functions.logger.info(data);
   if (!data) {
     return ErrorHandler.noParams;

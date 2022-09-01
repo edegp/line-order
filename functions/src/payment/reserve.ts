@@ -1,17 +1,17 @@
-import { LinepayApiResponse } from "./../../../front/types/index";
 import { ErrorHandler } from "./../common/error";
 import * as dotenv from "dotenv";
 dotenv.config();
 import { getPaymentInfo } from "../common/utils";
 import { tableOrderParamCheck } from "../validation/tabale-order-param-check";
 import line, { pay } from "../common/line";
-import * as functions from "firebase-functions";
+const functions = require("firebase-functions");
 import { f } from "..";
+import { LinepayApiResponse } from "../types";
 
 const CONFIRM_URL = process.env.CONFIRM_URL;
 const CANCEL_URL = process.env.CANCEL_URL;
 
-export const reserve = f.https.onCall(async (data, context) => {
+export const reserve = f.https.onCall(async (data: any, context: any) => {
   functions.logger.info(data);
   if (!data) {
     return ErrorHandler.noParams;
@@ -21,7 +21,7 @@ export const reserve = f.https.onCall(async (data, context) => {
   try {
     const userProfile = await line.getProfile(
       body["idToken"],
-      process.env.LIFF_CHANNEL_ID
+      process.env.LIFF_CHANNEL_ID as string
     );
     if (!userProfile) {
       return ErrorHandler.invalidParams("不適切なidトークンです");

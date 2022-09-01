@@ -5,24 +5,20 @@ dotenv.config();
 import {
   getCategoryItem,
   getPaymentInfo,
-  PaymentOrederTable,
   TableOrderPaymentOrderInfo,
 } from "../common/utils";
 import line from "../common/line";
-import * as admin from "firebase-admin";
-import * as functions from "firebase-functions";
 import { v4 as uuidv4 } from "uuid";
 import { tableOrderParamCheck } from "../validation/tabale-order-param-check";
 import { format } from "date-fns";
 import { f } from "../index";
 
+const functions = require("firebase-functions");
+
 const calcAmount = (paymentInfo: PaymentInfo) => {
   let amount = 0;
-  functions.logger.debug("amout paymentInfo", paymentInfo);
   for (const order of paymentInfo.order) {
-    functions.logger.debug("amout order", order);
     if (typeof order.item === "object") {
-      functions.logger.debug("amout order.item", order.item);
       for (const item of order.item) {
         let price = item.price;
         if (item.discountWay === 1) {
@@ -31,13 +27,11 @@ const calcAmount = (paymentInfo: PaymentInfo) => {
           price =
             parseFloat(price.toString()) *
             (1 - parseFloat(item["discountRate"].toString()) * 0.01);
-          functions.logger.debug("price", price);
         }
         amount =
           amount +
           parseFloat(price.toString()) *
             parseFloat(item["orderNum"].toString());
-        functions.logger.debug("amount", amount);
       }
     }
   }
@@ -99,7 +93,7 @@ const getOrderItemInfo = async (
     if (!categoryId || categoryId !== item["categoryId"]) {
       categoryId = item["categoryId"];
       itemInfoList = await getCategoryItem(item["categoryId"]);
-      functions.logger.debug("itemInfoList", itemInfoList);
+      // functions.logger.debug("itemInfoList", itemInfoList);
     }
     putOrderItems.push(
       getOrderInfoItemId(item["itemId"], item["orderNum"], itemInfoList)
@@ -112,7 +106,6 @@ const updatePaymentInfo = async (params: any, now: any) => {
   const putOrderItems = await getOrderItemInfo(params.item);
   const paymentId = params.paymentId;
   const paymentInfo = await getPaymentInfo(paymentId);
-  functions.logger.debug("paymentInfo", paymentInfo);
   const orderId = paymentInfo?.order?.length + 1;
   const order = {
     orderId: orderId,
@@ -125,31 +118,18 @@ const updatePaymentInfo = async (params: any, now: any) => {
   };
   paymentInfo.order.push(order);
   calcAmount(paymentInfo);
-  functions.logger.debug("modifiedItem %s", paymentInfo.order);
   try {
-    PaymentOrederTable.where("paymentId", "==", paymentId)
-      .where("userId", "==", params.userId)
-      .limit(1)
-      .get()
-      .then((q) =>
-        q.forEach((doc) =>
-          admin
-            .firestore()
-            .doc(doc.ref.path)
-            .update({ order: paymentInfo.order, amount: paymentInfo.amount })
-        )
-      );
-  } catch (e) {
+    TableOrderPaymentOrderInfo.doc(paymentId).update({
+      order: paymentInfo.order,
+      amount: paymentInfo.amount,
+    });
+  } catch (e: any) {
     if (e) {
-      functions.logger.error(
-        "会計済みか、ユーザーIDが誤っています。[payment_id: %s, userId: %s]",
-        paymentId,
-        params["userId"]
-      );
+      functions.logger.error("会計済みか、ユーザーIDが誤っています。", e);
     }
     throw new Error();
   }
-  paymentId;
+  return paymentId;
 };
 
 const createPaymentInfo = async (
@@ -164,12 +144,12 @@ const createPaymentInfo = async (
       orderNum: number;
     }[];
   },
-  now: any
+  now: string
 ) => {
   let putOrderItems = await getOrderItemInfo(params.item);
   const paymentId = uuidv4().toString();
   functions.logger.info("params", params);
-  functions.logger.debug("putOrderItems", putOrderItems);
+  // functions.logger.debug("putOrderItems", putOrderItems);
   const paymentInfo = {
     paymentId: paymentId,
     userId: params["userId"],
@@ -193,11 +173,8 @@ const createPaymentInfo = async (
     if (e) {
       functions.logger.error("ID[%s]は重複しています。", paymentId);
       paymentInfo.paymentId = uuidv4().toString();
-      admin
-        .firestore()
-        .collection("TableOrderPaymentOrderInfo")
-        .add(paymentInfo);
-      throw new Error();
+      TableOrderPaymentOrderInfo.doc(paymentId);
+      throw new Error(e.toString());
     }
   }
   return paymentInfo["paymentId"];
@@ -221,7 +198,7 @@ const putOrder = (params: {
   return createPaymentInfo(params, now);
 };
 
-export const orderPut = f.https.onCall(async (data, context) => {
+export const orderPut = f.https.onCall(async (data: any, context: any) => {
   functions.logger.info(data);
   if (!data) {
     return ErrorHandler.noParams;
@@ -230,7 +207,7 @@ export const orderPut = f.https.onCall(async (data, context) => {
   try {
     const userProofile = await line.getProfile(
       body.idToken,
-      process.env.LIFF_CHANNEL_ID
+      process.env.LIFF_CHANNEL_ID as string
     );
     if (!userProofile) {
       return ErrorHandler.notFound("指定のidのユーザーは存在しません");
@@ -248,9 +225,9 @@ export const orderPut = f.https.onCall(async (data, context) => {
   let paymentId;
   try {
     paymentId = putOrder(body);
-  } catch (e) {
+  } catch (e: any) {
     functions.logger.error("Occur Exception: %s", e);
-    return ErrorHandler.internal(e as string);
+    // return ErrorHandler.internal(e as string);
   }
   return paymentId;
 });
