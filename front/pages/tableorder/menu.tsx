@@ -461,7 +461,6 @@ export async function getStaticProps() {
   // 商品一覧情報取得APIからメニューデータ取得
   const docRef = doc(db, "TableOrderItemList", "0");
   const data: any = (await getDoc(docRef))?.data();
-  console.log(data);
   const menuList = data?.items;
   const categoryName = data?.categoryName;
   // カテゴリー一覧取得APIからカテゴリー一覧取得
