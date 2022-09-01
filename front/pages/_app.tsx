@@ -16,6 +16,7 @@ import {
   setT,
   persistor,
   setIsLoading,
+  setAxiosError,
 } from "store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Box, Loader, MantineProvider } from "@mantine/core";
@@ -44,8 +45,8 @@ function MyApp({ Component, pageProps }: any) {
   const router = useRouter();
   const { message } = store.getState();
   const Initialize = useCallback(async () => {
-    store.dispatch(setIsLoading(true));
     if (!message?.LIFF_INITED) {
+      store.dispatch(setIsLoading(true));
       store.dispatch(
         setStarted(
           new Date().toLocaleString("ja-JP", {
@@ -63,50 +64,26 @@ function MyApp({ Component, pageProps }: any) {
         const LiffMockPlugin = (await import("@line/liff-mock")).default;
         liff.use(new LiffMockPlugin());
       }
-      if (liff) {
-        if (router.pathname == "/tableorder/paymentCompleted") {
-          liff
+      if (liff && router.pathname !== "/tableorder/paymentCompleted") {
+        if (!message?.LIFF_INITED) {
+          await liff
             .init({
               liffId,
               // @ts-ignore
               mock: false,
-            })
-            .then(() => {
-              if (!liff.isLoggedIn()) {
-                // ドメイン名とパス（https://example.com/path）がエンドポイントURLと一致しているか検証します。
-                liff.login({
-                  redirectUri:
-                    "https://9805-240d-1a-abc-1b00-25f8-a12f-8ecf-2330.jp.ngrok.io/tableorder/paymentCompleted",
-                });
-              }
-
-              store.dispatch(setFlash({ LIFF_INITED: true }));
-              store.dispatch(setIsLoading(false));
-            })
-            .catch(() => {
-              console.log(message);
-              store.dispatch(setIsLoading(false));
-            });
-        } else {
-          liff
-            .init({
-              liffId,
               withLoginOnExternalBrowser: true,
-              // @ts-ignore
-              mock: false,
             })
             .then(() => {
+              // !liff.isLoggedIn() ?? liff.login();
               store.dispatch(setFlash({ LIFF_INITED: true }));
-              store.dispatch(setIsLoading(false));
             })
             .catch(() => {
               console.log(message);
-              store.dispatch(setIsLoading(false));
+              store.dispatch(setAxiosError("LINEログインエラー"));
             });
         }
-      } else {
-        store.dispatch(setIsLoading(false));
       }
+      store.dispatch(setIsLoading(false));
     }
   }, [message]);
   useEffect(() => {
@@ -139,8 +116,8 @@ function MyApp({ Component, pageProps }: any) {
     <>
       <Head>
         <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
+          name='viewport'
+          content='minimum-scale=1, initial-scale=1, width=device-width'
         />
       </Head>
       <Provider store={store}>
@@ -151,8 +128,8 @@ function MyApp({ Component, pageProps }: any) {
         >
           <PersistGate
             loading={
-              <Box className="fixed inset-1/2">
-                <Loader variant="bars" color="green.4" />
+              <Box className='fixed inset-1/2'>
+                <Loader variant='bars' color='green.4' />
               </Box>
             }
             persistor={persistor}
