@@ -7,6 +7,8 @@ import {
   Grid,
   Container,
   Divider,
+  Box,
+  Loader,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { MdDone, MdOutlineHouse } from "react-icons/md";
@@ -20,7 +22,7 @@ import Image from "next/image";
 import { NextLink } from "@mantine/next";
 
 export default function PaymentCompleted() {
-  const { t } = useSelector((state: State) => state);
+  const { t, isLoading } = useSelector((state: State) => state);
   const [linepay, setLinepay] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -42,10 +44,21 @@ export default function PaymentCompleted() {
         .catch(() => dispatch(setPaymentId(null)));
     }
   });
+  if (isLoading)
+    return (
+      <Box className='fixed inset-1/2'>
+        <Loader variant='bars' color='green.4' />
+        <Text>
+          店員を呼び出し中
+          <br />
+          しばらくお待ちください
+        </Text>
+      </Box>
+    );
   return (
     <AppShell
       header={
-        <Header className="flex items-center" height={70}>
+        <Header className='flex items-center' height={70}>
           <Title order={2} ml={15}>
             {t?.paymentCompleted.title}
           </Title>
@@ -53,32 +66,32 @@ export default function PaymentCompleted() {
       }
     >
       <Container>
-        <Grid className="text-center" justify="cetner">
+        <Grid className='text-center' justify='cetner'>
           <Grid.Col>
             <Title order={3}>
-              <MdDone className="inline text-line mr-2" />
+              <MdDone className='inline text-line mr-2' />
               {t?.paymentCompleted.msg001}
             </Title>
-            <Divider my="lg" />
+            <Divider my='lg' />
             <Text>{t?.paymentCompleted.msg002}</Text>
           </Grid.Col>
           {linepay && (
-            <div className="relative w-full h-full">
+            <div className='relative w-full h-full'>
               <Image
-                className="absolute top-0 left-0"
+                className='absolute top-0 left-0'
                 src={linePay}
-                alt="LINE Pay"
-                layout="fill"
+                alt='LINE Pay'
+                layout='fill'
               />
             </div>
           )}
           <Button
-            mt="sm"
-            className="w-[200px] bg-line hover:bg-line/70 text-white mx-auto"
+            mt='sm'
+            className='w-[200px] bg-line hover:bg-line/70 active:bg-line/40 text-white mx-auto'
             component={NextLink}
-            href="/"
+            href='/'
             passHref
-            leftIcon={<MdOutlineHouse className="text-lg" />}
+            leftIcon={<MdOutlineHouse className='text-lg' />}
           >
             {t?.paymentCompleted.msg003}
           </Button>
