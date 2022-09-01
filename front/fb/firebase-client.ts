@@ -1,5 +1,9 @@
 import { getApp, initializeApp } from "firebase/app";
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import {
+  connectFirestoreEmulator,
+  Firestore,
+  getFirestore,
+} from "firebase/firestore";
 import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 
 // TODO: Replace the following with your app's Firebase project configuration
@@ -15,8 +19,11 @@ export const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 
-export const db = getFirestore(app);
 export const functions = getFunctions(app);
+// const store = process.env.NODE_ENV !== "development" ? app : undefined;
+export const db = getFirestore(app);
+
 if (process.env.NODE_ENV === "development") {
+  // connectFirestoreEmulator(db, "localhost", 8080);
   connectFunctionsEmulator(functions, "localhost", 5001);
 }
