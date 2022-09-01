@@ -14,19 +14,22 @@ import {
   Divider,
   Modal,
   Box,
+  ScrollArea,
+  Space,
 } from "@mantine/core";
-import { NextLink } from "@mantine/next";
 import Image from "next/image";
 import router from "next/router";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { FaCashRegister } from "react-icons/fa";
-import {
-  MdKeyboardArrowLeft,
-  MdOutlineDone,
-  MdOutlineHorizontalRule,
-} from "react-icons/md";
+import { MdOutlineDone, MdOutlineHorizontalRule } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { setCustomer, setIsLoading, setOrders, setPaymentId } from "store";
+import {
+  setAxiosError,
+  setCustomer,
+  setIsLoading,
+  setOrders,
+  setPaymentId,
+} from "store";
 import { Order, Orders, State } from "types";
 import { ocopy } from "utils/helper";
 import { TableOrder } from "utils/table-order";
@@ -123,11 +126,18 @@ function Basket() {
     if (orders) {
       // 注文送信・注文完了APIにデータ送信
       const response = await TableOrder().putOrder(tableId, orders, paymentId);
-      if (response && typeof response?.data === "string")
+      if (response && typeof response?.data === "string") {
         dispatch(setPaymentId(response.data));
+        dispatch(setOrders({} as Orders));
+        router.push("/tableorder/completed");
+      } else {
+        dispatch(
+          setAxiosError(
+            "注文に失敗しました。もう一度注文が面から注文をお試しください。"
+          )
+        );
+      }
     }
-    dispatch(setOrders({} as Orders));
-    router.push("/tableorder/completed");
     dispatch(setIsLoading(false));
   }, [dispatch, router, orders, paymentId]);
   const removeAll = useCallback(() => {
@@ -135,7 +145,6 @@ function Basket() {
     setRemoveDialog(false);
   }, [orders, dispatch]);
   useEffect(() => {
-    dispatch(setCustomer({ ...customer, seatNo: 21 }));
     handleTotal();
     handleBeforeDiscount();
     hangleTotalDiscount();
@@ -143,188 +152,225 @@ function Basket() {
   }, [orders]);
   return (
     <>
-      <Grid className="text-center">
-        <Grid.Col span={5} offset={2}>
-          {t?.basket.product}
-        </Grid.Col>
-        <Grid.Col span={2}>{t?.basket.qty}</Grid.Col>
-        <Grid.Col span={2}>{t?.basket.price}</Grid.Col>
-      </Grid>
-      {orders &&
-        Object.keys(orders).map((categoryId) =>
-          Object.entries(orders[parseInt(categoryId, 10)]).map(
-            ([itemId, order]) => (
-              <Grid align="ceter" key={itemId}>
-                <Grid.Col className="flex items-center" span={1}>
-                  <Button
-                    color="red"
-                    variant="outline"
-                    radius="xl"
-                    onClick={() => remove(categoryId, itemId, order)}
-                  >
-                    <MdOutlineHorizontalRule />
-                  </Button>
-                </Grid.Col>
-                <Grid.Col span={5} offset={1} sm={6} className="tablet:ml-0">
-                  <Grid align="center" justify="center">
-                    <Grid.Col
-                      className="w-full h-full min-h-[140px]"
-                      span={10}
-                      sm={4}
+      <ScrollArea
+        styles={{
+          root: { height: "95%" },
+          scrollbar: {
+            '&[data-orientation="horizontal"]': { display: "none" },
+          },
+        }}
+      >
+        <Grid className='text-center'>
+          <Grid.Col span={5} offset={2}>
+            {t?.basket.product}
+          </Grid.Col>
+          <Grid.Col span={2} offset={1}>
+            {t?.basket.qty}
+          </Grid.Col>
+          <Grid.Col span={2}>{t?.basket.price}</Grid.Col>
+        </Grid>
+        {orders &&
+          Object.keys(orders).map((categoryId) =>
+            Object.entries(orders[parseInt(categoryId, 10)]).map(
+              ([itemId, order]) => (
+                <Grid align='ceter' key={itemId} gutter='xs'>
+                  <Grid.Col className='flex items-center' span={1}>
+                    <Button
+                      color='red'
+                      variant='outline'
+                      radius='xl'
+                      onClick={() => remove(categoryId, itemId, order)}
                     >
-                      <Image
-                        src={order.order.imageUrl}
-                        width={350}
-                        height={310}
-                        layout="responsive"
-                        // className="abusolute"
-                        objectFit="contain"
-                      />
-                    </Grid.Col>
-                    <Grid.Col span={12} sm={7} offset={2} offsetSm={1}>
-                      <Tooltip
-                        color="gray.6"
-                        openDelay={150}
-                        position="top-start"
-                        label={t?.basket.yen.replace(
-                          "{price}",
-                          order.order.price.toLocaleString()
-                        )}
+                      <MdOutlineHorizontalRule />
+                    </Button>
+                  </Grid.Col>
+                  <Grid.Col span={5} offset={1} sm={6} className='tablet:ml-0'>
+                    <Grid align='center' justify='center' gutter={0}>
+                      <Grid.Col
+                        className='w-full h-full max-w-[240px]'
+                        span={9}
+                        sm={4}
                       >
-                        <Group>
-                          <Text color="dark">{order.order.itemName}</Text>
-                          {order.order.discountWay === 1 ? (
-                            <Button color="red" variant="filled" compact>
-                              <span>
-                                SALE -
-                                {t?.menucard.yen.replace(
-                                  "{price}",
-                                  order.order.discountRate.toString()
-                                )}
-                              </span>
-                            </Button>
-                          ) : order.order.discountWay === 2 ? (
-                            <Button color="red" variant="filled" compact>
-                              <span>SALE -{order.order.discountRate}%</span>
-                            </Button>
-                          ) : null}
-                        </Group>
-                      </Tooltip>
-                    </Grid.Col>
-                  </Grid>
-                </Grid.Col>
-                <Grid.Col
-                  span={3}
-                  xs={2}
-                  className="flex items-center justify-center"
-                >
-                  <NumberInput
-                    value={order.count}
-                    onChange={(value: any) =>
-                      dispatch(
-                        setOrders({
-                          ...orders,
-                          [categoryId]: {
-                            ...orders[parseInt(categoryId, 10)],
-                            [itemId]: {
-                              ...orders[parseInt(categoryId, 10)][
-                                parseInt(itemId, 10)
-                              ],
-                              count: value,
+                        <Image
+                          src={order.order.imageUrl}
+                          width={350}
+                          height={310}
+                          layout='responsive'
+                          // className="abusolute"
+                          objectFit='contain'
+                        />
+                      </Grid.Col>
+                      <Grid.Col span={12} sm={7} offset={2} offsetSm={1}>
+                        <Tooltip
+                          color='gray.6'
+                          openDelay={150}
+                          position='top-start'
+                          label={t?.basket.yen.replace(
+                            "{price}",
+                            order.order.price.toLocaleString()
+                          )}
+                        >
+                          {/* @ts-ignore */}
+                          <Group spacing='none'>
+                            <Text color='dark'>{order.order.itemName}</Text>
+                            {order.order.discountWay === 1 ? (
+                              <Button color='red' variant='filled' compact>
+                                <span>
+                                  SALE -
+                                  {t?.menucard.yen.replace(
+                                    "{price}",
+                                    order.order.discountRate.toString()
+                                  )}
+                                </span>
+                              </Button>
+                            ) : order.order.discountWay === 2 ? (
+                              <Button color='red' variant='filled' compact>
+                                <span>SALE -{order.order.discountRate}%</span>
+                              </Button>
+                            ) : null}
+                          </Group>
+                        </Tooltip>
+                      </Grid.Col>
+                    </Grid>
+                  </Grid.Col>
+                  <Grid.Col
+                    span={3}
+                    xs={2}
+                    className='flex items-center justify-center'
+                  >
+                    <NumberInput
+                      min={1}
+                      value={order.count}
+                      onChange={(value: any) =>
+                        dispatch(
+                          setOrders({
+                            ...orders,
+                            [categoryId]: {
+                              ...orders[parseInt(categoryId, 10)],
+                              [itemId]: {
+                                ...orders[parseInt(categoryId, 10)][
+                                  parseInt(itemId, 10)
+                                ],
+                                count: value,
+                              },
                             },
-                          },
-                        })
-                      )
-                    }
-                  />
-                </Grid.Col>
-                <Grid.Col span={2} className="flex items-center justify-center">
-                  <Title align="center">
-                    {order.order.discountWay !== 0 ? (
-                      <Text size="sm">
-                        <span className="line-through">
+                          })
+                        )
+                      }
+                    />
+                  </Grid.Col>
+                  <Grid.Col
+                    span={2}
+                    className='flex items-center justify-center'
+                  >
+                    <Title align='center'>
+                      {order.order.discountWay !== 0 ? (
+                        <Text size='sm'>
+                          <span className='line-through'>
+                            {t?.menucard.yen.replace(
+                              "{price}",
+                              order.order.price.toLocaleString()
+                            )}
+                          </span>
+                          <br />
+                          <span className='text-red-500 text-md font-bold'>
+                            {t?.menucard.yen.replace(
+                              "{price}",
+                              (
+                                order.order.price -
+                                TableOrder().utils.getDiscountPrice(order.order)
+                              ).toLocaleString()
+                            )}
+                          </span>
+                        </Text>
+                      ) : (
+                        <Text size='md'>
                           {t?.menucard.yen.replace(
                             "{price}",
                             order.order.price.toLocaleString()
                           )}
-                        </span>
-                        <br />
-                        <span className="text-red-500 text-md font-bold">
-                          {t?.menucard.yen.replace(
-                            "{price}",
-                            (
-                              order.order.price -
-                              TableOrder().utils.getDiscountPrice(order.order)
-                            ).toLocaleString()
-                          )}
-                        </span>
-                      </Text>
-                    ) : (
-                      <Text size="md">
-                        {t?.menucard.yen.replace(
-                          "{price}",
-                          order.order.price.toLocaleString()
-                        )}
-                      </Text>
-                    )}
-                  </Title>
-                </Grid.Col>
-              </Grid>
+                        </Text>
+                      )}
+                    </Title>
+                  </Grid.Col>
+                </Grid>
+              )
             )
-          )
-        )}
-      <Divider my="sm" />
-      {totalDiscount !== 0 && (
-        <>
-          <Grid>
-            <Grid.Col span={5} offset={4}>
-              {t?.basket.total_pretax}
-            </Grid.Col>
-            <Grid.Col span={2} offset={1}>
-              {t?.basket.yen.replace(
-                "{price}",
-                beforeDiscount.toLocaleString()
-              )}
-            </Grid.Col>
-          </Grid>
-          <Grid>
-            <Grid.Col span={5} offset={4}>
-              {t?.basket.total_discount}
-            </Grid.Col>
-            <Grid.Col span={2} offset={1}>
-              <Text color="red" weight={700}>
-                -
+          )}
+        <Divider my='sm' />
+        {totalDiscount !== 0 && (
+          <>
+            <Grid gutter='xs'>
+              <Grid.Col span={4} offset={4} className='text-right'>
+                {t?.basket.total_pretax}
+              </Grid.Col>
+              <Grid.Col
+                span={3}
+                sm={2}
+                offset={1}
+                offsetSm={0}
+                className='text-center'
+              >
                 {t?.basket.yen.replace(
                   "{price}",
-                  totalDiscount.toLocaleString()
+                  beforeDiscount.toLocaleString()
                 )}
-              </Text>
-            </Grid.Col>
-          </Grid>
-        </>
-      )}
-      <Grid>
-        <Grid.Col span={5} offset={4}>
-          {t?.basket.total_amount}
-        </Grid.Col>
-        <Grid.Col span={2} offset={1}>
-          <Text color="red" weight={700}>
-            {t?.basket.yen.replace("{price}", total.toLocaleString())}
-          </Text>
-        </Grid.Col>
-      </Grid>
-      <Box className="text-center my-vw-8">
-        <Button
-          color="red"
-          variant="outline"
-          onClick={() => setRemoveDialog(true)}
-          className="mx-auto"
-        >
-          {t?.basket.msg001}
-        </Button>
-      </Box>
+              </Grid.Col>
+            </Grid>
+            <Grid>
+              <Grid.Col span={4} offset={4} className='text-right'>
+                {t?.basket.total_discount}
+              </Grid.Col>
+              <Grid.Col
+                span={3}
+                sm={2}
+                offsetSm={0}
+                offset={1}
+                className='text-center'
+              >
+                <Text color='red' size='xl' weight={700}>
+                  -
+                  {t?.basket.yen.replace(
+                    "{price}",
+                    totalDiscount.toLocaleString()
+                  )}
+                </Text>
+              </Grid.Col>
+            </Grid>
+          </>
+        )}
+        <Grid>
+          <Grid.Col span={4} offset={4} className='text-right'>
+            {t?.basket.total_amount}
+          </Grid.Col>
+          <Grid.Col
+            span={3}
+            sm={2}
+            offset={1}
+            offsetSm={0}
+            className='text-center'
+          >
+            <Text color='red' size='xl' weight={700}>
+              {t?.basket.yen.replace("{price}", total.toLocaleString())}
+            </Text>
+          </Grid.Col>
+        </Grid>
+        <Box className='text-center my-vw-8'>
+          <Button
+            color='red'
+            variant='outline'
+            onClick={() => setRemoveDialog(true)}
+            className='mx-auto'
+          >
+            {t?.basket.msg001}
+          </Button>
+        </Box>
+        <Space h={30} />
+        <Space h='xl' />
+        <Space h='xl' />
+      </ScrollArea>
       <Button
-        className="w-[110%] bg-line text-white absolute bottom-0 mx-[-5%] h-16 hover:bg-line/70"
+        className='w-[110%] bg-line text-white absolute bottom-0 mx-[-5%] h-[8vh] max-h-16 hover:bg-line/70 active:bg-line/40'
         onClick={() => setOrderDialog(true)}
         disabled={!orderEnabled}
         leftIcon={<FaCashRegister />}
@@ -333,7 +379,7 @@ function Basket() {
       </Button>
       <Modal
         opened={removeDialog}
-        className="whitespace-pre-wrap break-words"
+        className='whitespace-pre-wrap break-words'
         title={t?.basket.msg005.split(/<br>/).map((p, index) => (
           <Text key={index}>{p}</Text>
         ))}
@@ -343,17 +389,21 @@ function Basket() {
         <Button onClick={removeAll}>OK</Button>
       </Modal>
       <Modal
+        centered
         opened={orderDialog}
         title={
           <Text>
-            <MdOutlineDone className="inline mr-4" />
+            <MdOutlineDone className='inline mr-4' />
             {t?.basket.msg003}
           </Text>
         }
         onClose={() => setOrderDialog(false)}
         closeButtonLabel={t?.basket.cancel}
+        classNames={{ body: "flex justify-center mt-12" }}
       >
-        <Button onClick={order}>OK</Button>
+        <Button onClick={order} className=''>
+          OK
+        </Button>
       </Modal>
     </>
   );
