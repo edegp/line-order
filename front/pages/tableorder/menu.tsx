@@ -15,10 +15,7 @@ import {
   Space,
   Text,
   Title,
-  Divider,
-  TextInput,
   Slider,
-  Dialog,
   Popover,
 } from "@mantine/core";
 import { CountdownTimerIcon, StarFilledIcon } from "@radix-ui/react-icons";

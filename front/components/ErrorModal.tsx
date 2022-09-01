@@ -2,7 +2,6 @@ import React from "react";
 import { setAxiosError, setPaymentError, store } from "store";
 import { Modal, Text } from "@mantine/core";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { State } from "types";
 
 const ErrorModal = () => {
   const { axiosError, t, paymentError } = store.getState();

@@ -1,9 +1,7 @@
-import { useCallback } from "react";
-
 import { functions } from "fb/firebase-client";
-import { Items, Orders, State } from "../../functions/src/types";
+import { Orders, State } from "../../functions/src/types";
 import { store } from "store";
-import { httpsCallable, HttpsCallableResult } from "firebase/functions";
+import { httpsCallable } from "firebase/functions";
 import { showHttpError } from "./helper";
 import { PaymentInfo } from "types";
 

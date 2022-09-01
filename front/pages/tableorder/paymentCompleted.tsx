@@ -26,19 +26,16 @@ export default function PaymentCompleted() {
   const [linepay, setLinepay] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  const [success, setSuccess] = useState(false);
   useEffect(() => {
     const { transactionId, orderId: paymentId } = router.query;
     if (typeof transactionId !== "string") {
       dispatch(setPaymentId(null));
       setLinepay(false);
-      setSuccess(true);
     } else if (typeof paymentId == "string") {
       setLinepay(true);
       TableOrder()
         .confirmPayment(transactionId, paymentId)
         .then(() => {
-          setSuccess(false);
           dispatch(setPaymentError(true));
         })
         .catch(() => dispatch(setPaymentId(null)));

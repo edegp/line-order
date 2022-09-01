@@ -1,17 +1,5 @@
 import React from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Grid,
-  Group,
-  Header,
-  Space,
-  Text,
-  Title,
-  Tooltip,
-} from "@mantine/core";
-import { useRouter } from "next/router";
+import { Avatar, Button, Grid, Group, Header, Text } from "@mantine/core";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { useSelector } from "react-redux";
 import { State } from "types";

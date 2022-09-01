@@ -1,15 +1,10 @@
 import {
-  AppShell,
-  Header,
   Button,
-  Footer,
-  Container,
   Text,
   Grid,
   Tooltip,
   NumberInput,
   Title,
-  Avatar,
   Group,
   Divider,
   Modal,
@@ -23,19 +18,13 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 import { FaCashRegister } from "react-icons/fa";
 import { MdOutlineDone, MdOutlineHorizontalRule } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setAxiosError,
-  setCustomer,
-  setIsLoading,
-  setOrders,
-  setPaymentId,
-} from "store";
+import { setAxiosError, setIsLoading, setOrders, setPaymentId } from "store";
 import { Order, Orders, State } from "types";
 import { ocopy } from "utils/helper";
 import { TableOrder } from "utils/table-order";
 
 function Basket() {
-  const { t, orders, lineUser, customer, paymentId } = useSelector(
+  const { t, orders, customer, paymentId } = useSelector(
     (state: State) => state
   );
   const dispatch = useDispatch();
