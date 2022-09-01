@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import MenuHeader from "components/tableorder/Header";
 import { db } from "fb/firebase-client";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React from "react";
 import { FaCashRegister } from "react-icons/fa";
@@ -41,24 +41,24 @@ function Completed() {
         <Footer height={60}>
           <Button
             fullWidth
-            className="bg-line text-white w-full h-full hover:bg-line/70"
+            className='bg-line text-white w-full h-full hover:bg-line/70 active:bg-line/40'
             onClick={payment}
           >
-            <FaCashRegister className="inline mr-3" />
+            <FaCashRegister className='inline mr-3' />
             {t?.completed.msg003}
           </Button>
         </Footer>
       }
     >
-      <Container>
-        <Grid align="center" justify="center">
+      <Container className='mt-[20vh]'>
+        <Grid align='center' justify='center'>
           <Grid.Col>
-            <Title order={4} align="center">
-              <MdOutlineDone className="inline mr-4 text-line" />
+            <Title order={4} align='center'>
+              <MdOutlineDone className='inline mr-4 text-line' />
               {t?.completed.msg001}
             </Title>
-            <Divider my="md" />
-            <Text align="center">{t?.completed.msg002}</Text>
+            <Divider my='md' />
+            <Text align='center'>{t?.completed.msg002}</Text>
           </Grid.Col>
         </Grid>
       </Container>
