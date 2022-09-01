@@ -3,14 +3,10 @@
     "target": "es2020",
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "incremental": true
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules"]
 }
