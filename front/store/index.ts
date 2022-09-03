@@ -1,18 +1,15 @@
-import InitTableOerderItems from "fb/database/table-order-items-list";
 import { ocopy } from "utils/helper";
-import { LineUser, Message, T, State } from "../../functions/src/types";
+import { T, State } from "../../functions/src/types";
 import {
   createSlice,
   configureStore,
   createListenerMiddleware,
-  isAnyOf,
   AnyAction,
 } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import { getLiffProfile } from "utils/liff";
 import ja from "public/locales/ja";
-import { Liff } from "@line/liff";
 
 const createNoopStorage = () => {
   return {
@@ -188,29 +185,23 @@ listenerMiddleware.startListening({
   predicate: (action: AnyAction, currentState: State, previousState: State) => {
     return currentState.isLoading === true || currentState.message?.LIFF_INITED;
   },
-  effect: (action, listenerApi) => {
+  effect: async (action, listenerApi) => {
     const { message, lineUser } = listenerApi.getState() as State;
     if (message?.LIFF_INITED) {
-      import("@line/liff").then(async (result) => {
-        const liff = result.default;
-        // LIFF Login & Profile
-        if (!lineUser?.name || !lineUser.expire) {
+      // LIFF Login & Profile
+      if (!lineUser?.name || !lineUser.expire) {
+        // Get LIFF Profile & Token
+        const _lineUser = await getLiffProfile();
+        listenerApi.dispatch(setLineUser(_lineUser));
+      } else {
+        const now = new Date();
+        const expire = lineUser.expire;
+        if (expire < now.getTime()) {
           // Get LIFF Profile & Token
           const _lineUser = await getLiffProfile();
           listenerApi.dispatch(setLineUser(_lineUser));
-        } else {
-          const now = new Date();
-          const expire = lineUser.expire;
-          console.log(expire);
-          console.log(now.getTime());
-          console.log(expire < now.getTime());
-          if (expire < now.getTime()) {
-            // Get LIFF Profile & Token
-            const _lineUser = await getLiffProfile();
-            listenerApi.dispatch(setLineUser(_lineUser));
-          }
         }
-      });
+      }
     }
   },
 });

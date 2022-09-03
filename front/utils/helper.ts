@@ -1,4 +1,3 @@
-import { LineUser } from "types";
 import { store, setLineUser, setAxiosError } from "store";
 import { isIOS, isAndroid } from "react-device-detect";
 
@@ -222,50 +221,50 @@ export const now = (format: string, addMonths?: number | undefined) => {
   return _dateformat(date, format);
 };
 
-const englishMonth = (month: string) => {
-  let engMonth = null;
+// const englishMonth = (month: string) => {
+//   let engMonth = null;
 
-  switch (parseInt(month, 10)) {
-    case 1:
-      engMonth = "Jan.";
-      break; // January
-    case 2:
-      engMonth = "Feb.";
-      break; // February
-    case 3:
-      engMonth = "Mar.";
-      break; // March
-    case 4:
-      engMonth = "Apr.";
-      break; // April
-    case 5:
-      engMonth = "May.";
-      break; // May
-    case 6:
-      engMonth = "Jun.";
-      break; // June
-    case 7:
-      engMonth = "Jul.";
-      break; // July
-    case 8:
-      engMonth = "Aug.";
-      break; // August
-    case 9:
-      engMonth = "Sep.";
-      break; // September
-    case 10:
-      engMonth = "Oct.";
-      break; // October
-    case 11:
-      engMonth = "Nov.";
-      break; // November
-    case 12:
-      engMonth = "Dec.";
-      break; // December
-  }
+//   switch (parseInt(month, 10)) {
+//     case 1:
+//       engMonth = "Jan.";
+//       break; // January
+//     case 2:
+//       engMonth = "Feb.";
+//       break; // February
+//     case 3:
+//       engMonth = "Mar.";
+//       break; // March
+//     case 4:
+//       engMonth = "Apr.";
+//       break; // April
+//     case 5:
+//       engMonth = "May.";
+//       break; // May
+//     case 6:
+//       engMonth = "Jun.";
+//       break; // June
+//     case 7:
+//       engMonth = "Jul.";
+//       break; // July
+//     case 8:
+//       engMonth = "Aug.";
+//       break; // August
+//     case 9:
+//       engMonth = "Sep.";
+//       break; // September
+//     case 10:
+//       engMonth = "Oct.";
+//       break; // October
+//     case 11:
+//       engMonth = "Nov.";
+//       break; // November
+//     case 12:
+//       engMonth = "Dec.";
+//       break; // December
+//   }
 
-  return engMonth;
-};
+//   return engMonth;
+// };
 
 const _dateformat = (date: Date, format: string | undefined) => {
   const yyyy = date.getFullYear();

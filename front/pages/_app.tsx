@@ -1,17 +1,10 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { useCallback, useEffect } from "react";
 import { Provider } from "react-redux";
-// import RestaurantLayout from "components/RestaurantLayout";
 import { useRouter } from "next/router";
 import {
   store,
   setStarted,
   setLocale,
-  setLineUser,
   setFlash,
   setT,
   persistor,

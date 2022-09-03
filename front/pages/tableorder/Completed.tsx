@@ -10,14 +10,14 @@ import {
 } from "@mantine/core";
 import MenuHeader from "components/tableorder/Header";
 import { db } from "fb/firebase-client";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React from "react";
 import { FaCashRegister } from "react-icons/fa";
 import { MdOutlineDone } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setOrdered } from "store";
-import { PaymentInfo, State } from "types";
+import { State } from "types";
 
 function Completed() {
   const { t, paymentId } = useSelector((state: State) => state);

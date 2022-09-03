@@ -14,7 +14,6 @@ import MenuHeader from "components/tableorder/Header";
 import Ordered from "components/tableorder/Ordered";
 import { db } from "fb/firebase-client";
 import { doc, updateDoc } from "firebase/firestore";
-import { HttpsCallableResult } from "firebase/functions";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";

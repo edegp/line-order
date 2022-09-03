@@ -100,7 +100,6 @@ export const TableOrder = () => {
       paymentId: string;
       locale?: string;
     }) => {
-      let response = null;
       // 送信パラメーター
       const myInit = params;
       // 送信パラメーターロケール付加
@@ -109,12 +108,11 @@ export const TableOrder = () => {
       // POST送信
       let isError = false;
       try {
-        response = await paymentConfirm(myInit);
+        await paymentConfirm(myInit);
       } catch (error) {
         showHttpError(error);
         isError = true;
       }
-
       return isError;
     },
 

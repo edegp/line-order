@@ -11,14 +11,13 @@ import { ChevronRightIcon } from "@radix-ui/react-icons";
 import InitTableOerderItems from "fb/database/table-order-items-list";
 import type { NextPage } from "next";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import Beer from "public/image/beer.jpg";
 import Head from "next/head";
 import Meta from "components/Meta";
-import { State, T } from "types";
+import { State } from "types";
 import { NextLink } from "@mantine/next";
-import { Router } from "express";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {

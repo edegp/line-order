@@ -56,7 +56,6 @@ export default function SeatNo(props: any) {
   const [menuDialog, setMenuDialog] = useState(false);
   const [categoryName, setCategoryName] = useState(props.categoryName);
   const [count, setCount] = useState(NaN);
-  const [categoryDialog, setCategoryDialog] = useState(false);
   const [menuList, setMenuList] = useState<MenuType[]>(props.menuList);
   const [seatNoModal, setSeatNoModal] = useState(false);
   const [addToBasket, setAddToBasket] = useState({
@@ -69,7 +68,6 @@ export default function SeatNo(props: any) {
     target: null as any,
     order: {} as MenuType,
   });
-  const [confirm, setConfirm] = useState(false);
   const [basketDrower, setBasketDrower] = useState(false);
   const openDialog = useCallback(
     (order: any) => {
@@ -110,7 +108,6 @@ export default function SeatNo(props: any) {
       const docRef = doc(db, "TableOrderItemList", categoryId.toString());
       const itemList: any = (await getDoc(docRef))?.data();
       setMenuList(itemList?.items);
-      setCategoryDialog(false);
     },
     []
   );
@@ -399,11 +396,7 @@ export default function SeatNo(props: any) {
         <Popover width={200} position='top-end' withArrow shadow='md'>
           <Popover.Target>
             <Box className={"text-right"}>
-              <Button
-                className='justify-self-end self-end'
-                mt={20}
-                onClick={() => setConfirm(true)}
-              >
+              <Button className='justify-self-end self-end' mt={20}>
                 確認
               </Button>
             </Box>
@@ -421,7 +414,6 @@ export default function SeatNo(props: any) {
               mt={10}
               onClick={() => {
                 setSeatNoModal(false);
-                setConfirm(false);
                 if (!customer.seatNo) {
                   dispatch(dispatch(setCustomer({ ...customer, seatNo: 1 })));
                 }

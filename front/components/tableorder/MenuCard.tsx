@@ -1,6 +1,6 @@
 import { Box, Card, Group, Skeleton, Text, Title } from "@mantine/core";
 import Image from "next/image";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { MdRedo } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { MenuType, State } from "types";
@@ -13,7 +13,6 @@ function MenuCard({
   menu: MenuType;
   openDialog: (order: MenuType) => void;
 }) {
-  const [open, setOpen] = useState(false);
   const { t } = useSelector((state: State) => state);
   const isDiscounted = menu.discountWay !== 0;
   const discountPrice = menu.price - TableOrder().utils.getDiscountPrice(menu);
