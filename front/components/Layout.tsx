@@ -1,10 +1,11 @@
 import React, { ReactNode } from "react";
 import ErrorModal from "components/ErrorModal";
 import { Box, Loader } from "@mantine/core";
-import { store } from "store";
+import { useSelector } from "react-redux";
+import { State } from "types";
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const { lineUser, isLoading } = store.getState();
+  const { lineUser, isLoading } = useSelector((state: State) => state);
   const wrap = lineUser ? "wrap" : "hidden";
   if (isLoading)
     return (
