@@ -15,7 +15,7 @@ export const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 
-export const functions = getFunctions(app);
+export const functions = getFunctions(app, "asia-northeast1");
 // const store = process.env.NODE_ENV !== "development" ? app : undefined;
 export const db = getFirestore(app);
 
