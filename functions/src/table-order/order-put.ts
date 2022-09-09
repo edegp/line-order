@@ -201,7 +201,7 @@ const putOrder = (params: {
 export const orderPut = f.https.onCall(async (data: any, context: any) => {
   functions.logger.info(data);
   if (!data) {
-    return ErrorHandler.noParams;
+    throw ErrorHandler.noParams;
   }
   const body = JSON.parse(JSON.stringify(data));
   try {
@@ -210,24 +210,24 @@ export const orderPut = f.https.onCall(async (data: any, context: any) => {
       process.env.LIFF_CHANNEL_ID as string
     );
     if (!userProofile) {
-      return ErrorHandler.notFound("指定のidのユーザーは存在しません");
+      throw ErrorHandler.notFound("指定のidのユーザーは存在しません");
     }
   } catch (e) {
     functions.logger.error(e);
-    return ErrorHandler.internal("不正なIDトークンが使用されています");
+    throw ErrorHandler.internal("不正なIDトークンが使用されています");
   }
   const paramChecker = tableOrderParamCheck(body);
   const errorMsg = paramChecker.checkApiOrderPut();
   if (errorMsg.length !== 0) {
     functions.logger.error(errorMsg.join("\n"));
-    return ErrorHandler.invalidParams(errorMsg.join("\n"));
+    throw ErrorHandler.invalidParams(errorMsg.join("\n"));
   }
   let paymentId;
   try {
     paymentId = putOrder(body);
   } catch (e: any) {
     functions.logger.error("Occur Exception: %s", e);
-    // return ErrorHandler.internal(e as string);
+    // throw ErrorHandler.internal(e as string);
   }
   return paymentId;
 });

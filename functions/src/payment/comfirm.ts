@@ -43,14 +43,14 @@ const sendMessages = async (body: { [x: string]: any }) => {
 export const confirm = f.https.onCall(async (data: any, context: any) => {
   functions.logger.info(data);
   if (!data) {
-    return ErrorHandler.noParams;
+    throw ErrorHandler.noParams;
   }
   let body = JSON.parse(JSON.stringify(data));
   const paramChecker = tableOrderParamCheck(body);
   const errorMsg = paramChecker.checkApiPaymentConfirm();
   if (errorMsg.length !== 0) {
     functions.logger.log(errorMsg.join("\n"));
-    return ErrorHandler.invalidParams(errorMsg.join("\n"));
+    throw ErrorHandler.invalidParams(errorMsg.join("\n"));
   }
   const paymentId = body["paymentId"];
   let transactionId = parseInt(body["transactionId"], 10);
@@ -83,7 +83,7 @@ export const confirm = f.https.onCall(async (data: any, context: any) => {
             transactionId,
           })
         );
-      return ErrorHandler.internal;
+      throw ErrorHandler.internal;
     }
     sendMessages(paymentInfo);
   } catch (e) {
@@ -96,7 +96,7 @@ export const confirm = f.https.onCall(async (data: any, context: any) => {
     } else {
       functions.logger.error("Occur Exception: %s", e);
     }
-    return ErrorHandler.internal;
+    throw ErrorHandler.internal;
   }
   return body;
 });

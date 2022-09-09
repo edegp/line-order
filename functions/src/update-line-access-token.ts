@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { format } from "date-fns";
 import { addDays } from "date-fns";
-import { f } from "./index";
 import { ChannelAccessToken } from "./common/utils";
 const functions = require("firebase-functions");
 
@@ -40,8 +39,8 @@ const getChannelAccessToken = async (
   return accessToken;
 };
 
-export const updateLineAccessToken = f.pubsub
-  .schedule("every 1 days")
+export const updateLineAccessToken = functions.pubsub
+  .schedule("0 0 * * *")
   .onRun(() => {
     functions.logger.info("update lineAT");
     ChannelAccessToken.get().then((q) => {

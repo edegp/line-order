@@ -14,7 +14,7 @@ const CANCEL_URL = process.env.CANCEL_URL;
 export const reserve = f.https.onCall(async (data: any, context: any) => {
   functions.logger.info(data);
   if (!data) {
-    return ErrorHandler.noParams;
+    throw ErrorHandler.noParams;
   }
   let body = JSON.parse(JSON.stringify(data));
 
@@ -24,19 +24,19 @@ export const reserve = f.https.onCall(async (data: any, context: any) => {
       process.env.LIFF_CHANNEL_ID as string
     );
     if (!userProfile) {
-      return ErrorHandler.invalidParams("不適切なidトークンです");
+      throw ErrorHandler.invalidParams("不適切なidトークンです");
     } else {
       body["userId"] = userProfile.userId;
     }
   } catch (e) {
     functions.logger.error("不正なIDトークンが使用されています");
-    return ErrorHandler.permision("不正なIDトークンが使用されています");
+    throw ErrorHandler.permision("不正なIDトークンが使用されています");
   }
   const paramChecker = tableOrderParamCheck(body);
   const errorMsg = paramChecker.checkApiPaymentReserve();
   if (errorMsg.length !== 0) {
     functions.logger.log(errorMsg.join("\n"));
-    return ErrorHandler.invalidParams(errorMsg.join("\n"));
+    throw ErrorHandler.invalidParams(errorMsg.join("\n"));
   }
   const paymentId = body["paymentId"];
   const paymentInfo = await getPaymentInfo(paymentId);
@@ -78,7 +78,7 @@ export const reserve = f.https.onCall(async (data: any, context: any) => {
     body = linepayApiResponse;
   } catch (e) {
     functions.logger.error("Occur Exception: %s", e);
-    return ErrorHandler.internal;
+    throw ErrorHandler.internal;
   }
   return JSON.parse(JSON.stringify(body));
 });

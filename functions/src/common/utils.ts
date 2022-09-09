@@ -93,13 +93,12 @@ export const TableOrderItemList = admin
   .firestore()
   .collection("TableOrderItemList");
 
-export const getPaymentInfo = (paymentId: string | number) =>
-  TableOrderPaymentOrderInfo.where("paymentId", "==", paymentId)
-    .limit(1)
+export const getPaymentInfo = (paymentId: string) =>
+  TableOrderPaymentOrderInfo.doc(paymentId)
     .get()
-    .then((q) => q.docs[0].data()) as Promise<PaymentInfo>;
+    .then((doc) => doc.data()) as Promise<PaymentInfo>;
 
-export const getCategoryItem = (categoryId: string | number) =>
-  TableOrderItemList.where("categoryId", "==", categoryId)
+export const getCategoryItem = (categoryId: number) =>
+  TableOrderItemList.doc(categoryId.toString())
     .get()
-    .then((q) => q.docs.map((doc) => doc.data())[0]) as Promise<Items>;
+    .then((doc) => doc.data()) as Promise<Items>;

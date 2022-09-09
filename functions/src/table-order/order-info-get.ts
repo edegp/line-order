@@ -21,21 +21,21 @@ const getOrderInfo = async (params: any) => {
 export const orderInfoGet = f.https.onCall(async (data: any, context: any) => {
   functions.logger.log(data);
   if (!data) {
-    return ErrorHandler.noParams;
+    throw ErrorHandler.noParams;
   }
   const params = data;
   const paramChecker = tableOrderParamCheck(params as any);
   const errorMsg = paramChecker.checkApiOrderInfo();
   if (errorMsg) {
     functions.logger.log(errorMsg.join("\n"));
-    return ErrorHandler.invalidParams(errorMsg.join("\n"));
+    throw ErrorHandler.invalidParams(errorMsg.join("\n"));
   }
   let paymentInfo;
   try {
     paymentInfo = await getOrderInfo(params);
   } catch (e) {
     functions.logger.error("Occur Exception: %s", e);
-    return ErrorHandler.internal(e as string);
+    throw ErrorHandler.internal(e as string);
   }
   return paymentInfo;
 });
