@@ -3,7 +3,6 @@ import { Orders, State } from "../../functions/src/types";
 import { store } from "store";
 import { httpsCallable } from "firebase/functions";
 import { showHttpError } from "./helper";
-import { PaymentInfo } from "types";
 
 export const TableOrder = () => {
   const firestore = {
@@ -38,7 +37,6 @@ export const TableOrder = () => {
       } catch (error) {
         showHttpError(error);
       }
-
       return response;
     },
 
@@ -60,23 +58,23 @@ export const TableOrder = () => {
       return response;
     },
 
-    orderData: async (paymentId: string) => {
-      let response = null;
-      // 送信パラメーター
-      const myInit = {
-        locale: store.getState().locale,
-        paymentId: paymentId,
-      };
-      const orderInfoGet = httpsCallable(functions, "orderInfoGet");
-      // GET送信
-      try {
-        response = await orderInfoGet(myInit);
-      } catch (error) {
-        showHttpError(error);
-      }
+    // orderData: async (paymentId: string) => {
+    //   let response = null;
+    //   // 送信パラメーター
+    //   const myInit = {
+    //     locale: store.getState().locale,
+    //     paymentId: paymentId,
+    //   };
+    //   const orderInfoGet = httpsCallable(functions, "orderInfoGet");
+    //   // GET送信
+    //   try {
+    //     response = await orderInfoGet(myInit);
+    //   } catch (error) {
+    //     showHttpError(error);
+    //   }
 
-      return response;
-    },
+    //   return response;
+    // },
 
     reserve: async (params: { [x: string]: string | null | undefined }) => {
       let response = null;
@@ -116,26 +114,26 @@ export const TableOrder = () => {
       return isError;
     },
 
-    noLinePayConfirm: async (params: {
-      idToken: string;
-      paymentId: string;
-      locale?: string;
-    }) => {
-      let response = null;
-      // 送信パラメーターロケール付加
-      params["locale"] = store.getState().locale;
-      // 送信パラメーター
-      const myInit = params;
-      const confirmNolinepay = httpsCallable(functions, "confirmNolinepay");
-      // POST送信
-      try {
-        response = await confirmNolinepay(myInit);
-      } catch (error) {
-        showHttpError(error);
-      }
+    // noLinePayConfirm: async (params: {
+    //   idToken: string;
+    //   paymentId: string;
+    //   locale?: string;
+    // }) => {
+    //   let response = null;
+    //   // 送信パラメーターロケール付加
+    //   params["locale"] = store.getState().locale;
+    //   // 送信パラメーター
+    //   const myInit = params;
+    //   const confirmNolinepay = httpsCallable(functions, "confirmNolinepay");
+    //   // POST送信
+    //   try {
+    //     response = await confirmNolinepay(myInit);
+    //   } catch (error) {
+    //     showHttpError(error);
+    //   }
 
-      return response;
-    },
+    //   return response;
+    // },
     paymentData: async (idToken: any) => {
       let response = null;
       // 送信パラメーター
@@ -143,10 +141,10 @@ export const TableOrder = () => {
         locale: store.getState().locale,
         idToken: idToken,
       };
-      const paymentIdGet = httpsCallable(functions, "paymentIdGet");
+      const idGet = httpsCallable(functions, "idGet");
       // GET送信
       try {
-        response = await paymentIdGet(myInit);
+        response = await idGet(myInit);
       } catch (error) {
         showHttpError(error);
       }
@@ -213,11 +211,11 @@ export const TableOrder = () => {
       return itemData;
     },
 
-    async getOrderData(paymentId: string) {
-      const orderData = (await firestore.orderData(paymentId))
-        ?.data as PaymentInfo;
-      return orderData;
-    },
+    // async getOrderData(paymentId: string) {
+    //   const orderData = (await firestore.orderData(paymentId))
+    //     ?.data as PaymentInfo;
+    //   return orderData;
+    // },
 
     async reservePayment(paymentId: string) {
       // LIFF ID Token取得

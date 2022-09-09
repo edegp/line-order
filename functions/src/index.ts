@@ -16,7 +16,7 @@ const funcs = {
   confirm: "./payment/comfirm",
   reserve: "./payment/reserve",
   // categoryGet: "./table-order/category-get",
-  orderInfoGet: "./table-order/order-info-get",
+  // orderInfoGet: "./table-order/order-info-get",
   orderPut: "./table-order/order-put",
   // itemListGet: "./table-order/item-list-get",
   updateLineAccessToken: "./update-line-access-token",

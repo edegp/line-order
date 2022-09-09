@@ -174,36 +174,6 @@ const httpStatus: { [key: number]: { message: string } } = {
   505: { message: "HTTP Version Not Supported" },
 };
 
-// export const monthList = (count: number) => {
-//   let months = [];
-//   let yyyymmdd = now("yyyymmdd");
-//   let yyyy = yyyymmdd.slice(0, 4);
-//   let mm = yyyymmdd.slice(4, 6).replace(/^0/, " ");
-//   const { t } = store.getState();
-//   if (t.type === "en") {
-//     mm = englishMonth(mm);
-//   }
-//   months.push({
-//     text: t?.restaurant.yyyymm.replace("{year}", yyyy).replace("{month}", mm),
-//     value: `${yyyymmdd.substr(0, 6)}`,
-//   });
-
-//   for (let i = 0; i < count; i++) {
-//     yyyymmdd = now("yyyymmdd", i + 1);
-//     yyyy = yyyymmdd.substr(0, 4);
-//     mm = yyyymmdd.substr(4, 2).replace(/^0/, " ");
-//     if (t.type == "en") {
-//       mm = englishMonth(mm);
-//     }
-//     months.push({
-//       text: t.restaurant.yyyymm.replace("{year}", yyyy).replace("{month}", mm),
-//       value: `${yyyymmdd.substr(0, 6)}`,
-//     });
-//   }
-
-//   return months;
-// };
-
 export const now = (format: string, addMonths?: number | undefined) => {
   let date = new Date();
   if (typeof addMonths == "number") {
@@ -220,51 +190,6 @@ export const now = (format: string, addMonths?: number | undefined) => {
   }
   return _dateformat(date, format);
 };
-
-// const englishMonth = (month: string) => {
-//   let engMonth = null;
-
-//   switch (parseInt(month, 10)) {
-//     case 1:
-//       engMonth = "Jan.";
-//       break; // January
-//     case 2:
-//       engMonth = "Feb.";
-//       break; // February
-//     case 3:
-//       engMonth = "Mar.";
-//       break; // March
-//     case 4:
-//       engMonth = "Apr.";
-//       break; // April
-//     case 5:
-//       engMonth = "May.";
-//       break; // May
-//     case 6:
-//       engMonth = "Jun.";
-//       break; // June
-//     case 7:
-//       engMonth = "Jul.";
-//       break; // July
-//     case 8:
-//       engMonth = "Aug.";
-//       break; // August
-//     case 9:
-//       engMonth = "Sep.";
-//       break; // September
-//     case 10:
-//       engMonth = "Oct.";
-//       break; // October
-//     case 11:
-//       engMonth = "Nov.";
-//       break; // November
-//     case 12:
-//       engMonth = "Dec.";
-//       break; // December
-//   }
-
-//   return engMonth;
-// };
 
 const _dateformat = (date: Date, format: string | undefined) => {
   const yyyy = date.getFullYear();
