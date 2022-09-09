@@ -8,32 +8,31 @@ export default class _Document extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang='ja'>
         <Head>
-          <html lang="ja" />
           <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/favicon/apple-touch-icon.png"
+            rel='apple-touch-icon'
+            sizes='180x180'
+            href='/favicon/apple-touch-icon.png'
           />
           <link
-            rel="icon"
-            type="image/png"
-            href="/favicon/favicon-32x32.png"
-            sizes="32x32"
+            rel='icon'
+            type='image/png'
+            href='/favicon/favicon-32x32.png'
+            sizes='32x32'
           />
           <link
-            rel="icon"
-            type="image/png"
-            href="/favicon/favicon-16x16.png"
-            sizes="16x16"
+            rel='icon'
+            type='image/png'
+            href='/favicon/favicon-16x16.png'
+            sizes='16x16'
           />
-          <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ff4400" />
-          <meta name="theme-color" content="#fff" />
-          <meta property="og:type" content="business.business" />
-          <meta property="og:url" content="/" />
-
-          <meta property="og:image" content="/og-image.jpg" />
+          <link rel='mask-icon' href='/safari-pinned-tab.svg' color='#ff4400' />
+          <meta name='theme-color' content='#fff' />
+          <meta
+            name='viewport'
+            content='minimum-scale=1, initial-scale=1, width=device-width'
+          />
         </Head>
         <body>
           <Main />

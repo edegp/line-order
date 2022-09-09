@@ -18,6 +18,7 @@ import "styles/globals.scss";
 import "styles/tailwind-utils.scss";
 import Layout from "components/Layout";
 import Head from "next/head";
+import Meta from "components/Meta";
 
 const liffId: string =
   process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_LIFF_ID
@@ -34,7 +35,7 @@ if (process.env.NODE_ENV === "development") {
   });
 }
 
-function MyApp({ Component, pageProps }: any) {
+export default function MyApp({ Component, pageProps }: any) {
   const router = useRouter();
   const { message } = store.getState();
   const Initialize = useCallback(async () => {
@@ -105,12 +106,15 @@ function MyApp({ Component, pageProps }: any) {
       );
     };
   }, [router]);
+
   return (
     <>
       <Head>
-        <meta
-          name='viewport'
-          content='minimum-scale=1, initial-scale=1, width=device-width'
+        <Meta
+          title={pageProps?.title}
+          description={pageProps?.description}
+          image={pageProps?.image}
+          url={router.pathname}
         />
       </Head>
       <Provider store={store}>
@@ -136,5 +140,3 @@ function MyApp({ Component, pageProps }: any) {
     </>
   );
 }
-
-export default MyApp;
