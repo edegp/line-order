@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 import { TableOrder } from "utils/table-order";
 import Image from "next/image";
 import { NextLink } from "@mantine/next";
+import Head from "next/head";
 
 export default function PaymentCompleted() {
   const { t, isLoading } = useSelector((state: State) => state);
@@ -53,47 +54,52 @@ export default function PaymentCompleted() {
       </Box>
     );
   return (
-    <AppShell
-      header={
-        <Header className='flex items-center' height={70}>
-          <Title order={2} ml={15}>
-            {t?.paymentCompleted.title}
-          </Title>
-        </Header>
-      }
-    >
-      <Container>
-        <Grid className='text-center' justify='cetner'>
-          <Grid.Col>
-            <Title order={3}>
-              <MdDone className='inline text-line mr-2' />
-              {t?.paymentCompleted.msg001}
+    <>
+      <Head>
+        <title>決済完了ページ</title>
+      </Head>
+      <AppShell
+        header={
+          <Header className='flex items-center' height={70}>
+            <Title order={2} ml={15}>
+              {t?.paymentCompleted.title}
             </Title>
-            <Divider my='lg' />
-            <Text>{t?.paymentCompleted.msg002}</Text>
-          </Grid.Col>
-          {linepay && (
-            <div className='relative w-full h-full'>
-              <Image
-                className='absolute top-0 left-0'
-                src={linePay}
-                alt='LINE Pay'
-                layout='fill'
-              />
-            </div>
-          )}
-          <Button
-            mt='sm'
-            className='w-[200px] bg-line hover:bg-line/70 active:bg-line/40 text-white mx-auto'
-            component={NextLink}
-            href='/'
-            passHref
-            leftIcon={<MdOutlineHouse className='text-lg' />}
-          >
-            {t?.paymentCompleted.msg003}
-          </Button>
-        </Grid>
-      </Container>
-    </AppShell>
+          </Header>
+        }
+      >
+        <Container>
+          <Grid className='text-center' justify='cetner'>
+            <Grid.Col>
+              <Title order={3}>
+                <MdDone className='inline text-line mr-2' />
+                {t?.paymentCompleted.msg001}
+              </Title>
+              <Divider my='lg' />
+              <Text>{t?.paymentCompleted.msg002}</Text>
+            </Grid.Col>
+            {linepay && (
+              <div className='relative w-full h-full'>
+                <Image
+                  className='absolute top-0 left-0'
+                  src={linePay}
+                  alt='LINE Pay'
+                  layout='fill'
+                />
+              </div>
+            )}
+            <Button
+              mt='sm'
+              className='w-[200px] bg-line hover:bg-line/70 active:bg-line/40 text-white mx-auto'
+              component={NextLink}
+              href='/'
+              passHref
+              leftIcon={<MdOutlineHouse className='text-lg' />}
+            >
+              {t?.paymentCompleted.msg003}
+            </Button>
+          </Grid>
+        </Container>
+      </AppShell>
+    </>
   );
 }

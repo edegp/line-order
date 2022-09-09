@@ -15,11 +15,15 @@ export const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 
-export const functions = getFunctions(app, "asia-northeast1");
+export const functions =
+  // process.env.NODE_ENV !== "development"
+  // ?
+  getFunctions(app, "asia-northeast1");
+// : getFunctions(app);
 // const store = process.env.NODE_ENV !== "development" ? app : undefined;
 export const db = getFirestore(app);
 
-if (process.env.NODE_ENV === "development") {
-  // connectFirestoreEmulator(db, "localhost", 8080);
-  connectFunctionsEmulator(functions, "localhost", 5001);
-}
+// if (process.env.NODE_ENV === "development") {
+//   // connectFirestoreEmulator(db, "localhost", 8080);
+//   connectFunctionsEmulator(functions, "localhost", 5001);
+// }
