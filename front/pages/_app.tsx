@@ -79,6 +79,7 @@ export default function MyApp({ Component, pageProps }: any) {
       }
       store.dispatch(setIsLoading(false));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message]);
   useEffect(() => {
     Initialize();
