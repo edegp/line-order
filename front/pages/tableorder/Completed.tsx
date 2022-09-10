@@ -11,6 +11,7 @@ import {
 import MenuHeader from "components/tableorder/Header";
 import { db } from "fb/firebase-client";
 import { doc, getDoc } from "firebase/firestore";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import { FaCashRegister } from "react-icons/fa";
@@ -19,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOrdered } from "store";
 import { State } from "types";
 
-function Completed() {
+export default function Complete() {
   const { t, paymentId } = useSelector((state: State) => state);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -35,35 +36,38 @@ function Completed() {
     router.push({ pathname: "/tableorder/payment", query: { amount } });
   };
   return (
-    <AppShell
-      header={<MenuHeader />}
-      footer={
-        <Footer height={60}>
-          <Button
-            fullWidth
-            className='bg-line text-white w-full h-full hover:bg-line/70 active:bg-line/40'
-            onClick={payment}
-          >
-            <FaCashRegister className='inline mr-3' />
-            {t?.completed.msg003}
-          </Button>
-        </Footer>
-      }
-    >
-      <Container className='mt-[20vh]'>
-        <Grid align='center' justify='center'>
-          <Grid.Col>
-            <Title order={4} align='center'>
-              <MdOutlineDone className='inline mr-4 text-line' />
-              {t?.completed.msg001}
-            </Title>
-            <Divider my='md' />
-            <Text align='center'>{t?.completed.msg002}</Text>
-          </Grid.Col>
-        </Grid>
-      </Container>
-    </AppShell>
+    <>
+      <Head>
+        <title>注文完了ページ</title>
+      </Head>
+      <AppShell
+        header={<MenuHeader />}
+        footer={
+          <Footer height={60}>
+            <Button
+              fullWidth
+              className='bg-line text-white w-full h-full hover:bg-line/70 active:bg-line/40'
+              onClick={payment}
+            >
+              <FaCashRegister className='inline mr-3' />
+              {t?.completed.msg003}
+            </Button>
+          </Footer>
+        }
+      >
+        <Container className='mt-[20vh]'>
+          <Grid align='center' justify='center'>
+            <Grid.Col>
+              <Title order={4} align='center'>
+                <MdOutlineDone className='inline mr-4 text-line' />
+                {t?.completed.msg001}
+              </Title>
+              <Divider my='md' />
+              <Text align='center'>{t?.completed.msg002}</Text>
+            </Grid.Col>
+          </Grid>
+        </Container>
+      </AppShell>
+    </>
   );
 }
-
-export default Completed;

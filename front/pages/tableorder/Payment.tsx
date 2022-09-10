@@ -14,6 +14,7 @@ import MenuHeader from "components/tableorder/Header";
 import Ordered from "components/tableorder/Ordered";
 import { db } from "fb/firebase-client";
 import { doc, updateDoc } from "firebase/firestore";
+import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -87,6 +88,9 @@ export default function Payment() {
   };
   return (
     <>
+      <Head>
+        <title>決済ページ</title>
+      </Head>
       <AppShell header={<MenuHeader />}>
         <Space h='xl' />
         <Button
