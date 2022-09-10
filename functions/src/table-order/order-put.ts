@@ -227,7 +227,7 @@ export const orderPut = f.https.onCall(async (data: any, context: any) => {
     paymentId = putOrder(body);
   } catch (e: any) {
     functions.logger.error("Occur Exception: %s", e);
-    // throw ErrorHandler.internal(e as string);
+    throw ErrorHandler.internal(e);
   }
   return paymentId;
 });

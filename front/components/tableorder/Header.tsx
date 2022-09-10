@@ -9,8 +9,13 @@ function MenuHeader() {
   const { t, customer, lineUser } = useSelector((state: State) => state);
   return (
     <Header height={70}>
-      <Grid className='mt-[-2px]' justify='space-evenly' align='center'>
-        <Grid.Col span={2}>
+      <Grid
+        className='mt-[-2px]'
+        justify='space-evenly'
+        align='center'
+        columns={24}
+      >
+        <Grid.Col span={2} offset={1}>
           <Button
             className='px-1'
             variant='subtle'
@@ -20,12 +25,12 @@ function MenuHeader() {
               pathname: "/tableorder/menu/",
               query: { seatNo: customer.seatNo },
             }}
+            leftIcon={<ChevronLeftIcon />}
           >
-            <ChevronLeftIcon />
             Menu
           </Button>
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col span={12} offset={2}>
           <Group className='self-center' position='center' align='center'>
             <Avatar
               size='lg'
@@ -38,7 +43,7 @@ function MenuHeader() {
             </Text>
           </Group>
         </Grid.Col>
-        <Grid.Col span={4}>
+        <Grid.Col span={6}>
           <Text className='text-sm m-auto sp:hidden pr-2'>
             {t?.header.msg002}: {customer.seatNo}
           </Text>

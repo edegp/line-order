@@ -17,7 +17,7 @@ import React from "react";
 import { FaCashRegister } from "react-icons/fa";
 import { MdOutlineDone } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { setOrdered } from "store";
+import { setIsLoading, setOrdered } from "store";
 import { State } from "types";
 
 export default function Complete() {
@@ -25,6 +25,7 @@ export default function Complete() {
   const router = useRouter();
   const dispatch = useDispatch();
   const payment = async () => {
+    dispatch(setIsLoading(true))
     const docRef = doc(db, "TableOrderPaymentOrderInfo", paymentId);
     const itemResponse = (await getDoc(docRef))?.data();
     if (!itemResponse) {
@@ -34,6 +35,7 @@ export default function Complete() {
     const amount = itemResponse?.amount;
     dispatch(setOrdered(ordered));
     router.push({ pathname: "/tableorder/payment", query: { amount } });
+    dispatch(setIsLoading(false))
   };
   return (
     <>

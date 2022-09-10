@@ -20,6 +20,10 @@ export default function Meta({
       <meta property='og:title' content={title} />
       <meta property='og:url' content={url} />
       <meta property='og:image' content={image} />
+      <meta
+        name='viewport'
+        content='minimum-scale=1, initial-scale=1, width=device-width'
+      />
     </Head>
   );
 }
