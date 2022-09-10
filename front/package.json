@@ -8,7 +8,8 @@
     "test": "node ./server.mjs",
     "test:https": "set HTTPS=true&&node ./server.mjs",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --cache --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json}'"
   },
   "dependencies": {
     "@emotion/react": "^11.10.0",
@@ -23,11 +24,13 @@
     "@radix-ui/react-icons": "^1.1.1",
     "@reduxjs/toolkit": "^1.8.4",
     "autoprefixer": "^10.4.8",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-tailwindcss": "^3.6.0",
     "firebase": "9.9.1",
     "next": "^12.3.0",
     "postcss": "^8.4.16",
     "postcss-import": "^14.1.0",
+    "prettier": "^2.7.1",
     "react": "18.2.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "18.2.0",
