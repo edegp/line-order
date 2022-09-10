@@ -41,9 +41,12 @@ backend/
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 .vscode/
 >>>>>>> f591f10 (update gitignore)
 
+=======
+>>>>>>> fdaf43a (update gitignore)
 *.log
 
 # Compiled JavaScript files
@@ -127,3 +130,6 @@ build/Release
 
 *.css 
 *.css.map
+
+
+.vscode/
