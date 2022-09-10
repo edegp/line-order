@@ -38,6 +38,11 @@ next-env.d.ts
 vue/
 
 backend/
+<<<<<<< HEAD
+=======
+
+.vscode/
+>>>>>>> f591f10 (update gitignore)
 
 *.log
 
