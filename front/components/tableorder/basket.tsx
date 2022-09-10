@@ -383,6 +383,7 @@ function Basket() {
       </Modal>
       <Modal
         centered
+        zIndex={10}
         opened={orderDialog}
         title={
           <Text>

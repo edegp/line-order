@@ -14,6 +14,7 @@ const ErrorModal = () => {
   return (
     <>
       <Modal
+        zIndex={20}
         centered
         opened={Boolean(axiosError)}
         onClose={reload}
