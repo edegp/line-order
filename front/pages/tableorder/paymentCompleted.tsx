@@ -83,7 +83,8 @@ export default function PaymentCompleted() {
                   className='absolute top-0 left-0'
                   src={linePay}
                   alt='LINE Pay'
-                  layout='fill'
+                  sizes='100vw'
+                  fill
                 />
               </div>
             )}

@@ -184,9 +184,13 @@ function Basket() {
                           src={order.order.imageUrl}
                           width={350}
                           height={310}
-                          layout='responsive'
-                          // className="abusolute"
-                          objectFit='contain'
+                          sizes='100ww'
+                          style={{
+                            width: "100%",
+                            height: "auto",
+                            objectFit: "contain",
+                          }}
+                          alt={order.order.itemName}
                         />
                       </Grid.Col>
                       <Grid.Col span={12} sm={7} offset={2} offsetSm={1}>

@@ -54,8 +54,10 @@ function MenuCard({
                 <Image
                   src={menu.imageUrl}
                   className='absolute t-0 left-0'
-                  layout='fill'
-                  objectFit='contain'
+                  sizes='100vw'
+                  fill
+                  style={{ objectFit: "contain" }}
+                  alt={menu.itemName}
                 />
               </Box>
             </Group>

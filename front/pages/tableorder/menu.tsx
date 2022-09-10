@@ -318,8 +318,10 @@ export default function SeatNo(props: any) {
                 <Image
                   src={addToBasket.order?.imageUrl}
                   className='absolute t-0 left-0'
-                  layout='fill'
-                  objectFit='contain'
+                  sizes='100vw'
+                  fill
+                  style={{ objectFit: "contain" }}
+                  alt={addToBasket.order?.itemName}
                 />
               </Box>
             </Group>
