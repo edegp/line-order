@@ -12,7 +12,7 @@ import {
   ScrollArea,
   Space,
 } from "@mantine/core";
-import Image from "next/image";
+import Image from "next/future/image";
 import router from "next/router";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { FaCashRegister } from "react-icons/fa";

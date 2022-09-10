@@ -1,5 +1,5 @@
 import { Box, Container, Divider, Grid, Text } from "@mantine/core";
-import Image from "next/image";
+import Image from "next/future/image";
 import React from "react";
 import { useSelector } from "react-redux";
 import { TableOrder } from "utils/table-order";

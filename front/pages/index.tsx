@@ -10,7 +10,7 @@ import {
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import InitTableOerderItems from "fb/database/table-order-items-list";
 import type { NextPage } from "next";
-import Image from "next/image";
+import Image from "next/future/image";
 import React from "react";
 import { useSelector } from "react-redux";
 import Beer from "public/image/beer.jpg";
@@ -24,7 +24,13 @@ const Home: NextPage = () => {
   return (
     <AppShell className='[&_main]:p-0'>
       <Box className='relative w-full h-full'>
-        <Image src={Beer} alt='Table Setting' layout='fill' objectFit='cover' />
+        <Image
+          src={Beer}
+          alt='Table Setting'
+          sizes='100vw'
+          fill
+          style={{ objectFit: "cover" }}
+        />
       </Box>
       <Box className='mt-5 text-[#555] mx-5'>
         <Title

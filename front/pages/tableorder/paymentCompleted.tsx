@@ -18,7 +18,7 @@ import linePay from "public/image/LINE-Pay2.png";
 import { setPaymentError, setPaymentId } from "store";
 import { useRouter } from "next/router";
 import { TableOrder } from "utils/table-order";
-import Image from "next/image";
+import Image from "next/future/image";
 import { NextLink } from "@mantine/next";
 import Head from "next/head";
 

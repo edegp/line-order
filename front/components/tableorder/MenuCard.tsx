@@ -1,5 +1,5 @@
 import { Box, Card, Group, Skeleton, Text, Title } from "@mantine/core";
-import Image from "next/image";
+import Image from "next/future/image";
 import React, { useCallback } from "react";
 import { MdRedo } from "react-icons/md";
 import { useSelector } from "react-redux";

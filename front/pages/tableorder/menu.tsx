@@ -35,7 +35,7 @@ import {
 } from "react-icons/md";
 import { FaRunning, FaUtensils } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import Image from "next/image";
+import Image from "next/future/image";
 import { useRouter } from "next/router";
 import Basket from "components/tableorder/basket";
 import { db } from "fb/firebase-client";
