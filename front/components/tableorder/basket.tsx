@@ -24,7 +24,7 @@ import { ocopy } from "utils/helper";
 import { TableOrder } from "utils/table-order";
 
 function Basket() {
-  const { t, orders, customer, paymentId } = useSelector(
+  const { t, orders, customer, paymentId, isLoading } = useSelector(
     (state: State) => state
   );
   const dispatch = useDispatch();
@@ -390,7 +390,7 @@ function Basket() {
         closeButtonLabel={t?.basket.cancel}
         classNames={{ body: "flex justify-center mt-12" }}
       >
-        <Button onClick={order} className=''>
+        <Button onClick={order} loading={isLoading}>
           OK
         </Button>
       </Modal>

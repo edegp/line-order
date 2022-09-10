@@ -110,14 +110,12 @@ export default function MyApp({ Component, pageProps }: any) {
 
   return (
     <>
-      <Head>
-        <Meta
-          title={pageProps?.title}
-          description={pageProps?.description}
-          image={pageProps?.image}
-          url={router.pathname}
-        />
-      </Head>
+      <Meta
+        title={pageProps?.title}
+        description={pageProps?.description}
+        image={pageProps?.image}
+        url={router.pathname}
+      />
       <Provider store={store}>
         <MantineProvider
           withGlobalStyles

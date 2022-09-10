@@ -1,5 +1,6 @@
 import React from "react";
 import Thumb from "public/image/thumb.png";
+import Head from "next/head";
 
 export default function Meta({
   title = "LINE QRオーダー",
@@ -13,12 +14,12 @@ export default function Meta({
   url?: string;
 }) {
   return (
-    <>
+    <Head>
       <title>{title}</title>
       <meta name='description' content={description} />
       <meta property='og:title' content={title} />
       <meta property='og:url' content={url} />
       <meta property='og:image' content={image} />
-    </>
+    </Head>
   );
 }
