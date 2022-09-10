@@ -17,7 +17,6 @@ import "styles/tailwind.scss";
 import "styles/globals.scss";
 import "styles/tailwind-utils.scss";
 import Layout from "components/Layout";
-import Head from "next/head";
 import Meta from "components/Meta";
 
 const liffId: string =
