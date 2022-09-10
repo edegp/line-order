@@ -6,15 +6,13 @@ const nextConfig = {
   images: {
     domains: ["images.unsplash.com", "source.unsplash.com"],
   },
-  experimental: {
-    images: {
-      remotePatterns: [
-        {
-          protocol: "https",
-          hostname: "**.bp.blogspot.com",
-        },
-      ],
-    },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.bp.blogspot.com",
+      },
+    ],
   },
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
