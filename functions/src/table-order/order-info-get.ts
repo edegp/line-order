@@ -13,7 +13,7 @@ const getOrderInfo = async (params: any) => {
       "[payment_id: %s] は会計済みの注文です。",
       paymentId
     );
-    throw new Error();
+    throw new Error("[payment_id: %s] は会計済みの注文です。");
   }
   return paymentInfo;
 };
@@ -33,9 +33,16 @@ export const orderInfoGet = f.https.onCall(async (data: any, context: any) => {
   let paymentInfo;
   try {
     paymentInfo = await getOrderInfo(params);
-  } catch (e) {
-    functions.logger.error("Occur Exception: %s", e);
-    throw ErrorHandler.internal(e as string);
+  } catch (error) {
+    functions.logger.error("Occur Exception: %s", error);
+        if (error instanceof Error) {
+          throw ErrorHandler.internal(error.message);
+        } else if (typeof error === "string") {
+          throw ErrorHandler.internal(error);
+        } else {
+          throw ErrorHandler.internal("unexpected error");
+        }
+    
   }
   return paymentInfo;
 });

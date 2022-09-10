@@ -78,7 +78,7 @@ export const reserve = f.https.onCall(async (data: any, context: any) => {
     body = linepayApiResponse;
   } catch (e) {
     functions.logger.error("Occur Exception: %s", e);
-    throw ErrorHandler.internal;
+    throw ErrorHandler.internal(e);
   }
   return JSON.parse(JSON.stringify(body));
 });

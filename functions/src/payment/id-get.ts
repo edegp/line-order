@@ -41,7 +41,7 @@ export const idGet = f.https.onCall(async (data: any, context: any) => {
     paymentId = await getPaymentId(params["userId"]);
   } catch (e) {
     functions.logger.error("Occur Exception: %s", e);
-    throw ErrorHandler.internal;
+    throw ErrorHandler.internal(e);
   }
   return paymentId;
 });

@@ -83,7 +83,7 @@ export const confirm = f.https.onCall(async (data: any, context: any) => {
             transactionId,
           })
         );
-      throw ErrorHandler.internal;
+                  throw ErrorHandler.internal(e);
     }
     sendMessages(paymentInfo);
   } catch (e) {
@@ -96,7 +96,7 @@ export const confirm = f.https.onCall(async (data: any, context: any) => {
     } else {
       functions.logger.error("Occur Exception: %s", e);
     }
-    throw ErrorHandler.internal;
+    throw ErrorHandler.internal(e);
   }
   return body;
 });

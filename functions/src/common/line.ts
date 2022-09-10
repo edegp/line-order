@@ -1,3 +1,4 @@
+import { ErrorHandler } from './error';
 import * as dotenv from "dotenv";
 dotenv.config();
 import "dotenv/config.js";
@@ -45,6 +46,7 @@ const line = {
         "line get profile error: %s",
         e.response?.data["error_description"]
       );
+      throw ErrorHandler.internal(e.response?.data["error_description"]);
     }
   },
 };
