@@ -40,8 +40,6 @@ import { useRouter } from "next/router";
 import Basket from "components/tableorder/basket";
 import { db } from "fb/firebase-client";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import Meta from "components/Meta";
-import { Head } from "next/document";
 
 export default function SeatNo(props: any) {
   let {

@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
+import { getFunctions } from "firebase/functions";
 
 // TODO: Replace the following with your app's Firebase project configuration
 export const firebaseConfig = {
