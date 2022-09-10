@@ -25,7 +25,7 @@ import { LinepayApiResponse, State } from "types";
 import { TableOrder } from "utils/table-order";
 import LinePay from "/public/image/LINE-Pay(v)_W238_n.png";
 
-export default function Payment() {
+export default function Pay() {
   const { t, ordered, paymentId } = useSelector((state: State) => state);
   const dispatch = useDispatch();
   const [paymentModal, setPaymnetModal] = useState(false);
